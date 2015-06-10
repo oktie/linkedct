@@ -1,0 +1,32 @@
+{% extends "databrowse/base_site.html" %}
+
+{% block title %}LinkedCT Databrowse{% endblock %}
+
+{% block bodyid %}homepage{% endblock %}
+
+{% block content %}
+
+{% for model in model_list %}
+  <div class="modelgroup {% cycle 'even' 'odd' %}">
+	  <h2><a href="{{ model.url }}">{{ model.verbose_name_plural|capfirst }}</a></h2>
+		<p>
+		{% for object in model.sample_objects %}
+			<a href="{{ object.url }}">{{ object }}</a>, 
+		{% endfor %}
+			<a class="more" href="{{ model.url }}">More &rarr;</a>
+		</p>
+  </div>
+{% endfor %}
+
+<!-- flat pages -->
+<div class="modelgroup {% cycle 'even' 'odd' %}">
+    <h2><a href="#">Documentations</a></h2>
+    <p>
+    {% for flatpage in flat_page_model.objects.all %}
+        <a href="{{ flatpage.url }}">{{ flatpage.title }}</a>{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+    </p>
+</div>
+
+
+{% endblock %}

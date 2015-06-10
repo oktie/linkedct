@@ -1,0 +1,66 @@
+{% extends "databrowse/base_site.html" %}
+
+{% load humanize %}
+
+{% block title %}Fuzzy Search{% endblock %}
+
+{% block extrahead %}
+
+<link rel='stylesheet' href='/static/media/keyword_search.css' type='text/css' />
+<script type="text/javascript" src="/static/js/keyword_search.js"></script>
+<script type="text/javascript" src="/static/js/jquery-1.7.1.min.js"></script>
+
+{% endblock %}
+
+{% block bodyid %}homepage{% endblock %}
+
+{% block content %}
+<script type="text/javascript">
+window.onload = function() {
+document.getElementById('input').focus();
+}
+</script>
+<center>
+<div><h1>LinkedCT Data Search</h1></div>
+<div>
+<table>
+	<tr>
+		<td colspan=2 align='left'>
+		</td>
+
+		<td align='right'>
+			<div class='fuzzy'>
+			<span class='text'>Fuzzy Search:</span>&nbsp;
+			<a id ='on' class='fuzzyLink' style='display:none;' href='#' onClick="clickOn()">On</a><span id='onText' class='text'>On</span> <span class='text'>&nbsp;|&nbsp;</span>
+			<a id ='off' class='fuzzyLink' href='#' onClick="clickOff()">Off</a><span id='offText' class='text' style='display:none;'>Off</span>
+			</div>
+		</td>
+	</tr>
+	<tr >
+		<td colspan=3>
+			<input type='text' class='inputTextfield' autocomplete='off' id='input' onkeyup='check(this.value)'>
+		</td>
+	</tr>
+	<tr>
+		<td align='left'>
+			<span id='opt1Label' class='text' style='display:none;'>Sort by the field at index</span>
+			<input type='text' class='optTextfield' id='opt1Text' onkeyup='opt1Changed()' value='0' style='display:none;'>
+		</td>
+		<td align='center'>
+			<span id='errorMsg' class='error' style='display:none;'>Error</span>
+		</td>
+		<td align='right'>
+			<span id='opt2Label' class='text' style='display:none;'>Order("1" is descending and "0" is ascending)</span>
+			<input type='text' class='optTextfield' id='opt2Text' onkeyup='opt2Changed()' value='1' style='display:none;'>
+		</td>
+	</tr>
+</table>
+</div>
+</center>
+<center>Search Powered by Bimaple</center>
+<div id='pagination'></div>
+<div id='results'></div>
+
+
+
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% load linkedct %}
+
+{% block title %}{{ object.name }}{% endblock %}
+
+{% block meta %}
+<meta name="keywords" content="{{ object.name }}, clinical trials, trials, clinical studies, clinical study">
+<meta name="description" content="LinkedCT data explorer interface for {{ model.name }}: {{object.name}}">
+{% endblock %}
+
+{% block content %}
+
+<div id="breadcrumbs">
+<a href="/">Home</a> /
+<a href="{% url_list model.name %}">{{ model.name_plural|capfirst }}</a> /
+{{ object.name }}</div>
+
+<h1>
+{{ model.name|capfirst }}: {{ object.name }}
+[<a href="{% url_detail_rdf model.name object %}">RDF</a>]
+</h1>
+
+{% if object.get_disambiguous_objects %}
+<div class="related">
+<h2>You may be referring to (disambiguation):</h2>
+<ul class="related_objectlist">
+{% for disambiguous_object in object.get_disambiguous_objects %}
+    <li class="{% cycle 'odd' 'even' %}">
+    <a href="{% url_detail model.name disambiguous_object %}">{{ disambiguous_object }}
+    {% if disambiguous_object.sample_pubentries %}
+        ({% for pubentry in disambiguous_object.sample_pubentries %}{{ pubentry }}{% if not forloop.last %}, {% endif %}{% endfor %})
+    {% else %}
+        (no trials)
+    {% endif %}
+    </a>
+    </li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% if object.links.all %}
+<div class="related">
+<h2>See also:</h2>
+<ul class="related_objectlist">
+{% if object.links.all|length > 2 %}
+ {% for link in object.links.all %}
+   {% if forloop.counter == 2 %}
+     <li><a href="{{ link.url }}">{{ link.url }}</a>
+     <a href="#" id="example-show" class="showLink" onclick="showHide('example');return false;">More links &raquo;</a>
+     </li>
+     <div id="example" class="more_links">
+   {% else %}
+     <li><a href="{{ link.url }}">{{ link.url }}</a></li>
+   {% endif %}
+ {% endfor %}
+  <LI> <a href="#" id="example-hide" class="hideLink" onclick="showHide('example');return false;"> &laquo; Hide Links.</a> </LI>
+{% else %}
+ {% for link in object.links.all %}
+ <li><a href="{{ link.url }}">{{ link.url }}</a></li>
+ {% endfor %}
+{% endif %}
+</ul>
+</div>
+{% endif %}
+
+<br />
+
+<table class="objectinfo">
+{% for field in object.fields %}
+<tr class="{% cycle 'odd' 'even' %}">
+<th>{{ field.field.verbose_name|capfirst }}</th>
+<td>
+{% if field.urls %}
+{% for value, url in field.urls %}
+{% if url %}<a href="{{ url }}">{% endif %}{{ value }}{% if url %}</a>{% endif %}{% if not forloop.last %}, {% endif %}
+{% endfor %}
+{% else %}None{% endif %}
+</td>
+</tr>
+{% endfor %}
+</table>
+
+{% for related_object in object.related_objects %}
+  <div class="related">
+  <h2>Appears in "{{ related_object.related_field }}" in the following {{ related_object.model.verbose_name_plural }}:</h2>
+  {% if related_object.object_list %}
+  <ul class="objectlist">
+    {% for object in related_object.object_list %}
+    <li class="{% cycle 'odd' 'even' %}"><a href="{{ object.url }}">{{ object }}</a></li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="quiet">(None)</p>
+  {% endif %}
+  </div>
+{% endfor %}
+
+
+{% endblock %}

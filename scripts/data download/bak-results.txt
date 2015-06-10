@@ -1,0 +1,3 @@
+Error in URL: http://clinicaltrials.gov/show/NCT00565656?displayxml=true
+Error in URL: http://clinicaltrials.gov/show/NCT00967876?displayxml=true
+Error in URL: http://clinicaltrials.gov/show/NCT01025505?displayxml=true

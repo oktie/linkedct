@@ -1,0 +1,192 @@
+@prefix map: <file:/C:/d2r-server-0.4/tst.n3#> .
+@prefix db: <> .
+@prefix vocab: <vocab/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix d2rq: <http://www.wiwiss.fu-berlin.de/suhl/bizer/D2RQ/0.1#> .
+
+map:database a d2rq:Database;
+	d2rq:jdbcDriver "COM.ibm.db2.jdbc.app.DB2Driver";
+	d2rq:jdbcDSN "jdbc:db2:odb";
+	d2rq:username "db2inst1";
+	d2rq:password "db2inst1";
+	.
+
+# Table DB2INST1.AUX_CNAMES_STRING_TOKENS
+map:DB2INST1_AUX_CNAMES_STRING_TOKENS a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	# Sorry, I don't know which columns to put into the uriPattern
+	# because the table doesn't have a primary key
+	d2rq:uriPattern "DB2INST1.AUX_CNAMES_STRING_TOKENS";
+	d2rq:class vocab:DB2INST1_AUX_CNAMES_STRING_TOKENS;
+	.
+map:DB2INST1_AUX_CNAMES_STRING_TOKENS__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:DB2INST1_AUX_CNAMES_STRING_TOKENS;
+	d2rq:property rdfs:label;
+	d2rq:pattern "DB2INST1.AUX_CNAMES_STRING_TOKENS #";
+	.
+map:AUX_CNAMES_STRING_TOKENS_TID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:DB2INST1_AUX_CNAMES_STRING_TOKENS;
+	d2rq:property vocab:AUX_CNAMES_STRING_TOKENS_TID;
+	d2rq:column "DB2INST1.AUX_CNAMES_STRING_TOKENS.TID";
+	d2rq:datatype xsd:int;
+	.
+map:AUX_CNAMES_STRING_TOKENS_TOKEN a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:DB2INST1_AUX_CNAMES_STRING_TOKENS;
+	d2rq:property vocab:AUX_CNAMES_STRING_TOKENS_TOKEN;
+	d2rq:column "DB2INST1.AUX_CNAMES_STRING_TOKENS.TOKEN";
+	.
+
+# Table DB2INST1.AUX_N
+map:DB2INST1_AUX_N a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	# Sorry, I don't know which columns to put into the uriPattern
+	# because the table doesn't have a primary key
+	d2rq:uriPattern "DB2INST1.AUX_N";
+	d2rq:class vocab:DB2INST1_AUX_N;
+	.
+map:DB2INST1_AUX_N__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:DB2INST1_AUX_N;
+	d2rq:property rdfs:label;
+	d2rq:pattern "DB2INST1.AUX_N #";
+	.
+map:AUX_N_I a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:DB2INST1_AUX_N;
+	d2rq:property vocab:AUX_N_I;
+	d2rq:column "DB2INST1.AUX_N.I";
+	d2rq:datatype xsd:int;
+	.
+
+# Table DB2INST1.CNAMES
+map:DB2INST1_CNAMES a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "DB2INST1.CNAMES/@@DB2INST1.CNAMES.TID@@";
+	d2rq:class vocab:DB2INST1_CNAMES;
+	.
+map:DB2INST1_CNAMES__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:DB2INST1_CNAMES;
+	d2rq:property rdfs:label;
+	d2rq:pattern "DB2INST1.CNAMES #@@DB2INST1.CNAMES.TID@@";
+	.
+map:CNAMES_TID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:DB2INST1_CNAMES;
+	d2rq:property vocab:CNAMES_TID;
+	d2rq:column "DB2INST1.CNAMES.TID";
+	d2rq:datatype xsd:int;
+	.
+map:CNAMES_ID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:DB2INST1_CNAMES;
+	d2rq:property vocab:CNAMES_ID;
+	d2rq:column "DB2INST1.CNAMES.ID";
+	d2rq:datatype xsd:int;
+	.
+map:CNAMES_STRING a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:DB2INST1_CNAMES;
+	d2rq:property vocab:CNAMES_STRING;
+	d2rq:column "DB2INST1.CNAMES.STRING";
+	.
+
+# Table DB2INST1.CNAMES2
+map:DB2INST1_CNAMES2 a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "DB2INST1.CNAMES2/@@DB2INST1.CNAMES2.TID@@";
+	d2rq:class vocab:DB2INST1_CNAMES2;
+	.
+map:DB2INST1_CNAMES2__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:DB2INST1_CNAMES2;
+	d2rq:property rdfs:label;
+	d2rq:pattern "DB2INST1.CNAMES2 #@@DB2INST1.CNAMES2.TID@@";
+	.
+map:CNAMES2_TID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:DB2INST1_CNAMES2;
+	d2rq:property vocab:CNAMES2_TID;
+	d2rq:column "DB2INST1.CNAMES2.TID";
+	d2rq:datatype xsd:int;
+	.
+map:CNAMES2_ID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:DB2INST1_CNAMES2;
+	d2rq:property vocab:CNAMES2_ID;
+	d2rq:column "DB2INST1.CNAMES2.ID";
+	d2rq:datatype xsd:int;
+	.
+map:CNAMES2_STRING a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:DB2INST1_CNAMES2;
+	d2rq:property vocab:CNAMES2_STRING;
+	d2rq:column "DB2INST1.CNAMES2.STRING";
+	.
+
+# Table DB2INST1.THESAURUS
+map:DB2INST1_THESAURUS a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	# Sorry, I don't know which columns to put into the uriPattern
+	# because the table doesn't have a primary key
+	d2rq:uriPattern "DB2INST1.THESAURUS";
+	d2rq:class vocab:DB2INST1_THESAURUS;
+	.
+map:DB2INST1_THESAURUS__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:DB2INST1_THESAURUS;
+	d2rq:property rdfs:label;
+	d2rq:pattern "DB2INST1.THESAURUS #";
+	.
+map:THESAURUS_SRC a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:DB2INST1_THESAURUS;
+	d2rq:property vocab:THESAURUS_SRC;
+	d2rq:column "DB2INST1.THESAURUS.SRC";
+	.
+map:THESAURUS_REL a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:DB2INST1_THESAURUS;
+	d2rq:property vocab:THESAURUS_REL;
+	d2rq:column "DB2INST1.THESAURUS.REL";
+	.
+map:THESAURUS_TGT a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:DB2INST1_THESAURUS;
+	d2rq:property vocab:THESAURUS_TGT;
+	d2rq:column "DB2INST1.THESAURUS.TGT";
+	.
+
+# Table DB2INST1.VISIT
+map:DB2INST1_VISIT a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "DB2INST1.VISIT/@@DB2INST1.VISIT.ID@@";
+	d2rq:class vocab:DB2INST1_VISIT;
+	.
+map:DB2INST1_VISIT__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:DB2INST1_VISIT;
+	d2rq:property rdfs:label;
+	d2rq:pattern "DB2INST1.VISIT #@@DB2INST1.VISIT.ID@@";
+	.
+map:VISIT_ID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:DB2INST1_VISIT;
+	d2rq:property vocab:VISIT_ID;
+	d2rq:column "DB2INST1.VISIT.ID";
+	d2rq:datatype xsd:int;
+	.
+map:VISIT_TIMESTAMP a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:DB2INST1_VISIT;
+	d2rq:property vocab:VISIT_TIMESTAMP;
+	d2rq:column "DB2INST1.VISIT.TIMESTAMP";
+	d2rq:datatype xsd:int;
+	.
+map:VISIT_PATIENTID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:DB2INST1_VISIT;
+	d2rq:property vocab:VISIT_PATIENTID;
+	d2rq:column "DB2INST1.VISIT.PATIENTID";
+	d2rq:datatype xsd:int;
+	.
+map:VISIT_DIAGNOSIS a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:DB2INST1_VISIT;
+	d2rq:property vocab:VISIT_DIAGNOSIS;
+	d2rq:column "DB2INST1.VISIT.DIAGNOSIS";
+	.
+map:VISIT_PRESCRIPTION a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:DB2INST1_VISIT;
+	d2rq:property vocab:VISIT_PRESCRIPTION;
+	d2rq:column "DB2INST1.VISIT.PRESCRIPTION";
+	.
+map:VISIT_THERAPY a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:DB2INST1_VISIT;
+	d2rq:property vocab:VISIT_THERAPY;
+	d2rq:column "DB2INST1.VISIT.THERAPY";
+	.
+

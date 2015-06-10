@@ -1,0 +1,168 @@
+map:address__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:address;
+    d2rq:property linkedct:object_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_address.slug = linkedct_address_provenances.address_id";
+    d2rq:join "linkedct_address_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:arm_group__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:arm_group;
+    d2rq:property linkedct:object_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_arm_group.slug = linkedct_arm_group_provenances.arm_group_id";
+    d2rq:join "linkedct_arm_group_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:city__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:city;
+    d2rq:property linkedct:object_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_city.slug = linkedct_city_provenances.city_id";
+    d2rq:join "linkedct_city_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:condition__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:condition;
+    d2rq:property linkedct:object_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_condition.slug = linkedct_condition_provenances.condition_id";
+    d2rq:join "linkedct_condition_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:condition_browse__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:condition_browse;
+    d2rq:property linkedct:object_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_condition_browse.slug = linkedct_condition_browse_provenances.condition_browse_id";
+    d2rq:join "linkedct_condition_browse_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:contact__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:contact;
+    d2rq:property linkedct:object_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_contact.slug = linkedct_contact_provenances.contact_id";
+    d2rq:join "linkedct_contact_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:country__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:country;
+    d2rq:property linkedct:object_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_country.slug = linkedct_country_provenances.country_id";
+    d2rq:join "linkedct_country_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:eligibility__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:eligibility;
+    d2rq:property linkedct:object_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_eligibility.slug = linkedct_eligibility_provenances.eligibility_id";
+    d2rq:join "linkedct_eligibility_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:facility__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:facility;
+    d2rq:property linkedct:object_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_facility.slug = linkedct_facility_provenances.facility_id";
+    d2rq:join "linkedct_facility_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:intervention__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:intervention;
+    d2rq:property linkedct:object_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_intervention.slug = linkedct_intervention_provenances.intervention_id";
+    d2rq:join "linkedct_intervention_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:intervention_browse__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:intervention_browse;
+    d2rq:property linkedct:object_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_intervention_browse.slug = linkedct_intervention_browse_provenances.intervention_browse_id";
+    d2rq:join "linkedct_intervention_browse_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:investigator__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:investigator;
+    d2rq:property linkedct:object_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_investigator.slug = linkedct_investigator_provenances.investigator_id";
+    d2rq:join "linkedct_investigator_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:keyword__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:keyword;
+    d2rq:property linkedct:object_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_keyword.slug = linkedct_keyword_provenances.keyword_id";
+    d2rq:join "linkedct_keyword_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:link__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:link;
+    d2rq:property linkedct:object_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_link.slug = linkedct_link_provenances.link_id";
+    d2rq:join "linkedct_link_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:location__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:location;
+    d2rq:property linkedct:object_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_location.slug = linkedct_location_provenances.location_id";
+    d2rq:join "linkedct_location_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:mesh_term__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:mesh_term;
+    d2rq:property linkedct:object_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_mesh_term.slug = linkedct_mesh_term_provenances.mesh_term_id";
+    d2rq:join "linkedct_mesh_term_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:outcome__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:outcome;
+    d2rq:property linkedct:object_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_outcome.slug = linkedct_outcome_provenances.outcome_id";
+    d2rq:join "linkedct_outcome_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:overall_official__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:overall_official;
+    d2rq:property linkedct:object_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_overall_official.slug = linkedct_overall_official_provenances.overall_official_id";
+    d2rq:join "linkedct_overall_official_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:oversight_info__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:oversight_info;
+    d2rq:property linkedct:object_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_oversight_info.slug = linkedct_oversight_info_provenances.oversight_info_id";
+    d2rq:join "linkedct_oversight_info_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:reference__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:reference;
+    d2rq:property linkedct:object_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_reference.slug = linkedct_reference_provenances.reference_id";
+    d2rq:join "linkedct_reference_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:responsible_party__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:responsible_party;
+    d2rq:property linkedct:object_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_responsible_party.slug = linkedct_responsible_party_provenances.responsible_party_id";
+    d2rq:join "linkedct_responsible_party_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:sponsor__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:sponsor;
+    d2rq:property linkedct:object_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_sponsor.slug = linkedct_sponsor_provenances.sponsor_id";
+    d2rq:join "linkedct_sponsor_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:sponsor_group__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:sponsor_group;
+    d2rq:property linkedct:object_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_sponsor_group.slug = linkedct_sponsor_group_provenances.sponsor_group_id";
+    d2rq:join "linkedct_sponsor_group_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:state__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:state;
+    d2rq:property linkedct:object_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_state.slug = linkedct_state_provenances.state_id";
+    d2rq:join "linkedct_state_provenances.provenance_id = linkedct_provenance.slug";
+    .

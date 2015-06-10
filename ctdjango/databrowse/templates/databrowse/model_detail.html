@@ -1,0 +1,33 @@
+{% extends "databrowse/base_site.html" %}
+{% load pagination_tags %}
+
+{% block title %}{{ model.verbose_name_plural|capfirst }}{% endblock %}
+
+{% block content %}
+
+<div id="breadcrumbs"><a href="{{ root_url }}">Home</a> / {{ model.verbose_name_plural|capfirst }}</div>
+
+<h1>{{ model.objects.count }} {% if model.objects.count|pluralize %}{{ model.verbose_name_plural }}{% else %}{{ model.verbose_name }}{% endif %}</h1>
+
+<div>
+<form action="{% url search_form model.verbose_name %}" method="POST">
+Search for {{ model.name_plural }}: <input type="text" name="keyword" value="{{ keyword }}"/>
+</form>
+</div>
+
+{% autopaginate objectlist %}
+{% paginate %}
+
+{{ plugin_html }}
+
+<ul class="objectlist">
+
+{% for object in objectlist %}
+    <li class="{% cycle 'odd' 'even' %}"><a href="{{ object.url }}">{{ object }}</a></li>
+{% endfor %}
+</ul>
+
+
+{% paginate %}
+
+{% endblock %}

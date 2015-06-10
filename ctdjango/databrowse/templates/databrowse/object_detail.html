@@ -1,0 +1,106 @@
+{% extends "databrowse/base_site.html" %}
+{% load pagination_tags %}
+{% load linkedct %}
+
+{% block title %}{{ object.model.verbose_name|capfirst }}: {{ object }}{% endblock %}
+
+{% block content %}
+
+<div id="breadcrumbs"><a href="{{ root_url }}">Home</a> / <a href="{{ object.model.url }}">{{ object.model.verbose_name_plural|capfirst }}</a> / {{ object }}</div>
+
+<h1>{{ object.model.verbose_name|capfirst }}: {{ object }} [<a href="{{ object.url|rdf_url }}">RDF</a>]</h1>
+
+
+{% if object.links %}
+<div class="related">
+<h2>See also:</h2>
+<ul class="related_objectlist">
+{% if object.links|length > 2 %}
+ {% for link in object.links %}
+   {% if forloop.counter == 2 %}
+     <li><a href="{{ link }}">{{ link }}</a>
+     <a href="#" id="example-show" class="showLink" onclick="showHide('example');return false;">More links &raquo;</a>
+     </li>
+     <div id="example" class="more_links">
+   {% else %}
+     <li><a href="{{ link }}">{{ link }}</a></li>
+   {% endif %}
+ {% endfor %}
+  <LI> <a href="#" id="example-hide" class="hideLink" onclick="showHide('example');return false;"> &laquo; Hide Links.</a> </LI>
+{% else %}
+ {% for link in object.links %}
+ <li><a href="{{ link }}">{{ link }}</a></li>
+ {% endfor %}
+{% endif %}
+</ul>
+</div>
+<br>
+{% endif %}
+
+
+<table class="objectinfo">
+{% for field in object.fields %}
+
+{% if field.field.verbose_name != 'is duplicate' and field.field.verbose_name != 'is duplicated by' and field.field.verbose_name != 'is interlinked' and field.field.verbose_name != 'relateds' %}
+
+<tr class="{% cycle 'odd' 'even' %}">
+<th>{{ field.field.verbose_name|capfirst }}</th>
+<td>
+{% if field and field.urls %}
+
+{% if field.urls|length <= 20  %}
+
+{% for value, url in field.urls %}
+{% if url %}<a href="{{ url }}">{% endif %}{{ value }}{% if url %}</a>{% endif %}{% if not forloop.last %}, {% endif %}
+{% endfor %}
+
+{% else %}
+
+{% for value, url in field.urls|slice:":3" %}
+{% if url %}<a href="{{ url }}">{% endif %}{{ value }}{% if url %}</a>{% endif %}{% if not forloop.last %}, {% endif %}
+{% endfor %}
+<a class="more" href="fields/{{ field.field.verbose_name }}">More &rarr;</a> 
+
+{% endif %}
+
+{% else %}None{% endif %}
+
+
+
+</td>
+</tr>
+
+{% endif %}
+{% endfor %}
+</table>
+
+
+{% for related_object in object.related_objects %}
+  <div class="related">
+  <h2>Appears in "{{ related_object.related_field }}" in the following {{ related_object.model.verbose_name_plural }}:</h2>
+  
+  {% if related_object.object_list %}
+  
+  {% if related_object.object_list|length <= 20  %}
+  <ul class="objectlist">
+    {% for object in related_object.object_list %}
+    <li class="{% cycle 'odd' 'even' %}"><a href="{{ object.url }}">{{ object }}</a></li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <ul class="objectlist">
+    {% for object in related_object.object_list|slice:":3" %}
+    <li class="{% cycle 'odd' 'even' %}"><a href="{{ object.url }}">{{ object }}</a></li>
+    {% endfor %}
+  </ul>
+  <a class="more" href="{{ related_object.model.url }}fields/{{ related_object.related_field_name }}/{{ object_slug|iriencode }}">More &rarr;</a>
+  {% endif %}
+  
+  {% else %}
+  <p class="quiet">(None)</p>
+  {% endif %}
+  
+  </div>
+{% endfor %}
+
+{% endblock %}

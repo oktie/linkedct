@@ -1,0 +1,360 @@
+map:address__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:address;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_address.slug = linkedct_address_interlinks.address_id";
+    d2rq:join "linkedct_address_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:address__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:address;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_address.slug = linkedct_address_interlinks.address_id";
+    d2rq:condition "linkedct_address_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:arm_group__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:arm_group;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_arm_group.slug = linkedct_arm_group_interlinks.arm_group_id";
+    d2rq:join "linkedct_arm_group_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:arm_group__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:arm_group;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_arm_group.slug = linkedct_arm_group_interlinks.arm_group_id";
+    d2rq:condition "linkedct_arm_group_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:city__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:city;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_city.slug = linkedct_city_interlinks.city_id";
+    d2rq:join "linkedct_city_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:city__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:city;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_city.slug = linkedct_city_interlinks.city_id";
+    d2rq:condition "linkedct_city_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:condition__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:condition;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_condition.slug = linkedct_condition_interlinks.condition_id";
+    d2rq:join "linkedct_condition_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:condition__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:condition;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_condition.slug = linkedct_condition_interlinks.condition_id";
+    d2rq:condition "linkedct_condition_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:condition_browse__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:condition_browse;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_condition_browse.slug = linkedct_condition_browse_interlinks.condition_browse_id";
+    d2rq:join "linkedct_condition_browse_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:condition_browse__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:condition_browse;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_condition_browse.slug = linkedct_condition_browse_interlinks.condition_browse_id";
+    d2rq:condition "linkedct_condition_browse_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:contact__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:contact;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_contact.slug = linkedct_contact_interlinks.contact_id";
+    d2rq:join "linkedct_contact_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:contact__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:contact;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_contact.slug = linkedct_contact_interlinks.contact_id";
+    d2rq:condition "linkedct_contact_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:country__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:country;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_country.slug = linkedct_country_interlinks.country_id";
+    d2rq:join "linkedct_country_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:country__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:country;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_country.slug = linkedct_country_interlinks.country_id";
+    d2rq:condition "linkedct_country_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:eligibility__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:eligibility;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_eligibility.slug = linkedct_eligibility_interlinks.eligibility_id";
+    d2rq:join "linkedct_eligibility_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:eligibility__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:eligibility;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_eligibility.slug = linkedct_eligibility_interlinks.eligibility_id";
+    d2rq:condition "linkedct_eligibility_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:facility__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:facility;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_facility.slug = linkedct_facility_interlinks.facility_id";
+    d2rq:join "linkedct_facility_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:facility__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:facility;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_facility.slug = linkedct_facility_interlinks.facility_id";
+    d2rq:condition "linkedct_facility_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:intervention__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:intervention;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_intervention.slug = linkedct_intervention_interlinks.intervention_id";
+    d2rq:join "linkedct_intervention_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:intervention__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:intervention;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_intervention.slug = linkedct_intervention_interlinks.intervention_id";
+    d2rq:condition "linkedct_intervention_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:intervention_browse__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:intervention_browse;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_intervention_browse.slug = linkedct_intervention_browse_interlinks.intervention_browse_id";
+    d2rq:join "linkedct_intervention_browse_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:intervention_browse__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:intervention_browse;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_intervention_browse.slug = linkedct_intervention_browse_interlinks.intervention_browse_id";
+    d2rq:condition "linkedct_intervention_browse_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:investigator__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:investigator;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_investigator.slug = linkedct_investigator_interlinks.investigator_id";
+    d2rq:join "linkedct_investigator_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:investigator__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:investigator;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_investigator.slug = linkedct_investigator_interlinks.investigator_id";
+    d2rq:condition "linkedct_investigator_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:keyword__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:keyword;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_keyword.slug = linkedct_keyword_interlinks.keyword_id";
+    d2rq:join "linkedct_keyword_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:keyword__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:keyword;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_keyword.slug = linkedct_keyword_interlinks.keyword_id";
+    d2rq:condition "linkedct_keyword_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:link__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:link;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_link.slug = linkedct_link_interlinks.link_id";
+    d2rq:join "linkedct_link_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:link__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:link;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_link.slug = linkedct_link_interlinks.link_id";
+    d2rq:condition "linkedct_link_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:location__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:location;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_location.slug = linkedct_location_interlinks.location_id";
+    d2rq:join "linkedct_location_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:location__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:location;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_location.slug = linkedct_location_interlinks.location_id";
+    d2rq:condition "linkedct_location_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:mesh_term__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:mesh_term;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_mesh_term.slug = linkedct_mesh_term_interlinks.mesh_term_id";
+    d2rq:join "linkedct_mesh_term_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:mesh_term__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:mesh_term;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_mesh_term.slug = linkedct_mesh_term_interlinks.mesh_term_id";
+    d2rq:condition "linkedct_mesh_term_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:outcome__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:outcome;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_outcome.slug = linkedct_outcome_interlinks.outcome_id";
+    d2rq:join "linkedct_outcome_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:outcome__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:outcome;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_outcome.slug = linkedct_outcome_interlinks.outcome_id";
+    d2rq:condition "linkedct_outcome_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:overall_official__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:overall_official;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_overall_official.slug = linkedct_overall_official_interlinks.overall_official_id";
+    d2rq:join "linkedct_overall_official_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:overall_official__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:overall_official;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_overall_official.slug = linkedct_overall_official_interlinks.overall_official_id";
+    d2rq:condition "linkedct_overall_official_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:oversight_info__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:oversight_info;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_oversight_info.slug = linkedct_oversight_info_interlinks.oversight_info_id";
+    d2rq:join "linkedct_oversight_info_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:oversight_info__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:oversight_info;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_oversight_info.slug = linkedct_oversight_info_interlinks.oversight_info_id";
+    d2rq:condition "linkedct_oversight_info_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:reference__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:reference;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_reference.slug = linkedct_reference_interlinks.reference_id";
+    d2rq:join "linkedct_reference_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:reference__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:reference;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_reference.slug = linkedct_reference_interlinks.reference_id";
+    d2rq:condition "linkedct_reference_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:responsible_party__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:responsible_party;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_responsible_party.slug = linkedct_responsible_party_interlinks.responsible_party_id";
+    d2rq:join "linkedct_responsible_party_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:responsible_party__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:responsible_party;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_responsible_party.slug = linkedct_responsible_party_interlinks.responsible_party_id";
+    d2rq:condition "linkedct_responsible_party_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:sponsor__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:sponsor;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_sponsor.slug = linkedct_sponsor_interlinks.sponsor_id";
+    d2rq:join "linkedct_sponsor_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:sponsor__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:sponsor;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_sponsor.slug = linkedct_sponsor_interlinks.sponsor_id";
+    d2rq:condition "linkedct_sponsor_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:sponsor_group__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:sponsor_group;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_sponsor_group.slug = linkedct_sponsor_group_interlinks.sponsor_group_id";
+    d2rq:join "linkedct_sponsor_group_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:sponsor_group__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:sponsor_group;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_sponsor_group.slug = linkedct_sponsor_group_interlinks.sponsor_group_id";
+    d2rq:condition "linkedct_sponsor_group_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:state__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:state;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_state.slug = linkedct_state_interlinks.state_id";
+    d2rq:join "linkedct_state_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:state__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:state;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_state.slug = linkedct_state_interlinks.state_id";
+    d2rq:condition "linkedct_state_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .

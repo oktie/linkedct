@@ -1,0 +1,24 @@
+{% extends "databrowse/base_site.html" %}
+
+{% load humanize %}
+
+{% block title %}LinkedCT Databrowse{% endblock %}
+
+{% block bodyid %}homepage{% endblock %}
+
+{% block content %}
+
+<div id="breadcrumbs"><a href="{{ root_url }}">Home</a> / Live Stats </div>
+
+<div align="center">
+<h1>
+<table>
+{% for model in model_list %}
+	<tr align="center"><td>   {{ model.objects.count|intcomma }} <a href="{{ model.url }}">{{ model.verbose_name_plural|capfirst }} </a> </td></tr>
+{% endfor %}
+</table>
+</h1>
+</div>
+
+
+{% endblock %}

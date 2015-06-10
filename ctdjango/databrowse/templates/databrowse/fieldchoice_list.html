@@ -1,0 +1,32 @@
+{% extends "databrowse/base_site.html" %}
+{% load pagination_tags %}
+
+
+{% block title %}{{ model.verbose_name_plural|capfirst }} by {{ field.field.verbose_name }}{% endblock %}
+
+{% block content %}
+
+<div id="breadcrumbs"><a href="{{ root_url }}">Home</a> / <a href="{{ model.url }}">{{ model.verbose_name_plural|capfirst }}</a> / <a href="../">Fields</a> / By {{ field.field.verbose_name }}</div>
+
+{% if object_list %}
+
+<h1>{{ model.verbose_name_plural|capfirst }} by {{ field.field.verbose_name }}</h1>
+
+{% autopaginate object_list %}
+{% paginate %}
+
+<ul class="objectlist">
+
+{% for object in object_list %}
+<li class="{% cycle 'odd' 'even' %}"><a href="{{ object|iriencode }}">{{ object }}</a></li>
+{% endfor %}
+</ul>
+
+{% paginate %}
+
+{% else %}
+<h1>No {{ model.verbose_name_plural|capfirst }} found with {{ field.field.verbose_name }}</h1>
+{% endif %}
+
+
+{% endblock %}

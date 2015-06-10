@@ -1,0 +1,11 @@
+file:///c:/d2r-server-0.4/localdump12012010.nt#
+
+$ head localdump12012010.nt | sed 's|file:///c:/d2r-server-0.4/localdump1201201
+0.nt#|http://data.linkedct.org/resource/|'
+
+cat localdump12012010.nt | sed 's|file:///c:/d2r-server-0.4/localdump12012010.nt#|http://data.linkedct.org/resource/|' | sed 's|file:///c:/d2r-server-0.4/localdump12012010.nt#|http://data.linkedct.org/resource/|' | sed 's|file:///c:/d2r-server-0.4/linkedct|http://data.linkedct.org/resource/linkedct|' > localdump12012010-fixed.nt
+
+
+
+Final:
+cat linkedct-dump-local.nt | sed 's|http://localhost/|http://data.linkedct.org/resource/|g' > linkedct-latest-dump.nt

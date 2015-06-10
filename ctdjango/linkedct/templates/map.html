@@ -1,0 +1,119 @@
+{% extends "databrowse/base_site.html" %}
+
+{% load humanize %}
+
+{% block title %}LinkedCT Databrowse{% endblock %}
+
+{% block extrahead %}
+
+    <style type="text/css" media="screen">
+        html, body {
+        height:100%;
+        width: 100%
+        }
+        #content {
+            position:relative;
+            left:0;
+            top:0;
+            padding:0;
+            width:100%;
+            height:100%; 
+            }
+        #search {
+            padding: 20px;
+            width: 28%;
+            height: 100%;            
+            float: left;
+            }
+        #map_container {
+            position: absolute;
+            left: 28%;
+            width: 72%;
+            height: 100%;
+            float: left;
+            }
+        #map_canvas {
+            width: 100%;
+            height: 100%;
+            }
+    </style> 
+    
+{% endblock %}
+
+{% block bodyid %}homepage{% endblock %}
+
+{% block content %}
+
+    <script type="text/javascript"
+        src="http://maps.google.com/maps/api/js?sensor=false">
+    </script>
+    
+    <script type="text/javascript">
+        function initialize() {
+            var latlng = new google.maps.LatLng(38.922950 , -97.734375);
+            var myOptions = {
+            zoom: 4,
+            center: latlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+        var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+        }
+        window.onload = initialize;
+    </script>   
+
+    <div id="search">
+        <div id="breadcrumbs"><a href="{{ root_url }}">Home</a> / Geosearch </div>
+        <h2>Search for Trial Locations</h2>
+            
+        {% if input_error %}
+            <h3 style="color: red;">Please fill all the fields.</h3>
+        {% endif %}
+        
+        {% if over_max %}
+            <h3 style="color: red;">Please specify distance between 0 and 50.</h3>
+        {% endif %}
+            
+        <form action="" method="GET">
+        {% csrf_token %}
+            <h4>
+                <label style = "width:130px; float:left;" for="country">Country:</label><br/>
+                    <select name = "country">
+                        <option></option>
+                        {% for c in countries %}
+                            {% if c.country_name == country %}
+                                <option selected="selected">{{c}}</option>
+                            {% else %}
+                                <option>{{c}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select><br/>
+          
+                <label for="city">City:</label><br/>
+                <input type="text" name="city" value="{{ city|escape }}"/><br/> 
+          
+                <label for="distance">Distance(between 0 and 50 miles):</label><br/>
+                <input type="number" name="distance" min="0" max="50" value={{ distance|escape }}><br/> 
+          
+                <label for="condition">Condition:</label><br/>
+                <input type="text" name="condition" value="{{ condition|escape }}"/><br/> 
+          
+                <input type="submit" value="Search"/>
+            </h4>
+        </form>
+        
+        {% if geo_error %}
+        <h3 style="color: red;">No input location was found on the map.</h3>
+        {% endif %}       
+        
+        {% if no_result %}
+        <h3 style="color: red;">No result was found.</h3>
+        {% endif %}
+    </div>
+    
+    <div id="map_container">
+        <div id="map_canvas">
+            &nbsp;
+        </div> 
+    </div>   
+
+{% endblock %}

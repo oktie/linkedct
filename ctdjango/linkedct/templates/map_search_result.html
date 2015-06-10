@@ -1,0 +1,67 @@
+{% extends "databrowse/base_site.html" %}
+
+{% load humanize %}
+
+{% block title %}LinkedCT Databrowse{% endblock %}
+
+{% block extrahead %}
+
+<style type="text/css">
+th, td{
+    padding:10px;
+}
+</style>
+
+{% endblock %}
+
+{% block bodyid %}homepage{% endblock %}
+
+{% block content %}
+
+    <div id="breadcrumbs"><a href="{{ root_url }}">Home</a> / <a href="/geosearch">Geosearch</a> / Results </div>
+
+    {% if error %}
+    <div>
+        <h2><p> Sorry, results cannot be displayed at moment.</p></h2>
+    </div>
+    
+    {%else%}
+    <div>
+        <h2>Here are clinical trials related to {{condition}} at {{address}} .<br/>
+            Please click on a link to see details of a clinical trial.</h2>    
+    
+    </div>
+    
+    <div style="padding: 30px;">
+    <h3>
+        {% for f, ts in trials.items %}
+        <p>Facility name: {{f}}</p>
+        <table border="1" cellspacing="0">
+            <tr>
+                <th>Trial ID</th>
+                <th>Condition(s)</th>                
+            </tr>
+    
+           
+           {% for t, cs in ts.items %}
+	       <tr align="center">
+	           <td><a href="{{ t.url }}">{{ t }}</a></td>
+	           <td align="left">
+	           {% for cond in cs %}	               
+	               {% if forloop.last%}
+                       {{ cond }}
+                   {% else %}
+                       {{ cond }}, 
+                   {% endif %}
+               {% endfor%}
+               </td>               
+           </tr>
+           {% endfor %}
+        </table><br/>
+        {% endfor %}
+    </h3>
+    </div>
+    {% endif %}
+
+{% endblock %}
+

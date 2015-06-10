@@ -1,0 +1,851 @@
+@prefix map: <file:/C:/d2r-server-0.4/ctmap.n3#> .
+@prefix db: <> .
+@prefix linkedct: <linkedct/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix d2rq: <http://www.wiwiss.fu-berlin.de/suhl/bizer/D2RQ/0.1#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix dbpedia: <http://dbpedia.org/property/> .
+@prefix d2r: <http://sites.wiwiss.fu-berlin.de/suhl/bizer/d2r-server/config.rdf#> .
+
+<> a d2r:Server;
+    rdfs:label "Linkedct.org D2R Server";
+    d2r:baseURI <http://data.linkedct.org/>;
+    d2r:port 80;
+    d2r:documentMetadata [
+        rdfs:comment "This data is obtained from Clinicaltrials.gov (http://clinicaltrials.gov) and processed using D2R Server - a tool for generating and publishing RDF data. Using this data is subject to Clinicaltrials.gov's Terms and Conditions available at http://www.clinicaltrials.gov/ct2/info/terms.";
+    ];
+    .
+
+map:database a d2rq:Database;
+	d2rq:jdbcDriver "com.mysql.jdbc.Driver";
+	d2rq:jdbcDSN "jdbc:mysql://localhost/dbname?autoReconnect=true";
+	d2rq:username "user";
+	d2rq:password "password";
+	d2rq:resultSizeLimit 500;
+	d2rq:resourceBaseURI <http://data.linkedct.org/>;
+	.
+
+# Table cttrials
+map:trials a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "trials/@@cttrials.id|urlify@@";
+	d2rq:class linkedct:trials;
+	.
+map:trials__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property rdfs:label;
+	d2rq:pattern "Trial @@cttrials.id@@";
+	.
+map:trials_id a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:id;
+	d2rq:column "cttrials.id";
+	.
+map:trials_download_date a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:download_date;
+	d2rq:column "cttrials.download_date";
+	.
+map:trials_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "cttrials.url";
+	d2rq:condition "cttrials.url <> ''"
+	.
+map:trials_org_study_id a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:org_study_id;
+	d2rq:column "cttrials.org_study_id";
+	d2rq:condition "cttrials.org_study_id <> ''"
+	.
+map:trials_nct_id a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:nct_id;
+	d2rq:column "cttrials.nct_id";
+	
+	.
+map:trials_brief_title a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:brief_title;
+	d2rq:column "cttrials.brief_title";
+	.
+map:trials_acronym a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:acronym;
+	d2rq:column "cttrials.acronym";
+	d2rq:condition "cttrials.acronym <> ''"
+	.
+map:trials_official_title a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:official_title;
+	d2rq:column "cttrials.official_title";
+	d2rq:condition "cttrials.official_title <> ''"
+	.
+map:trials_lead_sponsor_agency a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:lead_sponsor_agency;
+	d2rq:column "cttrials.lead_sponsor_agency";
+	d2rq:condition "cttrials.lead_sponsor_agency <> ''"
+	.
+map:trials_source a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:source;
+	d2rq:column "cttrials.source";
+	d2rq:condition "cttrials.source <> ''"
+	.
+map:trials_has_dmc a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:has_dmc;
+	d2rq:column "cttrials.has_dmc";
+	d2rq:condition "cttrials.has_dmc <> ''"
+	.
+map:trials_overall_status a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:overall_status;
+	d2rq:column "cttrials.overall_status";
+	d2rq:condition "cttrials.overall_status <> ''"
+	.
+map:trials_why_stopped a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:why_stopped;
+	d2rq:column "cttrials.why_stopped";
+	d2rq:condition "cttrials.why_stopped <> ''"
+	.
+map:trials_phase a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:phase;
+	d2rq:column "cttrials.phase";
+	d2rq:condition "cttrials.phase <> ''"
+	.
+map:trials_study_type a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:study_type;
+	d2rq:column "cttrials.study_type";
+	d2rq:condition "cttrials.study_type <> ''"
+	.
+map:trials_study_design a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:study_design;
+	d2rq:column "cttrials.study_design";
+	d2rq:condition "cttrials.study_design <> ''"
+	.
+map:trials_number_of_arms a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:number_of_arms;
+	d2rq:column "cttrials.number_of_arms";
+	d2rq:datatype xsd:int;
+	.
+map:trials_number_of_groups a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:number_of_groups;
+	d2rq:column "cttrials.number_of_groups";
+	d2rq:datatype xsd:int;
+	.
+map:trials_enrollment a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:enrollment;
+	d2rq:column "cttrials.enrollment";
+	d2rq:datatype xsd:int;
+	.
+map:trials_biospec_retention a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:biospec_retention;
+	d2rq:column "cttrials.biospec_retention";
+	d2rq:condition "cttrials.biospec_retention <> ''"
+	.
+map:trials_eligibility_study_pop a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:eligibility_study_pop;
+	d2rq:column "cttrials.eligibility_study_pop";
+	d2rq:condition "cttrials.eligibility_study_pop <> ''"
+	.
+map:trials_eligibility_sampling_method a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:eligibility_sampling_method;
+	d2rq:column "cttrials.eligibility_sampling_method";
+	d2rq:condition "cttrials.eligibility_sampling_method <> ''"
+	.
+map:trials_eligibility_gender a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:eligibility_gender;
+	d2rq:column "cttrials.eligibility_gender";
+	d2rq:condition "cttrials.eligibility_gender <> ''"
+	.
+map:trials_eligibility_minimum_age a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:eligibility_minimum_age;
+	d2rq:column "cttrials.eligibility_minimum_age";
+	d2rq:condition "cttrials.eligibility_minimum_age <> ''"
+	.
+map:trials_eligibility_maximum_age a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:eligibility_maximum_age;
+	d2rq:column "cttrials.eligibility_maximum_age";
+	d2rq:condition "cttrials.eligibility_maximum_age <> ''"
+	.
+map:trials_eligibility_healthy_volunteers a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:eligibility_healthy_volunteers;
+	d2rq:column "cttrials.eligibility_healthy_volunteers";
+	d2rq:condition "cttrials.eligibility_healthy_volunteers <> ''"
+	.
+map:trials_overall_contact_first_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:overall_contact_first_name;
+	d2rq:column "cttrials.overall_contact_first_name";
+	d2rq:condition "cttrials.overall_contact_first_name <> ''"
+	.
+map:trials_overall_contact_middle_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:overall_contact_middle_name;
+	d2rq:column "cttrials.overall_contact_middle_name";
+	d2rq:condition "cttrials.overall_contact_middle_name <> ''"
+	.
+map:trials_overall_contact_last_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:overall_contact_last_name;
+	d2rq:column "cttrials.overall_contact_last_name";
+	d2rq:condition "cttrials.overall_contact_last_name <> ''"
+	.
+map:trials_overall_contact_degrees a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:overall_contact_degrees;
+	d2rq:column "cttrials.overall_contact_degrees";
+	d2rq:condition "cttrials.overall_contact_degrees <> ''"
+	.
+map:trials_overall_contact_phone a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:overall_contact_phone;
+	d2rq:column "cttrials.overall_contact_phone";
+	d2rq:condition "cttrials.overall_contact_phone <> ''"
+	.
+map:trials_overall_contact_phone_ext a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:overall_contact_phone_ext;
+	d2rq:column "cttrials.overall_contact_phone_ext";
+	d2rq:condition "cttrials.overall_contact_phone_ext <> ''"
+	.
+map:trials_overall_contact_email a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:overall_contact_email;
+	d2rq:column "cttrials.overall_contact_email";
+	d2rq:condition "cttrials.overall_contact_email <> ''"
+	.
+map:trials_start_date a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:start_date;
+	d2rq:column "cttrials.start_date";
+	d2rq:condition "cttrials.start_date <> ''"
+	.
+map:trials_end_date a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:end_date;
+	d2rq:column "cttrials.end_date";
+	d2rq:condition "cttrials.end_date <> ''"
+	.
+map:trials_primary_completion_date a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:primary_completion_date;
+	d2rq:column "cttrials.primary_completion_date";
+	d2rq:condition "cttrials.primary_completion_date <> ''"
+	.
+map:trials_verification_date a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:verification_date;
+	d2rq:column "cttrials.verification_date";
+	d2rq:condition "cttrials.verification_date <> ''"
+	.
+map:trials_lastchanged_date a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:lastchanged_date;
+	d2rq:column "cttrials.lastchanged_date";
+	d2rq:condition "cttrials.lastchanged_date <> ''"
+	.
+map:trials_firstreceived_date a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:firstreceived_date;
+	d2rq:column "cttrials.firstreceived_date";
+	d2rq:condition "cttrials.firstreceived_date <> ''"
+	.
+map:trials_summary a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:summary;
+	d2rq:column "cttrials_summary.brief_summary";
+	d2rq:condition "cttrials_summary.brief_summary <> '' AND cttrials.id = cttrials_summary.id"
+	.
+map:trials_biospec a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:biospec;
+	d2rq:column "cttrials_biospec.biospec_descr";
+	d2rq:condition "cttrials_biospec.biospec_descr <> '' AND cttrials.id = cttrials_biospec.id"
+	.
+map:trials_criteria a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:criteria;
+	d2rq:column "cttrials_criteria.eligibility_criteria";
+	d2rq:condition "cttrials_criteria.eligibility_criteria <> '' AND cttrials.id = cttrials_criteria.id"
+	.
+map:trials_description a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:description;
+	d2rq:column "cttrials_description.detailed_description";
+	d2rq:condition "cttrials_description.detailed_description <> '' AND cttrials.id = cttrials_description.id"
+	.
+map:trials_secondary_id a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:secondary_id;
+	d2rq:column "cttrials2secid.secondary_id";
+	d2rq:condition "cttrials2secid.secondary_id <> '' AND cttrials.id = cttrials2secid.id"
+	.
+map:trials_nct_alias a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:nct_alias;
+	d2rq:column "cttrials2nctalias.nct_alias";
+	d2rq:condition "cttrials2nctalias.nct_alias <> '' AND cttrials.id = cttrials2nctalias.id"
+	.
+map:trials_trials2intervention a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:intervention;
+	d2rq:refersToClassMap map:intervention;
+	d2rq:join "cttrials.id = cttrials2interventionid.id";
+	d2rq:join "cttrials2interventionid.tid = ctintervention.tid";
+	.
+map:trials_trials2condition a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:condition;
+	d2rq:refersToClassMap map:condition;
+	d2rq:join "cttrials.id = cttrials2conditionid.id";
+	d2rq:join "cttrials2conditionid.tid = ctcondition.tid";
+	.
+map:trials_trials2link a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:link;
+	d2rq:refersToClassMap map:link;
+	d2rq:join "cttrials.id = cttrials2linkid.id";
+	d2rq:join "cttrials2linkid.tid = ctlink.tid";
+	.
+map:trials_trials2arm_group a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:arm_group;
+	d2rq:refersToClassMap map:trial_arm_group;
+	d2rq:join "cttrials.id = cttrials2arm_groupid.id";
+	d2rq:join "cttrials2arm_groupid.tid = ctarm_group.tid";
+	.
+map:trials_trials2collabagency a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:collaborator_agency;
+	d2rq:refersToClassMap map:collaborator_agency;
+	d2rq:join "cttrials.id = cttrials2collabagencyid.id";
+	d2rq:join "cttrials2collabagencyid.tid = ctcollabagency.tid";
+	.
+map:trials_trials2location a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:location;
+	d2rq:refersToClassMap map:location;
+	d2rq:join "cttrials.id = cttrials2locationid.id";
+	d2rq:join "cttrials2locationid.tid = ctlocation.tid";
+	.
+map:trials_trials2overall_official a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:overall_official;
+	d2rq:refersToClassMap map:overall_official;
+	d2rq:join "cttrials.id = cttrials2overall_officialid.id";
+	d2rq:join "cttrials2overall_officialid.tid = ctoverall_official.tid";
+	.
+map:trials_trials2oversight a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:oversight;
+	d2rq:refersToClassMap map:oversight;
+	d2rq:join "cttrials.id = cttrials2oversightid.id";
+	d2rq:join "cttrials2oversightid.tid = ctoversight.tid";
+	.
+map:trials_trials2primary_outcomes a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:primary_outcomes;
+	d2rq:refersToClassMap map:primary_outcomes;
+	d2rq:join "cttrials.id = cttrials2primary_outcomesid.id";
+	d2rq:join "cttrials2primary_outcomesid.tid = ctprimary_outcomes.tid";
+	.
+map:trials_trials2reference a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:reference;
+	d2rq:refersToClassMap map:reference;
+	d2rq:join "cttrials.id = cttrials2referenceid.id";
+	d2rq:join "cttrials2referenceid.tid = ctreference.tid";
+	.
+map:trials_trials2results_reference a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:results_reference;
+	d2rq:refersToClassMap map:results_reference;
+	d2rq:join "cttrials.id = cttrials2results_referenceid.id";
+	d2rq:join "cttrials2results_referenceid.tid = ctresults_reference.tid";
+	.
+map:trials_trials2secondary_outcomes a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trials;
+	d2rq:property linkedct:secondary_outcomes;
+	d2rq:refersToClassMap map:secondary_outcomes;
+	d2rq:join "cttrials.id = cttrials2secondary_outcomesid.id";
+	d2rq:join "cttrials2secondary_outcomesid.tid = ctsecondary_outcomes.tid";
+	.
+
+# Table ctintervention
+map:intervention a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "intervention/@@ctintervention.tid@@";
+	d2rq:class linkedct:intervention;
+	.
+map:intervention__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:intervention;
+	d2rq:property rdfs:label;
+	d2rq:pattern "Intervention #@@ctintervention.tid@@ (@@ctintervention.intervention_type@@:@@ctintervention.intervention_name@@)";
+	.
+map:intervention_tid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:intervention;
+	d2rq:property linkedct:intervention_id;
+	d2rq:column "ctintervention.tid";
+	d2rq:datatype xsd:int;
+	.
+map:intervention_intervention_type a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:intervention;
+	d2rq:property linkedct:intervention_type;
+	d2rq:column "ctintervention.intervention_type";
+	.
+map:intervention_intervention_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:intervention;
+	d2rq:property linkedct:intervention_name;
+	d2rq:column "ctintervention.intervention_name";
+	.
+map:intervention_description a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:intervention;
+	d2rq:property linkedct:description;
+	d2rq:column "ctintervention.description";
+	d2rq:condition "ctintervention.description <> ''"
+	.
+map:intervention_dbpedia a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:intervention;
+	d2rq:property owl:sameAs;
+	d2rq:uriColumn "ctintervention2dbpedia.dbpediaurl";
+	d2rq:condition "ctintervention.tid = ctintervention2dbpedia.tid"
+	.
+map:intervention_yago a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:intervention;
+	d2rq:property owl:sameAs;
+	d2rq:uriColumn "ctintervention2yago.yagourl";
+	d2rq:condition "ctintervention.tid = ctintervention2yago.tid"
+	.
+map:intervention_drugbank a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:intervention;
+	d2rq:property owl:sameAs;
+	d2rq:uriColumn "ctintervention2drugbank.drugbankurl";
+	d2rq:condition "ctintervention.tid = ctintervention2drugbank.tid"
+	.
+
+# Table ctcondition
+map:condition a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "condition/@@ctcondition.tid@@";
+	d2rq:class linkedct:condition;
+	.
+map:condition__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:condition;
+	d2rq:property rdfs:label;
+	d2rq:pattern "Condition #@@ctcondition.tid@@ (@@ctcondition.condition@@)";
+	.
+map:condition_tid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:condition;
+	d2rq:property linkedct:condition_id;
+	d2rq:column "ctcondition.tid";
+	d2rq:datatype xsd:int;
+	.
+map:condition_condition a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:condition;
+	d2rq:property linkedct:condition_name;
+	d2rq:column "ctcondition.condition";
+	.
+map:condition_condition2dbpedia a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:condition;
+	d2rq:property owl:sameAs;
+	d2rq:uriColumn "ctcondition2dbpedia.dbpediaurl";
+	d2rq:condition "ctcondition2dbpedia.tid = ctcondition.tid";
+	.
+map:condition_condition2yago a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:condition;
+	d2rq:property owl:sameAs;
+	d2rq:uriColumn "ctcondition2yago.yagourl";
+	d2rq:condition "ctcondition2yago.tid = ctcondition.tid";
+	.
+map:condition_diseasome a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:condition;
+	d2rq:property rdfs:SeeAlso;
+	d2rq:uriColumn "ctcondition2diseasome.diseasomeurl";
+	d2rq:condition "ctcondition.TID = ctcondition2diseasome.TID"
+	.
+
+# Table ctarm_group
+map:trial_arm_group a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "arm_group/@@ctarm_group.tid@@";
+	d2rq:class linkedct:trial_arm_group;
+	.
+map:trial_arm_group__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial_arm_group;
+	d2rq:property rdfs:label;
+	d2rq:pattern "Arm Group #@@ctarm_group.tid@@";
+	.
+map:trial_arm_group_tid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial_arm_group;
+	d2rq:property linkedct:arm_group_id;
+	d2rq:column "ctarm_group.tid";
+	d2rq:datatype xsd:int;
+	.
+map:trial_arm_group_arm_group_label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial_arm_group;
+	d2rq:property linkedct:arm_group_label;
+	d2rq:column "ctarm_group.arm_group_label";
+	.
+map:trial_arm_group_arm_group_type a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial_arm_group;
+	d2rq:property linkedct:arm_group_type;
+	d2rq:column "ctarm_group.arm_group_type";
+	.
+map:trial_arm_group_description a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial_arm_group;
+	d2rq:property linkedct:description;
+	d2rq:column "ctarm_group.description";
+	d2rq:condition "ctarm_group.description <> ''"
+	.
+
+# Table ctcollabagency
+map:collaborator_agency a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "collabagency/@@ctcollabagency.tid@@";
+	d2rq:class linkedct:collaborator_agency;
+	.
+map:collaborator_agency__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:collaborator_agency;
+	d2rq:property rdfs:label;
+	d2rq:pattern "Collaborator Agency #@@ctcollabagency.tid@@ (@@ctcollabagency.collaborator_agency@@)";
+	.
+map:collaborator_agency_tid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:collaborator_agency;
+	d2rq:property linkedct:collaborator_agency_id;
+	d2rq:column "ctcollabagency.tid";
+	d2rq:datatype xsd:int;
+	.
+map:collaborator_agency_collaborator_agency a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:collaborator_agency;
+	d2rq:property linkedct:collaborator_agency_name;
+	d2rq:column "ctcollabagency.collaborator_agency";
+	.
+
+# Table ctlink
+map:link a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "link/@@ctlink.tid@@";
+	d2rq:class linkedct:link;
+	.
+map:link__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:link;
+	d2rq:property rdfs:label;
+	d2rq:pattern "Link #@@ctlink.tid@@";
+	.
+map:link_tid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:link;
+	d2rq:property linkedct:link_id;
+	d2rq:column "ctlink.tid";
+	d2rq:datatype xsd:int;
+	.
+map:link_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:link;
+	d2rq:property linkedct:url;
+	d2rq:uriColumn "ctlink.url";
+	d2rq:condition "ctlink.url <> ''"
+	.
+map:link_description a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:link;
+	d2rq:property linkedct:description;
+	d2rq:column "ctlink.description";
+	d2rq:condition "ctlink.description <> ''"
+	.
+
+# Table ctlocation
+map:location a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "location/@@ctlocation.tid@@";
+	d2rq:class linkedct:location;
+	.
+map:location__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:location;
+	d2rq:property rdfs:label;
+	d2rq:pattern "Location #@@ctlocation.tid@@ ";
+	.
+map:location_tid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:location;
+	d2rq:property linkedct:location_id;
+	d2rq:column "ctlocation.tid";
+	d2rq:datatype xsd:int;
+	.
+map:location_facility_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:location;
+	d2rq:property linkedct:facility_name;
+	d2rq:column "ctlocation.facility_name";
+	d2rq:condition "ctlocation.facility_name <> ''"
+	.
+map:location_facility_address_city a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:location;
+	d2rq:property linkedct:facility_address_city;
+	d2rq:column "ctlocation.facility_address_city";
+	d2rq:condition "ctlocation.facility_address_city <> ''"
+	.
+map:location_facility_address_state a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:location;
+	d2rq:property linkedct:facility_address_state;
+	d2rq:column "ctlocation.facility_address_state";
+	d2rq:condition "ctlocation.facility_address_state <> ''"
+	.
+map:location_facility_address_zip a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:location;
+	d2rq:property linkedct:facility_address_zip;
+	d2rq:column "ctlocation.facility_address_zip";
+	d2rq:condition "ctlocation.facility_address_zip <> ''"
+	.
+map:location_facility_address_country a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:location;
+	d2rq:property linkedct:facility_address_country;
+	d2rq:column "ctlocation.facility_address_country";
+	d2rq:condition "ctlocation.facility_address_country <> ''"
+	.
+map:location_location2geonames a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:location;
+	d2rq:property foaf:based_near;
+	d2rq:uriColumn "ctlocation2geonames.geonamesurl";
+	d2rq:condition "ctlocation.tid = ctlocation2geonames.tid"
+	.
+
+# Table ctoverall_official
+map:overall_official a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "overall_official/@@ctoverall_official.tid@@";
+	d2rq:class linkedct:overall_official;
+	.
+map:overall_official__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:overall_official;
+	d2rq:property rdfs:label;
+	d2rq:pattern "Overall Official #@@ctoverall_official.tid@@";
+	.
+map:overall_official_tid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:overall_official;
+	d2rq:property linkedct:overall_official_id;
+	d2rq:column "ctoverall_official.tid";
+	d2rq:datatype xsd:int;
+	.
+map:overall_official_first_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:overall_official;
+	d2rq:property linkedct:first_name;
+	d2rq:column "ctoverall_official.first_name";
+	d2rq:condition "ctoverall_official.first_name <> ''"
+	.
+map:overall_official_middle_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:overall_official;
+	d2rq:property linkedct:middle_name;
+	d2rq:column "ctoverall_official.middle_name";
+	d2rq:condition "ctoverall_official.middle_name <> ''"
+	.
+map:overall_official_last_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:overall_official;
+	d2rq:property linkedct:last_name;
+	d2rq:column "ctoverall_official.last_name";
+	d2rq:condition "ctoverall_official.last_name <> ''"
+	.
+map:overall_official_affiliation a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:overall_official;
+	d2rq:property linkedct:affiliation;
+	d2rq:column "ctoverall_official.affiliation";
+	d2rq:condition "ctoverall_official.affiliation <> ''"
+	.
+
+# Table ctoversight
+map:oversight a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "oversight/@@ctoversight.tid@@";
+	d2rq:class linkedct:oversight;
+	.
+map:oversight__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:oversight;
+	d2rq:property rdfs:label;
+	d2rq:pattern "Oversight #@@ctoversight.tid@@";
+	.
+map:oversight_tid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:oversight;
+	d2rq:property linkedct:oversight_id;
+	d2rq:column "ctoversight.tid";
+	d2rq:datatype xsd:int;
+	.
+map:oversight_oversight_info_authority a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:oversight;
+	d2rq:property linkedct:oversight_oversight_info_authority;
+	d2rq:column "ctoversight.oversight_info_authority";
+	d2rq:condition "ctoversight.oversight_info_authority <> ''"
+	.
+
+# Table ctprimary_outcomes
+map:primary_outcomes a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "primary_outcomes/@@ctprimary_outcomes.tid@@";
+	d2rq:class linkedct:primary_outcomes;
+	.
+map:primary_outcomes__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:primary_outcomes;
+	d2rq:property rdfs:label;
+	d2rq:pattern "Primary Outcomes #@@ctprimary_outcomes.tid@@";
+	.
+map:primary_outcomes_tid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:primary_outcomes;
+	d2rq:property linkedct:primary_outcomes_id;
+	d2rq:column "ctprimary_outcomes.tid";
+	d2rq:datatype xsd:int;
+	.
+map:primary_outcomes_measure a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:primary_outcomes;
+	d2rq:property linkedct:measure;
+	d2rq:column "ctprimary_outcomes.measure";
+	d2rq:condition "ctprimary_outcomes.measure <> ''"
+	.
+map:primary_outcomes_time_frame a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:primary_outcomes;
+	d2rq:property linkedct:time_frame;
+	d2rq:column "ctprimary_outcomes.time_frame";
+	d2rq:condition "ctprimary_outcomes.time_frame <> ''"
+	.
+map:primary_outcomes_safety_issue a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:primary_outcomes;
+	d2rq:property linkedct:safety_issue;
+	d2rq:column "ctprimary_outcomes.safety_issue";
+	d2rq:condition "ctprimary_outcomes.safety_issue <> ''"
+	.
+
+# Table ctreference
+map:reference a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "reference/@@ctreference.tid@@";
+	d2rq:class linkedct:reference;
+	.
+map:reference__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:reference;
+	d2rq:property rdfs:label;
+	d2rq:pattern "Reference #@@ctreference.tid@@";
+	.
+map:reference_tid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:reference;
+	d2rq:property linkedct:reference_id;
+	d2rq:column "ctreference.tid";
+	d2rq:datatype xsd:int;
+	.
+map:reference_citation a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:reference;
+	d2rq:property linkedct:citation;
+	d2rq:column "ctreference.citation";
+	d2rq:condition "ctreference.citation <> ''"
+	.
+map:reference_PMid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:reference;
+	d2rq:property linkedct:PMid;
+	d2rq:column "ctreference.PMid";
+	d2rq:condition "ctreference.PMid <> ''"
+	.
+map:reference_ref2pubmed a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:reference;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "ctreference2pubmed.url";
+	d2rq:condition "ctreference.tid = ctreference2pubmed.tid"
+	.
+map:reference_ref2bio2rdf a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:reference;
+	d2rq:property owl:sameAs;
+	d2rq:uriColumn "ctreference2pubmed.bio2rdf";
+	d2rq:condition "ctreference.tid = ctreference2pubmed.tid"
+	.
+
+# Table ctresults_reference
+map:results_reference a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "results_reference/@@ctresults_reference.tid@@";
+	d2rq:class linkedct:results_reference;
+	.
+map:results_reference__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:results_reference;
+	d2rq:property rdfs:label;
+	d2rq:pattern "Results Reference #@@ctresults_reference.tid@@";
+	.
+map:results_reference_tid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:results_reference;
+	d2rq:property linkedct:results_reference_id;
+	d2rq:column "ctresults_reference.tid";
+	d2rq:datatype xsd:int;
+	.
+map:results_reference_citation a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:results_reference;
+	d2rq:property linkedct:citation;
+	d2rq:column "ctresults_reference.citation";
+	d2rq:condition "ctresults_reference.citation <> ''"
+	.
+map:results_reference_PMid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:results_reference;
+	d2rq:property linkedct:PMid;
+	d2rq:column "ctresults_reference.PMid";
+	d2rq:condition "ctresults_reference.PMid <> ''"
+	.
+map:results_reference_ref2pubmed a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:results_reference;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "ctresults_reference2pubmed.url";
+	d2rq:condition "ctresults_reference.tid = ctresults_reference2pubmed.tid"
+	.
+map:results_reference_ref2bio2rdf a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:results_reference;
+	d2rq:property owl:sameAs;
+	d2rq:uriColumn "ctresults_reference2pubmed.bio2rdf";
+	d2rq:condition "ctresults_reference.tid = ctresults_reference2pubmed.tid"
+	.
+
+# Table ctsecondary_outcomes
+map:secondary_outcomes a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "secondary_outcomes/@@ctsecondary_outcomes.tid@@";
+	d2rq:class linkedct:secondary_outcomes;
+	.
+map:secondary_outcomes__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:secondary_outcomes;
+	d2rq:property rdfs:label;
+	d2rq:pattern "Secondary Outcomes #@@ctsecondary_outcomes.tid@@";
+	.
+map:secondary_outcomes_tid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:secondary_outcomes;
+	d2rq:property linkedct:secondary_outcomes_id;
+	d2rq:column "ctsecondary_outcomes.tid";
+	d2rq:datatype xsd:int;
+	.
+map:secondary_outcomes_measure a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:secondary_outcomes;
+	d2rq:property linkedct:measure;
+	d2rq:column "ctsecondary_outcomes.measure";
+	d2rq:condition "ctsecondary_outcomes.measure <> ''"
+	.
+map:secondary_outcomes_time_frame a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:secondary_outcomes;
+	d2rq:property linkedct:time_frame;
+	d2rq:column "ctsecondary_outcomes.time_frame";
+	d2rq:condition "ctsecondary_outcomes.time_frame <> ''"
+	.
+map:secondary_outcomes_safety_issue a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:secondary_outcomes;
+	d2rq:property linkedct:safety_issue;
+	d2rq:column "ctsecondary_outcomes.safety_issue";
+	d2rq:condition "ctsecondary_outcomes.safety_issue <> ''"
+	.
+

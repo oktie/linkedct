@@ -1,0 +1,1628 @@
+@prefix map: <file:/C:/d2r-server-0.4/map2.n3#> .
+@prefix db: <> .
+@prefix vocab: <vocab/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix d2rq: <http://www.wiwiss.fu-berlin.de/suhl/bizer/D2RQ/0.1#> .
+
+map:database a d2rq:Database;
+	d2rq:jdbcDriver "com.mysql.jdbc.Driver";
+	d2rq:jdbcDSN "jdbc:mysql://localhost/ctdata";
+	d2rq:username "root";
+	.
+
+# Table ctarm_group
+map:trial_arm_group a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "ctarm_group/@@ctarm_group.TID@@";
+	d2rq:class vocab:trial_arm_group;
+	.
+map:trial_arm_group__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial_arm_group;
+	d2rq:property rdfs:label;
+	d2rq:pattern "ctarm_group #@@ctarm_group.TID@@";
+	.
+map:trial_arm_group_TID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial_arm_group;
+	d2rq:property vocab:ctarm_group_TID;
+	d2rq:column "ctarm_group.TID";
+	d2rq:datatype xsd:int;
+	.
+map:trial_arm_group_arm_group_label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial_arm_group;
+	d2rq:property vocab:ctarm_group_arm_group_label;
+	d2rq:column "ctarm_group.arm_group_label";
+	.
+map:trial_arm_group_arm_group_type a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial_arm_group;
+	d2rq:property vocab:ctarm_group_arm_group_type;
+	d2rq:column "ctarm_group.arm_group_type";
+	.
+map:trial_arm_group_description a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial_arm_group;
+	d2rq:property vocab:ctarm_group_description;
+	d2rq:column "ctarm_group.description";
+	.
+
+# Table ctcollabagency
+map:ctcollabagency a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "ctcollabagency/@@ctcollabagency.TID@@";
+	d2rq:class vocab:ctcollabagency;
+	.
+map:ctcollabagency__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctcollabagency;
+	d2rq:property rdfs:label;
+	d2rq:pattern "ctcollabagency #@@ctcollabagency.TID@@";
+	.
+map:ctcollabagency_TID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctcollabagency;
+	d2rq:property vocab:ctcollabagency_TID;
+	d2rq:column "ctcollabagency.TID";
+	d2rq:datatype xsd:int;
+	.
+map:ctcollabagency_collaborator_agency a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctcollabagency;
+	d2rq:property vocab:ctcollabagency_collaborator_agency;
+	d2rq:column "ctcollabagency.collaborator_agency";
+	.
+
+# Table ctcondition
+map:ctcondition a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "ctcondition/@@ctcondition.TID@@";
+	d2rq:class vocab:ctcondition;
+	.
+map:ctcondition__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctcondition;
+	d2rq:property rdfs:label;
+	d2rq:pattern "ctcondition #@@ctcondition.TID@@";
+	.
+map:ctcondition_TID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctcondition;
+	d2rq:property vocab:ctcondition_TID;
+	d2rq:column "ctcondition.TID";
+	d2rq:datatype xsd:int;
+	.
+map:ctcondition_condition a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctcondition;
+	d2rq:property vocab:ctcondition_condition;
+	d2rq:column "ctcondition.condition";
+	.
+
+# Table ctintervention
+map:ctintervention a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "ctintervention/@@ctintervention.TID@@";
+	d2rq:class vocab:ctintervention;
+	.
+map:ctintervention__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctintervention;
+	d2rq:property rdfs:label;
+	d2rq:pattern "ctintervention #@@ctintervention.TID@@";
+	.
+map:ctintervention_TID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctintervention;
+	d2rq:property vocab:ctintervention_TID;
+	d2rq:column "ctintervention.TID";
+	d2rq:datatype xsd:int;
+	.
+map:ctintervention_intervention_type a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctintervention;
+	d2rq:property vocab:ctintervention_intervention_type;
+	d2rq:column "ctintervention.intervention_type";
+	.
+map:ctintervention_intervention_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctintervention;
+	d2rq:property vocab:ctintervention_intervention_name;
+	d2rq:column "ctintervention.intervention_name";
+	.
+map:ctintervention_description a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctintervention;
+	d2rq:property vocab:ctintervention_description;
+	d2rq:column "ctintervention.description";
+	.
+
+# Table ctintervention2arm
+map:ctintervention2arm a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	# Sorry, I don't know which columns to put into the uriPattern
+	# because the table doesn't have a primary key
+	d2rq:uriPattern "ctintervention2arm";
+	d2rq:class vocab:ctintervention2arm;
+	.
+map:ctintervention2arm__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctintervention2arm;
+	d2rq:property rdfs:label;
+	d2rq:pattern "ctintervention2arm #";
+	.
+map:ctintervention2arm_intervention_type a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctintervention2arm;
+	d2rq:property vocab:ctintervention2arm_intervention_type;
+	d2rq:column "ctintervention2arm.intervention_type";
+	.
+map:ctintervention2arm_intervention_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctintervention2arm;
+	d2rq:property vocab:ctintervention2arm_intervention_name;
+	d2rq:column "ctintervention2arm.intervention_name";
+	.
+map:ctintervention2arm_description a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctintervention2arm;
+	d2rq:property vocab:ctintervention2arm_description;
+	d2rq:column "ctintervention2arm.description";
+	.
+map:ctintervention2arm_arm_group_label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctintervention2arm;
+	d2rq:property vocab:ctintervention2arm_arm_group_label;
+	d2rq:column "ctintervention2arm.arm_group_label";
+	.
+
+# Table ctintervention2other_name
+map:ctintervention2other_name a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	# Sorry, I don't know which columns to put into the uriPattern
+	# because the table doesn't have a primary key
+	d2rq:uriPattern "ctintervention2other_name";
+	d2rq:class vocab:ctintervention2other_name;
+	.
+map:ctintervention2other_name__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctintervention2other_name;
+	d2rq:property rdfs:label;
+	d2rq:pattern "ctintervention2other_name #";
+	.
+map:ctintervention2other_name_intervention_type a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctintervention2other_name;
+	d2rq:property vocab:ctintervention2other_name_intervention_type;
+	d2rq:column "ctintervention2other_name.intervention_type";
+	.
+map:ctintervention2other_name_intervention_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctintervention2other_name;
+	d2rq:property vocab:ctintervention2other_name_intervention_name;
+	d2rq:column "ctintervention2other_name.intervention_name";
+	.
+map:ctintervention2other_name_description a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctintervention2other_name;
+	d2rq:property vocab:ctintervention2other_name_description;
+	d2rq:column "ctintervention2other_name.description";
+	.
+map:ctintervention2other_name_other_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctintervention2other_name;
+	d2rq:property vocab:ctintervention2other_name_other_name;
+	d2rq:column "ctintervention2other_name.other_name";
+	.
+
+# Table ctlink
+map:ctlink a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "ctlink/@@ctlink.TID@@";
+	d2rq:class vocab:ctlink;
+	.
+map:ctlink__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctlink;
+	d2rq:property rdfs:label;
+	d2rq:pattern "ctlink #@@ctlink.TID@@";
+	.
+map:ctlink_TID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctlink;
+	d2rq:property vocab:ctlink_TID;
+	d2rq:column "ctlink.TID";
+	d2rq:datatype xsd:int;
+	.
+map:ctlink_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctlink;
+	d2rq:property vocab:ctlink_url;
+	d2rq:column "ctlink.url";
+	.
+map:ctlink_description a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctlink;
+	d2rq:property vocab:ctlink_description;
+	d2rq:column "ctlink.description";
+	.
+
+# Table ctlocation
+map:ctlocation a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "ctlocation/@@ctlocation.TID@@";
+	d2rq:class vocab:ctlocation;
+	.
+map:ctlocation__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctlocation;
+	d2rq:property rdfs:label;
+	d2rq:pattern "ctlocation #@@ctlocation.TID@@";
+	.
+map:ctlocation_TID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctlocation;
+	d2rq:property vocab:ctlocation_TID;
+	d2rq:column "ctlocation.TID";
+	d2rq:datatype xsd:int;
+	.
+map:ctlocation_facility_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctlocation;
+	d2rq:property vocab:ctlocation_facility_name;
+	d2rq:column "ctlocation.facility_name";
+	.
+map:ctlocation_facility_address_city a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctlocation;
+	d2rq:property vocab:ctlocation_facility_address_city;
+	d2rq:column "ctlocation.facility_address_city";
+	.
+map:ctlocation_facility_address_state a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctlocation;
+	d2rq:property vocab:ctlocation_facility_address_state;
+	d2rq:column "ctlocation.facility_address_state";
+	.
+map:ctlocation_facility_address_zip a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctlocation;
+	d2rq:property vocab:ctlocation_facility_address_zip;
+	d2rq:column "ctlocation.facility_address_zip";
+	.
+map:ctlocation_facility_address_country a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctlocation;
+	d2rq:property vocab:ctlocation_facility_address_country;
+	d2rq:column "ctlocation.facility_address_country";
+	.
+
+# Table ctlocation2investigator
+map:ctlocation2investigator a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	# Sorry, I don't know which columns to put into the uriPattern
+	# because the table doesn't have a primary key
+	d2rq:uriPattern "ctlocation2investigator";
+	d2rq:class vocab:ctlocation2investigator;
+	.
+map:ctlocation2investigator__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctlocation2investigator;
+	d2rq:property rdfs:label;
+	d2rq:pattern "ctlocation2investigator #";
+	.
+map:ctlocation2investigator_facility_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctlocation2investigator;
+	d2rq:property vocab:ctlocation2investigator_facility_name;
+	d2rq:column "ctlocation2investigator.facility_name";
+	.
+map:ctlocation2investigator_facility_address_city a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctlocation2investigator;
+	d2rq:property vocab:ctlocation2investigator_facility_address_city;
+	d2rq:column "ctlocation2investigator.facility_address_city";
+	.
+map:ctlocation2investigator_facility_address_state a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctlocation2investigator;
+	d2rq:property vocab:ctlocation2investigator_facility_address_state;
+	d2rq:column "ctlocation2investigator.facility_address_state";
+	.
+map:ctlocation2investigator_facility_address_zip a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctlocation2investigator;
+	d2rq:property vocab:ctlocation2investigator_facility_address_zip;
+	d2rq:column "ctlocation2investigator.facility_address_zip";
+	.
+map:ctlocation2investigator_facility_address_country a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctlocation2investigator;
+	d2rq:property vocab:ctlocation2investigator_facility_address_country;
+	d2rq:column "ctlocation2investigator.facility_address_country";
+	.
+map:ctlocation2investigator_first_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctlocation2investigator;
+	d2rq:property vocab:ctlocation2investigator_first_name;
+	d2rq:column "ctlocation2investigator.first_name";
+	.
+map:ctlocation2investigator_middle_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctlocation2investigator;
+	d2rq:property vocab:ctlocation2investigator_middle_name;
+	d2rq:column "ctlocation2investigator.middle_name";
+	.
+map:ctlocation2investigator_last_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctlocation2investigator;
+	d2rq:property vocab:ctlocation2investigator_last_name;
+	d2rq:column "ctlocation2investigator.last_name";
+	.
+map:ctlocation2investigator_degrees a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctlocation2investigator;
+	d2rq:property vocab:ctlocation2investigator_degrees;
+	d2rq:column "ctlocation2investigator.degrees";
+	.
+map:ctlocation2investigator_role a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctlocation2investigator;
+	d2rq:property vocab:ctlocation2investigator_role;
+	d2rq:column "ctlocation2investigator.role";
+	.
+
+# Table ctoverall_official
+map:ctoverall_official a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "ctoverall_official/@@ctoverall_official.TID@@";
+	d2rq:class vocab:ctoverall_official;
+	.
+map:ctoverall_official__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctoverall_official;
+	d2rq:property rdfs:label;
+	d2rq:pattern "ctoverall_official #@@ctoverall_official.TID@@";
+	.
+map:ctoverall_official_TID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctoverall_official;
+	d2rq:property vocab:ctoverall_official_TID;
+	d2rq:column "ctoverall_official.TID";
+	d2rq:datatype xsd:int;
+	.
+map:ctoverall_official_first_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctoverall_official;
+	d2rq:property vocab:ctoverall_official_first_name;
+	d2rq:column "ctoverall_official.first_name";
+	.
+map:ctoverall_official_middle_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctoverall_official;
+	d2rq:property vocab:ctoverall_official_middle_name;
+	d2rq:column "ctoverall_official.middle_name";
+	.
+map:ctoverall_official_last_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctoverall_official;
+	d2rq:property vocab:ctoverall_official_last_name;
+	d2rq:column "ctoverall_official.last_name";
+	.
+map:ctoverall_official_affiliation a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctoverall_official;
+	d2rq:property vocab:ctoverall_official_affiliation;
+	d2rq:column "ctoverall_official.affiliation";
+	.
+
+# Table ctoversight
+map:ctoversight a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "ctoversight/@@ctoversight.TID@@";
+	d2rq:class vocab:ctoversight;
+	.
+map:ctoversight__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctoversight;
+	d2rq:property rdfs:label;
+	d2rq:pattern "ctoversight #@@ctoversight.TID@@";
+	.
+map:ctoversight_TID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctoversight;
+	d2rq:property vocab:ctoversight_TID;
+	d2rq:column "ctoversight.TID";
+	d2rq:datatype xsd:int;
+	.
+map:ctoversight_oversight_info_authority a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctoversight;
+	d2rq:property vocab:ctoversight_oversight_info_authority;
+	d2rq:column "ctoversight.oversight_info_authority";
+	.
+
+# Table ctprimary_outcomes
+map:ctprimary_outcomes a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "ctprimary_outcomes/@@ctprimary_outcomes.TID@@";
+	d2rq:class vocab:ctprimary_outcomes;
+	.
+map:ctprimary_outcomes__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctprimary_outcomes;
+	d2rq:property rdfs:label;
+	d2rq:pattern "ctprimary_outcomes #@@ctprimary_outcomes.TID@@";
+	.
+map:ctprimary_outcomes_TID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctprimary_outcomes;
+	d2rq:property vocab:ctprimary_outcomes_TID;
+	d2rq:column "ctprimary_outcomes.TID";
+	d2rq:datatype xsd:int;
+	.
+map:ctprimary_outcomes_measure a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctprimary_outcomes;
+	d2rq:property vocab:ctprimary_outcomes_measure;
+	d2rq:column "ctprimary_outcomes.measure";
+	.
+map:ctprimary_outcomes_time_frame a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctprimary_outcomes;
+	d2rq:property vocab:ctprimary_outcomes_time_frame;
+	d2rq:column "ctprimary_outcomes.time_frame";
+	.
+map:ctprimary_outcomes_safety_issue a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctprimary_outcomes;
+	d2rq:property vocab:ctprimary_outcomes_safety_issue;
+	d2rq:column "ctprimary_outcomes.safety_issue";
+	.
+
+# Table ctreference
+map:ctreference a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "ctreference/@@ctreference.TID@@";
+	d2rq:class vocab:ctreference;
+	.
+map:ctreference__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctreference;
+	d2rq:property rdfs:label;
+	d2rq:pattern "ctreference #@@ctreference.TID@@";
+	.
+map:ctreference_TID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctreference;
+	d2rq:property vocab:ctreference_TID;
+	d2rq:column "ctreference.TID";
+	d2rq:datatype xsd:int;
+	.
+map:ctreference_citation a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctreference;
+	d2rq:property vocab:ctreference_citation;
+	d2rq:column "ctreference.citation";
+	.
+map:ctreference_PMID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctreference;
+	d2rq:property vocab:ctreference_PMID;
+	d2rq:column "ctreference.PMID";
+	.
+
+# Table ctresults_reference
+map:ctresults_reference a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "ctresults_reference/@@ctresults_reference.TID@@";
+	d2rq:class vocab:ctresults_reference;
+	.
+map:ctresults_reference__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctresults_reference;
+	d2rq:property rdfs:label;
+	d2rq:pattern "ctresults_reference #@@ctresults_reference.TID@@";
+	.
+map:ctresults_reference_TID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctresults_reference;
+	d2rq:property vocab:ctresults_reference_TID;
+	d2rq:column "ctresults_reference.TID";
+	d2rq:datatype xsd:int;
+	.
+map:ctresults_reference_citation a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctresults_reference;
+	d2rq:property vocab:ctresults_reference_citation;
+	d2rq:column "ctresults_reference.citation";
+	.
+map:ctresults_reference_PMID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctresults_reference;
+	d2rq:property vocab:ctresults_reference_PMID;
+	d2rq:column "ctresults_reference.PMID";
+	.
+
+# Table ctsecondary_outcomes
+map:ctsecondary_outcomes a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "ctsecondary_outcomes/@@ctsecondary_outcomes.TID@@";
+	d2rq:class vocab:ctsecondary_outcomes;
+	.
+map:ctsecondary_outcomes__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctsecondary_outcomes;
+	d2rq:property rdfs:label;
+	d2rq:pattern "ctsecondary_outcomes #@@ctsecondary_outcomes.TID@@";
+	.
+map:ctsecondary_outcomes_TID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctsecondary_outcomes;
+	d2rq:property vocab:ctsecondary_outcomes_TID;
+	d2rq:column "ctsecondary_outcomes.TID";
+	d2rq:datatype xsd:int;
+	.
+map:ctsecondary_outcomes_measure a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctsecondary_outcomes;
+	d2rq:property vocab:ctsecondary_outcomes_measure;
+	d2rq:column "ctsecondary_outcomes.measure";
+	.
+map:ctsecondary_outcomes_time_frame a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctsecondary_outcomes;
+	d2rq:property vocab:ctsecondary_outcomes_time_frame;
+	d2rq:column "ctsecondary_outcomes.time_frame";
+	.
+map:ctsecondary_outcomes_safety_issue a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:ctsecondary_outcomes;
+	d2rq:property vocab:ctsecondary_outcomes_safety_issue;
+	d2rq:column "ctsecondary_outcomes.safety_issue";
+	.
+
+# Table cttrials
+map:cttrials a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "cttrials/@@cttrials.id|urlify@@";
+	d2rq:class vocab:cttrials;
+	.
+map:cttrials__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property rdfs:label;
+	d2rq:pattern "cttrials #@@cttrials.id@@";
+	.
+map:cttrials_id a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_id;
+	d2rq:column "cttrials.id";
+	.
+map:cttrials_download_date a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_download_date;
+	d2rq:column "cttrials.download_date";
+	.
+map:cttrials_link_text a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_link_text;
+	d2rq:column "cttrials.link_text";
+	.
+map:cttrials_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_url;
+	d2rq:column "cttrials.url";
+	.
+map:cttrials_org_study_id a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_org_study_id;
+	d2rq:column "cttrials.org_study_id";
+	.
+map:cttrials_nct_id a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_nct_id;
+	d2rq:column "cttrials.nct_id";
+	.
+map:cttrials_brief_title a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_brief_title;
+	d2rq:column "cttrials.brief_title";
+	.
+map:cttrials_acronym a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_acronym;
+	d2rq:column "cttrials.acronym";
+	.
+map:cttrials_official_title a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_official_title;
+	d2rq:column "cttrials.official_title";
+	.
+map:cttrials_lead_sponsor_agency a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_lead_sponsor_agency;
+	d2rq:column "cttrials.lead_sponsor_agency";
+	.
+map:cttrials_source a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_source;
+	d2rq:column "cttrials.source";
+	.
+map:cttrials_has_dmc a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_has_dmc;
+	d2rq:column "cttrials.has_dmc";
+	.
+map:cttrials_overall_status a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_overall_status;
+	d2rq:column "cttrials.overall_status";
+	.
+map:cttrials_why_stopped a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_why_stopped;
+	d2rq:column "cttrials.why_stopped";
+	.
+map:cttrials_phase a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_phase;
+	d2rq:column "cttrials.phase";
+	.
+map:cttrials_study_type a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_study_type;
+	d2rq:column "cttrials.study_type";
+	.
+map:cttrials_study_design a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_study_design;
+	d2rq:column "cttrials.study_design";
+	.
+map:cttrials_number_of_arms a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_number_of_arms;
+	d2rq:column "cttrials.number_of_arms";
+	d2rq:datatype xsd:int;
+	.
+map:cttrials_number_of_groups a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_number_of_groups;
+	d2rq:column "cttrials.number_of_groups";
+	d2rq:datatype xsd:int;
+	.
+map:cttrials_enrollment a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_enrollment;
+	d2rq:column "cttrials.enrollment";
+	d2rq:datatype xsd:int;
+	.
+map:cttrials_biospec_retention a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_biospec_retention;
+	d2rq:column "cttrials.biospec_retention";
+	.
+map:cttrials_eligibility_study_pop a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_eligibility_study_pop;
+	d2rq:column "cttrials.eligibility_study_pop";
+	.
+map:cttrials_eligibility_sampling_method a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_eligibility_sampling_method;
+	d2rq:column "cttrials.eligibility_sampling_method";
+	.
+map:cttrials_eligibility_gender a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_eligibility_gender;
+	d2rq:column "cttrials.eligibility_gender";
+	.
+map:cttrials_eligibility_minimum_age a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_eligibility_minimum_age;
+	d2rq:column "cttrials.eligibility_minimum_age";
+	.
+map:cttrials_eligibility_maximum_age a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_eligibility_maximum_age;
+	d2rq:column "cttrials.eligibility_maximum_age";
+	.
+map:cttrials_eligibility_healthy_volunteers a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_eligibility_healthy_volunteers;
+	d2rq:column "cttrials.eligibility_healthy_volunteers";
+	.
+map:cttrials_overall_contact_first_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_overall_contact_first_name;
+	d2rq:column "cttrials.overall_contact_first_name";
+	.
+map:cttrials_overall_contact_middle_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_overall_contact_middle_name;
+	d2rq:column "cttrials.overall_contact_middle_name";
+	.
+map:cttrials_overall_contact_last_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_overall_contact_last_name;
+	d2rq:column "cttrials.overall_contact_last_name";
+	.
+map:cttrials_overall_contact_degrees a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_overall_contact_degrees;
+	d2rq:column "cttrials.overall_contact_degrees";
+	.
+map:cttrials_overall_contact_phone a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_overall_contact_phone;
+	d2rq:column "cttrials.overall_contact_phone";
+	.
+map:cttrials_overall_contact_phone_ext a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_overall_contact_phone_ext;
+	d2rq:column "cttrials.overall_contact_phone_ext";
+	.
+map:cttrials_overall_contact_email a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_overall_contact_email;
+	d2rq:column "cttrials.overall_contact_email";
+	.
+map:cttrials_start_date a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_start_date;
+	d2rq:column "cttrials.start_date";
+	.
+map:cttrials_end_date a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_end_date;
+	d2rq:column "cttrials.end_date";
+	.
+map:cttrials_primary_completion_date a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_primary_completion_date;
+	d2rq:column "cttrials.primary_completion_date";
+	.
+map:cttrials_verification_date a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_verification_date;
+	d2rq:column "cttrials.verification_date";
+	.
+map:cttrials_lastchanged_date a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_lastchanged_date;
+	d2rq:column "cttrials.lastchanged_date";
+	.
+map:cttrials_firstreceived_date a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials;
+	d2rq:property vocab:cttrials_firstreceived_date;
+	d2rq:column "cttrials.firstreceived_date";
+	.
+
+# Table cttrials2arm_group
+map:cttrials2arm_group a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	# Sorry, I don't know which columns to put into the uriPattern
+	# because the table doesn't have a primary key
+	d2rq:uriPattern "cttrials2arm_group";
+	d2rq:class vocab:cttrials2arm_group;
+	.
+map:cttrials2arm_group__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2arm_group;
+	d2rq:property rdfs:label;
+	d2rq:pattern "cttrials2arm_group #";
+	.
+map:cttrials2arm_group_ID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2arm_group;
+	d2rq:property vocab:cttrials2arm_group_ID;
+	d2rq:column "cttrials2arm_group.ID";
+	.
+map:cttrials2arm_group_arm_group_label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2arm_group;
+	d2rq:property vocab:cttrials2arm_group_arm_group_label;
+	d2rq:column "cttrials2arm_group.arm_group_label";
+	.
+map:cttrials2arm_group_arm_group_type a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2arm_group;
+	d2rq:property vocab:cttrials2arm_group_arm_group_type;
+	d2rq:column "cttrials2arm_group.arm_group_type";
+	.
+map:cttrials2arm_group_description a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2arm_group;
+	d2rq:property vocab:cttrials2arm_group_description;
+	d2rq:column "cttrials2arm_group.description";
+	.
+
+# Table cttrials2arm_groupid
+map:cttrials2arm_groupid a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	# Sorry, I don't know which columns to put into the uriPattern
+	# because the table doesn't have a primary key
+	d2rq:uriPattern "cttrials2arm_groupid";
+	d2rq:class vocab:cttrials2arm_groupid;
+	.
+map:cttrials2arm_groupid__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2arm_groupid;
+	d2rq:property rdfs:label;
+	d2rq:pattern "cttrials2arm_groupid #";
+	.
+map:cttrials2arm_groupid_ID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2arm_groupid;
+	d2rq:property vocab:cttrials2arm_groupid_ID;
+	d2rq:column "cttrials2arm_groupid.ID";
+	.
+map:cttrials2arm_groupid_TID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2arm_groupid;
+	d2rq:property vocab:cttrials2arm_groupid_TID;
+	d2rq:column "cttrials2arm_groupid.TID";
+	d2rq:datatype xsd:int;
+	.
+
+# Table cttrials2collabagency
+map:cttrials2collabagency a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	# Sorry, I don't know which columns to put into the uriPattern
+	# because the table doesn't have a primary key
+	d2rq:uriPattern "cttrials2collabagency";
+	d2rq:class vocab:cttrials2collabagency;
+	.
+map:cttrials2collabagency__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2collabagency;
+	d2rq:property rdfs:label;
+	d2rq:pattern "cttrials2collabagency #";
+	.
+map:cttrials2collabagency_ID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2collabagency;
+	d2rq:property vocab:cttrials2collabagency_ID;
+	d2rq:column "cttrials2collabagency.ID";
+	.
+map:cttrials2collabagency_collaborator_agency a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2collabagency;
+	d2rq:property vocab:cttrials2collabagency_collaborator_agency;
+	d2rq:column "cttrials2collabagency.collaborator_agency";
+	.
+
+# Table cttrials2collabagencyid
+map:cttrials2collabagencyid a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	# Sorry, I don't know which columns to put into the uriPattern
+	# because the table doesn't have a primary key
+	d2rq:uriPattern "cttrials2collabagencyid";
+	d2rq:class vocab:cttrials2collabagencyid;
+	.
+map:cttrials2collabagencyid__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2collabagencyid;
+	d2rq:property rdfs:label;
+	d2rq:pattern "cttrials2collabagencyid #";
+	.
+map:cttrials2collabagencyid_ID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2collabagencyid;
+	d2rq:property vocab:cttrials2collabagencyid_ID;
+	d2rq:column "cttrials2collabagencyid.ID";
+	.
+map:cttrials2collabagencyid_TID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2collabagencyid;
+	d2rq:property vocab:cttrials2collabagencyid_TID;
+	d2rq:column "cttrials2collabagencyid.TID";
+	d2rq:datatype xsd:int;
+	.
+
+# Table cttrials2condition
+map:cttrials2condition a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	# Sorry, I don't know which columns to put into the uriPattern
+	# because the table doesn't have a primary key
+	d2rq:uriPattern "cttrials2condition";
+	d2rq:class vocab:cttrials2condition;
+	.
+map:cttrials2condition__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2condition;
+	d2rq:property rdfs:label;
+	d2rq:pattern "cttrials2condition #";
+	.
+map:cttrials2condition_ID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2condition;
+	d2rq:property vocab:cttrials2condition_ID;
+	d2rq:column "cttrials2condition.ID";
+	.
+map:cttrials2condition_condition a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2condition;
+	d2rq:property vocab:cttrials2condition_condition;
+	d2rq:column "cttrials2condition.condition";
+	.
+
+# Table cttrials2conditionid
+map:cttrials2conditionid a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	# Sorry, I don't know which columns to put into the uriPattern
+	# because the table doesn't have a primary key
+	d2rq:uriPattern "cttrials2conditionid";
+	d2rq:class vocab:cttrials2conditionid;
+	.
+map:cttrials2conditionid__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2conditionid;
+	d2rq:property rdfs:label;
+	d2rq:pattern "cttrials2conditionid #";
+	.
+map:cttrials2conditionid_ID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2conditionid;
+	d2rq:property vocab:cttrials2conditionid_ID;
+	d2rq:column "cttrials2conditionid.ID";
+	.
+map:cttrials2conditionid_TID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2conditionid;
+	d2rq:property vocab:cttrials2conditionid_TID;
+	d2rq:column "cttrials2conditionid.TID";
+	d2rq:datatype xsd:int;
+	.
+
+# Table cttrials2intervention
+map:cttrials2intervention a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	# Sorry, I don't know which columns to put into the uriPattern
+	# because the table doesn't have a primary key
+	d2rq:uriPattern "cttrials2intervention";
+	d2rq:class vocab:cttrials2intervention;
+	.
+map:cttrials2intervention__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2intervention;
+	d2rq:property rdfs:label;
+	d2rq:pattern "cttrials2intervention #";
+	.
+map:cttrials2intervention_ID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2intervention;
+	d2rq:property vocab:cttrials2intervention_ID;
+	d2rq:column "cttrials2intervention.ID";
+	.
+map:cttrials2intervention_intervention_type a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2intervention;
+	d2rq:property vocab:cttrials2intervention_intervention_type;
+	d2rq:column "cttrials2intervention.intervention_type";
+	.
+map:cttrials2intervention_intervention_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2intervention;
+	d2rq:property vocab:cttrials2intervention_intervention_name;
+	d2rq:column "cttrials2intervention.intervention_name";
+	.
+map:cttrials2intervention_description a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2intervention;
+	d2rq:property vocab:cttrials2intervention_description;
+	d2rq:column "cttrials2intervention.description";
+	.
+
+# Table cttrials2interventionid
+map:cttrials2interventionid a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	# Sorry, I don't know which columns to put into the uriPattern
+	# because the table doesn't have a primary key
+	d2rq:uriPattern "cttrials2interventionid";
+	d2rq:class vocab:cttrials2interventionid;
+	.
+map:cttrials2interventionid__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2interventionid;
+	d2rq:property rdfs:label;
+	d2rq:pattern "cttrials2interventionid #";
+	.
+map:cttrials2interventionid_ID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2interventionid;
+	d2rq:property vocab:cttrials2interventionid_ID;
+	d2rq:column "cttrials2interventionid.ID";
+	.
+map:cttrials2interventionid_TID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2interventionid;
+	d2rq:property vocab:cttrials2interventionid_TID;
+	d2rq:column "cttrials2interventionid.TID";
+	d2rq:datatype xsd:int;
+	.
+
+# Table cttrials2link
+map:cttrials2link a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	# Sorry, I don't know which columns to put into the uriPattern
+	# because the table doesn't have a primary key
+	d2rq:uriPattern "cttrials2link";
+	d2rq:class vocab:cttrials2link;
+	.
+map:cttrials2link__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2link;
+	d2rq:property rdfs:label;
+	d2rq:pattern "cttrials2link #";
+	.
+map:cttrials2link_ID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2link;
+	d2rq:property vocab:cttrials2link_ID;
+	d2rq:column "cttrials2link.ID";
+	.
+map:cttrials2link_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2link;
+	d2rq:property vocab:cttrials2link_url;
+	d2rq:column "cttrials2link.url";
+	.
+map:cttrials2link_description a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2link;
+	d2rq:property vocab:cttrials2link_description;
+	d2rq:column "cttrials2link.description";
+	.
+
+# Table cttrials2linkid
+map:cttrials2linkid a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	# Sorry, I don't know which columns to put into the uriPattern
+	# because the table doesn't have a primary key
+	d2rq:uriPattern "cttrials2linkid";
+	d2rq:class vocab:cttrials2linkid;
+	.
+map:cttrials2linkid__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2linkid;
+	d2rq:property rdfs:label;
+	d2rq:pattern "cttrials2linkid #";
+	.
+map:cttrials2linkid_ID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2linkid;
+	d2rq:property vocab:cttrials2linkid_ID;
+	d2rq:column "cttrials2linkid.ID";
+	.
+map:cttrials2linkid_TID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2linkid;
+	d2rq:property vocab:cttrials2linkid_TID;
+	d2rq:column "cttrials2linkid.TID";
+	d2rq:datatype xsd:int;
+	.
+
+# Table cttrials2location
+map:cttrials2location a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	# Sorry, I don't know which columns to put into the uriPattern
+	# because the table doesn't have a primary key
+	d2rq:uriPattern "cttrials2location";
+	d2rq:class vocab:cttrials2location;
+	.
+map:cttrials2location__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2location;
+	d2rq:property rdfs:label;
+	d2rq:pattern "cttrials2location #";
+	.
+map:cttrials2location_ID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2location;
+	d2rq:property vocab:cttrials2location_ID;
+	d2rq:column "cttrials2location.ID";
+	.
+map:cttrials2location_facility_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2location;
+	d2rq:property vocab:cttrials2location_facility_name;
+	d2rq:column "cttrials2location.facility_name";
+	.
+map:cttrials2location_facility_address_city a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2location;
+	d2rq:property vocab:cttrials2location_facility_address_city;
+	d2rq:column "cttrials2location.facility_address_city";
+	.
+map:cttrials2location_facility_address_state a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2location;
+	d2rq:property vocab:cttrials2location_facility_address_state;
+	d2rq:column "cttrials2location.facility_address_state";
+	.
+map:cttrials2location_facility_address_zip a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2location;
+	d2rq:property vocab:cttrials2location_facility_address_zip;
+	d2rq:column "cttrials2location.facility_address_zip";
+	.
+map:cttrials2location_facility_address_country a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2location;
+	d2rq:property vocab:cttrials2location_facility_address_country;
+	d2rq:column "cttrials2location.facility_address_country";
+	.
+map:cttrials2location_status a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2location;
+	d2rq:property vocab:cttrials2location_status;
+	d2rq:column "cttrials2location.status";
+	.
+map:cttrials2location_contact_first_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2location;
+	d2rq:property vocab:cttrials2location_contact_first_name;
+	d2rq:column "cttrials2location.contact_first_name";
+	.
+map:cttrials2location_contact_middle_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2location;
+	d2rq:property vocab:cttrials2location_contact_middle_name;
+	d2rq:column "cttrials2location.contact_middle_name";
+	.
+map:cttrials2location_contact_last_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2location;
+	d2rq:property vocab:cttrials2location_contact_last_name;
+	d2rq:column "cttrials2location.contact_last_name";
+	.
+map:cttrials2location_contact_degrees a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2location;
+	d2rq:property vocab:cttrials2location_contact_degrees;
+	d2rq:column "cttrials2location.contact_degrees";
+	.
+map:cttrials2location_contact_phone a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2location;
+	d2rq:property vocab:cttrials2location_contact_phone;
+	d2rq:column "cttrials2location.contact_phone";
+	.
+map:cttrials2location_contact_phone_ext a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2location;
+	d2rq:property vocab:cttrials2location_contact_phone_ext;
+	d2rq:column "cttrials2location.contact_phone_ext";
+	.
+map:cttrials2location_contact_email a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2location;
+	d2rq:property vocab:cttrials2location_contact_email;
+	d2rq:column "cttrials2location.contact_email";
+	.
+map:cttrials2location_contact_backup_first_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2location;
+	d2rq:property vocab:cttrials2location_contact_backup_first_name;
+	d2rq:column "cttrials2location.contact_backup_first_name";
+	.
+map:cttrials2location_contact_backup_middle_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2location;
+	d2rq:property vocab:cttrials2location_contact_backup_middle_name;
+	d2rq:column "cttrials2location.contact_backup_middle_name";
+	.
+map:cttrials2location_contact_backup_last_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2location;
+	d2rq:property vocab:cttrials2location_contact_backup_last_name;
+	d2rq:column "cttrials2location.contact_backup_last_name";
+	.
+map:cttrials2location_contact_backup_degrees a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2location;
+	d2rq:property vocab:cttrials2location_contact_backup_degrees;
+	d2rq:column "cttrials2location.contact_backup_degrees";
+	.
+map:cttrials2location_contact_backup_phone a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2location;
+	d2rq:property vocab:cttrials2location_contact_backup_phone;
+	d2rq:column "cttrials2location.contact_backup_phone";
+	.
+map:cttrials2location_contact_backup_phone_ext a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2location;
+	d2rq:property vocab:cttrials2location_contact_backup_phone_ext;
+	d2rq:column "cttrials2location.contact_backup_phone_ext";
+	.
+map:cttrials2location_contact_backup_email a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2location;
+	d2rq:property vocab:cttrials2location_contact_backup_email;
+	d2rq:column "cttrials2location.contact_backup_email";
+	.
+
+# Table cttrials2locationid
+map:cttrials2locationid a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	# Sorry, I don't know which columns to put into the uriPattern
+	# because the table doesn't have a primary key
+	d2rq:uriPattern "cttrials2locationid";
+	d2rq:class vocab:cttrials2locationid;
+	.
+map:cttrials2locationid__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2locationid;
+	d2rq:property rdfs:label;
+	d2rq:pattern "cttrials2locationid #";
+	.
+map:cttrials2locationid_ID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2locationid;
+	d2rq:property vocab:cttrials2locationid_ID;
+	d2rq:column "cttrials2locationid.ID";
+	.
+map:cttrials2locationid_TID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2locationid;
+	d2rq:property vocab:cttrials2locationid_TID;
+	d2rq:column "cttrials2locationid.TID";
+	d2rq:datatype xsd:int;
+	.
+
+# Table cttrials2nctalias
+map:cttrials2nctalias a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	# Sorry, I don't know which columns to put into the uriPattern
+	# because the table doesn't have a primary key
+	d2rq:uriPattern "cttrials2nctalias";
+	d2rq:class vocab:cttrials2nctalias;
+	.
+map:cttrials2nctalias__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2nctalias;
+	d2rq:property rdfs:label;
+	d2rq:pattern "cttrials2nctalias #";
+	.
+map:cttrials2nctalias_ID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2nctalias;
+	d2rq:property vocab:cttrials2nctalias_ID;
+	d2rq:column "cttrials2nctalias.ID";
+	.
+map:cttrials2nctalias_nct_alias a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2nctalias;
+	d2rq:property vocab:cttrials2nctalias_nct_alias;
+	d2rq:column "cttrials2nctalias.nct_alias";
+	.
+
+# Table cttrials2overall_official
+map:cttrials2overall_official a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	# Sorry, I don't know which columns to put into the uriPattern
+	# because the table doesn't have a primary key
+	d2rq:uriPattern "cttrials2overall_official";
+	d2rq:class vocab:cttrials2overall_official;
+	.
+map:cttrials2overall_official__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2overall_official;
+	d2rq:property rdfs:label;
+	d2rq:pattern "cttrials2overall_official #";
+	.
+map:cttrials2overall_official_ID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2overall_official;
+	d2rq:property vocab:cttrials2overall_official_ID;
+	d2rq:column "cttrials2overall_official.ID";
+	.
+map:cttrials2overall_official_first_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2overall_official;
+	d2rq:property vocab:cttrials2overall_official_first_name;
+	d2rq:column "cttrials2overall_official.first_name";
+	.
+map:cttrials2overall_official_middle_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2overall_official;
+	d2rq:property vocab:cttrials2overall_official_middle_name;
+	d2rq:column "cttrials2overall_official.middle_name";
+	.
+map:cttrials2overall_official_last_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2overall_official;
+	d2rq:property vocab:cttrials2overall_official_last_name;
+	d2rq:column "cttrials2overall_official.last_name";
+	.
+map:cttrials2overall_official_degrees a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2overall_official;
+	d2rq:property vocab:cttrials2overall_official_degrees;
+	d2rq:column "cttrials2overall_official.degrees";
+	.
+map:cttrials2overall_official_role a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2overall_official;
+	d2rq:property vocab:cttrials2overall_official_role;
+	d2rq:column "cttrials2overall_official.role";
+	.
+map:cttrials2overall_official_affiliation a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2overall_official;
+	d2rq:property vocab:cttrials2overall_official_affiliation;
+	d2rq:column "cttrials2overall_official.affiliation";
+	.
+
+# Table cttrials2overall_officialid
+map:cttrials2overall_officialid a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	# Sorry, I don't know which columns to put into the uriPattern
+	# because the table doesn't have a primary key
+	d2rq:uriPattern "cttrials2overall_officialid";
+	d2rq:class vocab:cttrials2overall_officialid;
+	.
+map:cttrials2overall_officialid__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2overall_officialid;
+	d2rq:property rdfs:label;
+	d2rq:pattern "cttrials2overall_officialid #";
+	.
+map:cttrials2overall_officialid_ID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2overall_officialid;
+	d2rq:property vocab:cttrials2overall_officialid_ID;
+	d2rq:column "cttrials2overall_officialid.ID";
+	.
+map:cttrials2overall_officialid_TID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2overall_officialid;
+	d2rq:property vocab:cttrials2overall_officialid_TID;
+	d2rq:column "cttrials2overall_officialid.TID";
+	d2rq:datatype xsd:int;
+	.
+
+# Table cttrials2oversight
+map:cttrials2oversight a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	# Sorry, I don't know which columns to put into the uriPattern
+	# because the table doesn't have a primary key
+	d2rq:uriPattern "cttrials2oversight";
+	d2rq:class vocab:cttrials2oversight;
+	.
+map:cttrials2oversight__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2oversight;
+	d2rq:property rdfs:label;
+	d2rq:pattern "cttrials2oversight #";
+	.
+map:cttrials2oversight_ID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2oversight;
+	d2rq:property vocab:cttrials2oversight_ID;
+	d2rq:column "cttrials2oversight.ID";
+	.
+map:cttrials2oversight_oversight_info_authority a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2oversight;
+	d2rq:property vocab:cttrials2oversight_oversight_info_authority;
+	d2rq:column "cttrials2oversight.oversight_info_authority";
+	.
+
+# Table cttrials2oversightid
+map:cttrials2oversightid a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	# Sorry, I don't know which columns to put into the uriPattern
+	# because the table doesn't have a primary key
+	d2rq:uriPattern "cttrials2oversightid";
+	d2rq:class vocab:cttrials2oversightid;
+	.
+map:cttrials2oversightid__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2oversightid;
+	d2rq:property rdfs:label;
+	d2rq:pattern "cttrials2oversightid #";
+	.
+map:cttrials2oversightid_ID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2oversightid;
+	d2rq:property vocab:cttrials2oversightid_ID;
+	d2rq:column "cttrials2oversightid.ID";
+	.
+map:cttrials2oversightid_TID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2oversightid;
+	d2rq:property vocab:cttrials2oversightid_TID;
+	d2rq:column "cttrials2oversightid.TID";
+	d2rq:datatype xsd:int;
+	.
+
+# Table cttrials2primary_outcomes
+map:cttrials2primary_outcomes a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	# Sorry, I don't know which columns to put into the uriPattern
+	# because the table doesn't have a primary key
+	d2rq:uriPattern "cttrials2primary_outcomes";
+	d2rq:class vocab:cttrials2primary_outcomes;
+	.
+map:cttrials2primary_outcomes__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2primary_outcomes;
+	d2rq:property rdfs:label;
+	d2rq:pattern "cttrials2primary_outcomes #";
+	.
+map:cttrials2primary_outcomes_ID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2primary_outcomes;
+	d2rq:property vocab:cttrials2primary_outcomes_ID;
+	d2rq:column "cttrials2primary_outcomes.ID";
+	.
+map:cttrials2primary_outcomes_measure a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2primary_outcomes;
+	d2rq:property vocab:cttrials2primary_outcomes_measure;
+	d2rq:column "cttrials2primary_outcomes.measure";
+	.
+map:cttrials2primary_outcomes_time_frame a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2primary_outcomes;
+	d2rq:property vocab:cttrials2primary_outcomes_time_frame;
+	d2rq:column "cttrials2primary_outcomes.time_frame";
+	.
+map:cttrials2primary_outcomes_safety_issue a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2primary_outcomes;
+	d2rq:property vocab:cttrials2primary_outcomes_safety_issue;
+	d2rq:column "cttrials2primary_outcomes.safety_issue";
+	.
+
+# Table cttrials2primary_outcomesid
+map:cttrials2primary_outcomesid a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	# Sorry, I don't know which columns to put into the uriPattern
+	# because the table doesn't have a primary key
+	d2rq:uriPattern "cttrials2primary_outcomesid";
+	d2rq:class vocab:cttrials2primary_outcomesid;
+	.
+map:cttrials2primary_outcomesid__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2primary_outcomesid;
+	d2rq:property rdfs:label;
+	d2rq:pattern "cttrials2primary_outcomesid #";
+	.
+map:cttrials2primary_outcomesid_ID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2primary_outcomesid;
+	d2rq:property vocab:cttrials2primary_outcomesid_ID;
+	d2rq:column "cttrials2primary_outcomesid.ID";
+	.
+map:cttrials2primary_outcomesid_TID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2primary_outcomesid;
+	d2rq:property vocab:cttrials2primary_outcomesid_TID;
+	d2rq:column "cttrials2primary_outcomesid.TID";
+	d2rq:datatype xsd:int;
+	.
+
+# Table cttrials2reference
+map:cttrials2reference a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	# Sorry, I don't know which columns to put into the uriPattern
+	# because the table doesn't have a primary key
+	d2rq:uriPattern "cttrials2reference";
+	d2rq:class vocab:cttrials2reference;
+	.
+map:cttrials2reference__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2reference;
+	d2rq:property rdfs:label;
+	d2rq:pattern "cttrials2reference #";
+	.
+map:cttrials2reference_ID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2reference;
+	d2rq:property vocab:cttrials2reference_ID;
+	d2rq:column "cttrials2reference.ID";
+	.
+map:cttrials2reference_citation a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2reference;
+	d2rq:property vocab:cttrials2reference_citation;
+	d2rq:column "cttrials2reference.citation";
+	.
+map:cttrials2reference_PMID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2reference;
+	d2rq:property vocab:cttrials2reference_PMID;
+	d2rq:column "cttrials2reference.PMID";
+	.
+
+# Table cttrials2referenceid
+map:cttrials2referenceid a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	# Sorry, I don't know which columns to put into the uriPattern
+	# because the table doesn't have a primary key
+	d2rq:uriPattern "cttrials2referenceid";
+	d2rq:class vocab:cttrials2referenceid;
+	.
+map:cttrials2referenceid__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2referenceid;
+	d2rq:property rdfs:label;
+	d2rq:pattern "cttrials2referenceid #";
+	.
+map:cttrials2referenceid_ID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2referenceid;
+	d2rq:property vocab:cttrials2referenceid_ID;
+	d2rq:column "cttrials2referenceid.ID";
+	.
+map:cttrials2referenceid_TID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2referenceid;
+	d2rq:property vocab:cttrials2referenceid_TID;
+	d2rq:column "cttrials2referenceid.TID";
+	d2rq:datatype xsd:int;
+	.
+
+# Table cttrials2results_reference
+map:cttrials2results_reference a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	# Sorry, I don't know which columns to put into the uriPattern
+	# because the table doesn't have a primary key
+	d2rq:uriPattern "cttrials2results_reference";
+	d2rq:class vocab:cttrials2results_reference;
+	.
+map:cttrials2results_reference__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2results_reference;
+	d2rq:property rdfs:label;
+	d2rq:pattern "cttrials2results_reference #";
+	.
+map:cttrials2results_reference_ID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2results_reference;
+	d2rq:property vocab:cttrials2results_reference_ID;
+	d2rq:column "cttrials2results_reference.ID";
+	.
+map:cttrials2results_reference_citation a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2results_reference;
+	d2rq:property vocab:cttrials2results_reference_citation;
+	d2rq:column "cttrials2results_reference.citation";
+	.
+map:cttrials2results_reference_PMID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2results_reference;
+	d2rq:property vocab:cttrials2results_reference_PMID;
+	d2rq:column "cttrials2results_reference.PMID";
+	.
+
+# Table cttrials2results_referenceid
+map:cttrials2results_referenceid a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	# Sorry, I don't know which columns to put into the uriPattern
+	# because the table doesn't have a primary key
+	d2rq:uriPattern "cttrials2results_referenceid";
+	d2rq:class vocab:cttrials2results_referenceid;
+	.
+map:cttrials2results_referenceid__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2results_referenceid;
+	d2rq:property rdfs:label;
+	d2rq:pattern "cttrials2results_referenceid #";
+	.
+map:cttrials2results_referenceid_ID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2results_referenceid;
+	d2rq:property vocab:cttrials2results_referenceid_ID;
+	d2rq:column "cttrials2results_referenceid.ID";
+	.
+map:cttrials2results_referenceid_TID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2results_referenceid;
+	d2rq:property vocab:cttrials2results_referenceid_TID;
+	d2rq:column "cttrials2results_referenceid.TID";
+	d2rq:datatype xsd:int;
+	.
+
+# Table cttrials2secid
+map:cttrials2secid a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	# Sorry, I don't know which columns to put into the uriPattern
+	# because the table doesn't have a primary key
+	d2rq:uriPattern "cttrials2secid";
+	d2rq:class vocab:cttrials2secid;
+	.
+map:cttrials2secid__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2secid;
+	d2rq:property rdfs:label;
+	d2rq:pattern "cttrials2secid #";
+	.
+map:cttrials2secid_ID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2secid;
+	d2rq:property vocab:cttrials2secid_ID;
+	d2rq:column "cttrials2secid.ID";
+	.
+map:cttrials2secid_secondary_id a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2secid;
+	d2rq:property vocab:cttrials2secid_secondary_id;
+	d2rq:column "cttrials2secid.secondary_id";
+	.
+
+# Table cttrials2secondary_outcomes
+map:cttrials2secondary_outcomes a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	# Sorry, I don't know which columns to put into the uriPattern
+	# because the table doesn't have a primary key
+	d2rq:uriPattern "cttrials2secondary_outcomes";
+	d2rq:class vocab:cttrials2secondary_outcomes;
+	.
+map:cttrials2secondary_outcomes__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2secondary_outcomes;
+	d2rq:property rdfs:label;
+	d2rq:pattern "cttrials2secondary_outcomes #";
+	.
+map:cttrials2secondary_outcomes_ID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2secondary_outcomes;
+	d2rq:property vocab:cttrials2secondary_outcomes_ID;
+	d2rq:column "cttrials2secondary_outcomes.ID";
+	.
+map:cttrials2secondary_outcomes_measure a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2secondary_outcomes;
+	d2rq:property vocab:cttrials2secondary_outcomes_measure;
+	d2rq:column "cttrials2secondary_outcomes.measure";
+	.
+map:cttrials2secondary_outcomes_time_frame a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2secondary_outcomes;
+	d2rq:property vocab:cttrials2secondary_outcomes_time_frame;
+	d2rq:column "cttrials2secondary_outcomes.time_frame";
+	.
+map:cttrials2secondary_outcomes_safety_issue a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2secondary_outcomes;
+	d2rq:property vocab:cttrials2secondary_outcomes_safety_issue;
+	d2rq:column "cttrials2secondary_outcomes.safety_issue";
+	.
+
+# Table cttrials2secondary_outcomesid
+map:cttrials2secondary_outcomesid a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	# Sorry, I don't know which columns to put into the uriPattern
+	# because the table doesn't have a primary key
+	d2rq:uriPattern "cttrials2secondary_outcomesid";
+	d2rq:class vocab:cttrials2secondary_outcomesid;
+	.
+map:cttrials2secondary_outcomesid__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2secondary_outcomesid;
+	d2rq:property rdfs:label;
+	d2rq:pattern "cttrials2secondary_outcomesid #";
+	.
+map:cttrials2secondary_outcomesid_ID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2secondary_outcomesid;
+	d2rq:property vocab:cttrials2secondary_outcomesid_ID;
+	d2rq:column "cttrials2secondary_outcomesid.ID";
+	.
+map:cttrials2secondary_outcomesid_TID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials2secondary_outcomesid;
+	d2rq:property vocab:cttrials2secondary_outcomesid_TID;
+	d2rq:column "cttrials2secondary_outcomesid.TID";
+	d2rq:datatype xsd:int;
+	.
+
+# Table cttrials_biospec
+map:cttrials_biospec a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "cttrials_biospec/@@cttrials_biospec.id|urlify@@";
+	d2rq:class vocab:cttrials_biospec;
+	.
+map:cttrials_biospec__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials_biospec;
+	d2rq:property rdfs:label;
+	d2rq:pattern "cttrials_biospec #@@cttrials_biospec.id@@";
+	.
+map:cttrials_biospec_id a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials_biospec;
+	d2rq:property vocab:cttrials_biospec_id;
+	d2rq:column "cttrials_biospec.id";
+	.
+map:cttrials_biospec_biospec_descr a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials_biospec;
+	d2rq:property vocab:cttrials_biospec_biospec_descr;
+	d2rq:column "cttrials_biospec.biospec_descr";
+	.
+
+# Table cttrials_criteria
+map:cttrials_criteria a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "cttrials_criteria/@@cttrials_criteria.id|urlify@@";
+	d2rq:class vocab:cttrials_criteria;
+	.
+map:cttrials_criteria__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials_criteria;
+	d2rq:property rdfs:label;
+	d2rq:pattern "cttrials_criteria #@@cttrials_criteria.id@@";
+	.
+map:cttrials_criteria_id a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials_criteria;
+	d2rq:property vocab:cttrials_criteria_id;
+	d2rq:refersToClassMap map:cttrials;
+	d2rq:join "cttrials_criteria.id = cttrials.id";
+	.
+map:cttrials_criteria_eligibility_criteria a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials_criteria;
+	d2rq:property vocab:cttrials_criteria_eligibility_criteria;
+	d2rq:column "cttrials_criteria.eligibility_criteria";
+	.
+
+# Table cttrials_description
+map:cttrials_description a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "cttrials_description/@@cttrials_description.id|urlify@@";
+	d2rq:class vocab:cttrials_description;
+	.
+map:cttrials_description__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials_description;
+	d2rq:property rdfs:label;
+	d2rq:pattern "cttrials_description #@@cttrials_description.id@@";
+	.
+map:cttrials_description_id a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials_description;
+	d2rq:property vocab:cttrials_description_id;
+	d2rq:refersToClassMap map:cttrials;
+	d2rq:join "cttrials_description.id = cttrials.id";
+	.
+map:cttrials_description_detailed_description a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials_description;
+	d2rq:property vocab:cttrials_description_detailed_description;
+	d2rq:column "cttrials_description.detailed_description";
+	.
+
+# Table cttrials_summary
+map:cttrials_summary a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "cttrials_summary/@@cttrials_summary.id|urlify@@";
+	d2rq:class vocab:cttrials_summary;
+	.
+map:cttrials_summary__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials_summary;
+	d2rq:property rdfs:label;
+	d2rq:pattern "cttrials_summary #@@cttrials_summary.id@@";
+	.
+map:cttrials_summary_id a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials_summary;
+	d2rq:property vocab:cttrials_summary_id;
+	d2rq:column "cttrials_summary.id";
+	.
+map:cttrials_summary_brief_summary a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cttrials_summary;
+	d2rq:property vocab:cttrials_summary_brief_summary;
+	d2rq:column "cttrials_summary.brief_summary";
+	.
+

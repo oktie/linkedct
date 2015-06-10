@@ -1,0 +1,228 @@
+/*
+*************************************************************
+* Copyright 2005 Hagan Fox (haganfox AT users.sourceforge.net)
+* Based on pmwiki.css Copyright 2004 Patrick R. Michaud (pmichaud@pobox.com)
+* You can redistribute this file and/or modify   it under the terms
+* of the GNU General Public License as published by the Free Software
+* Foundation; either version 2 of the License, or (at your option)
+* any later version.  See http://www.gnu.org/licenses/gpl.txt
+*************************************************************
+*/
+/* General settings */
+body { font-family: Arial,Helvetica,sans-serif; color:#333333;
+ font-size:9.4pt; background-color:#fcfcfc; margin:0px; }
+textarea, pre, tt, code { font-size:10pt; }
+small { font-size:0.85em; }
+img { border-width:0px; border-color:#cccccc; }
+hr { color:#cccccc }
+/* Headings */
+/* h1 { font-size:2.0em; margin-top:15px; margin-bottom:8px; } */
+h1 { margin-bottom:2px; padding-bottom:1px; vertical-align:bottom;
+ border-bottom:1px solid #dddddd; font-size:1.67em; font-weight:500;
+ margin-top:0px; }
+h2 { font-size:1.47em; margin-top:9px; margin-bottom:6px; }
+h3 { font-size:1.27em; margin-top:7px; margin-bottom:5px; }
+h4 { font-size:1.08em; margin-top:6px; margin-bottom:5px; }
+h5 { font-size:1.0em; margin-top:5px; margin-bottom:4px; }
+h6 { font-size:1.0em; margin-top:5px; margin-bottom:4px; }
+/* Links */
+a { font-weight:bold; color:#003356; text-decoration:none; }
+a:visited { font-weight:bold; color:#003399; text-decoration:none; }
+a:hover { color:#0044dd; text-decoration:underline; }
+a:active { color:#9c0606; }
+/* two-columned definition list */
+dl.dlcol dt { float:left; padding-right:0.5em; }
+dl.dlcol dd { margin-left:13em; }
+
+/* Built-ins */
+.indent { margin-left:30px; }
+.outdent { margin-left:30px; text-indent:-30px; }
+.diffbox { width:745px; margin-top:10px; }
+.diffadd code, .diffdel code { padding-right:1px; white-space:normal; }
+.diffrestore, .difftype, .difftime .diffauthor { font-size:8pt; }
+.diffrestore { margin-top:2px; }
+.gotopreview a { border:1px solid #666666; }
+.wikitrail { white-space:nowrap; }
+.search, .wikisearch { margin-top:0px; margin-bottom:0px; }
+h1.wikiaction, h2.wikiaction { font-weight:400; font-size:125%;
+ margin-top:0px; margin-bottom:3px; padding-bottom:1px; }
+#wikitext { padding-top:1px; }
+/* Edit Page */
+#wikiedit form { margin-top:1px; margin-bottom:1px; }
+#wikiedit textarea { width:740px; height:450px; background-color:#ffffff; }
+#wikiedit textarea { border:1px solid #666666; margin-bottom:3px;
+ margin-top:0px; padding:3px; }
+#wikiedit h1 a, #wikiedit h1 a:visited { text-decoration:none; }
+#wikiedit h1 a:hover { text-decoration:underline; }
+#wikiedit.separator { font-size:1.08em; }
+.gotopreview a { color:black; font-weight:bold; background-color:#e7e7e7; vertical-align:top;
+ margin-right:3px; padding:1px; border:1px solid #666666; }
+table .quickref { margin-top:3px; }
+#wikiedit .authtxt { font-weight:bold; background-color:#fcfcfc;
+ border:1px solid #333333; padding-left:2px; padding-bottom:1px;
+ margin-bottom:2px; margin-right:3px; }
+#wikipreview { width:585px;  padding:10px; padding-top:4px;
+ border:1px dotted #cccccc; }
+#edithist { font-weight:normal; font-size:11pt; }
+.searchbox, .wikisearchbox, .newpagetext { background-color:#fcfcfc;
+ border:1px solid #666666; margin-right:3px; padding-left:3px; }
+.searchbutton, .wikisearchbutton, .newpagebutton { background-color:#e7e7e7;
+ font-weight:bold; padding:1px; border:1px solid #666666; }
+.ebutton input { background-color:#e7e7e7; font-weight:bold;
+ padding:1px; border:1px solid #666666; margin-bottom:0px; }
+.eformtext input { background-color:#fcfcfc; border:1px solid #666666;
+ margin-right:3px; padding-left:3px; margin-bottom:2px; }
+/* Upper Table */
+#sitehead { font-family: Verdana,Arial,Helvetica,sans-serif; width:770px; }
+#sitehead, #sitehead td { font-size:10pt; background-color:#f7f7f7; }
+#sitehead { margin-top:3px;
+ border-top:1px solid #cccccc; border-bottom:0px solid #cccccc; 
+ border-left:1px solid #cccccc;  border-right:1px solid #cccccc; }
+#headleft { width:165px; vertical-align:bottom; white-space:nowrap;
+ padding-bottom:2px; padding-top:2px; 
+ white-space:nowrap; vertical-align:middle; align:center; }
+#headlogo { text-align:center; font-size:1.69em; font-weight:500;
+  white-space:nowrap; align:center; }
+#headlogo a, #headlogo a:visited { font-weight:500; }
+#headlogo img { border:0px; margin-bottom:2px; margin-top:2px; align:center}
+#headright { white-space:nowrap; text-align:right; 
+ padding-top:4px; padding-bottom:4px; padding-right:8px; padding-left:5px; }
+#headcmdsupper, #headcmdslower { color:#333333; font-size:9pt; margin-top:2px; }
+#headcmdsupper a, #headcmdslower a { font-weight:normal; }
+#headcmdsupper, #headcmdslower { padding-bottom:0px; padding-top:1px; }
+#headright form.search { display:inline; margin:0px; }
+#headright input.searchbox { font-size:85%;  width:105px; }
+#headright input.searchbutton { font-size:85%; font-weight:normal;
+ padding:0px; }
+/* #headbacklinks { display:none; } */
+#headbrowse { } #headedit { } #headdiff { } #headupload { }
+#headprint { } .headsearch { }
+
+/* Admin Bar */
+#siteadmintop, #siteadminbtm { width:770px;  border-right:1px solid #cccccc;
+  border-left:1px solid #cccccc; background-color:#f7f7f7;
+  font-family: Verdana,Arial,Helvetica,sans-serif; font-size:10pt; }
+#siteadmintop { border-top:1px solid #cccccc; }
+#siteadminbtm { border-bottom:1px solid #cccccc; }
+#siteadmintop a, #siteadminbtm a { font-weight:normal; }
+#siteadmintop td, #siteadminbtm td { text-align:center; font-size:10pt;
+  background-color:#f7f7f7; padding:2px; padding-top:1px; }
+
+/* Main content table */
+#sitemain { width:770px; }
+/* Main site area */
+#maincontent { width:595px; background-color:#ffffff; vertical-align:top;
+ padding:10px; padding-top:2px;  border:1px solid #cccccc; }
+#maincontent, #maincontent table { font-family: Verdana,Arial,Helvetica,sans-serif;
+ font-size:9.4pt; }
+#maincontent a, #maincontent a:visited  { font-weight:normal;
+ text-decoration:underline; }
+#maincontent img { border-width:1px; }
+#location { margin-bottom:2px; padding-bottom:1px; vertical-align:bottom;
+ border-bottom:1px solid #dddddd; }
+#location a, #location a:visited { text-decoration:none; }
+#location a:hover { text-decoration:underline; }
+#location .grouplink, #location .separator { font-size:1.08em; }
+#location .separator { padding-left:3px; padding-right:1px; }
+#location .titlelink { font-size:1.67em; font-weight:500; }
+#wikiupload form { margin-top:0px; margin-bottom: 8px; }
+/* Right column */
+#mainsidebar { font-size:11pt; background-color:#f7f7f7; width:175px;
+ vertical-align:top; border-bottom:1px solid #cccccc;
+ border-right:1px solid #cccccc; border-top:1px solid #cccccc; }
+#mainsidebar td { font-size:10pt; }
+#mainsidebar a { font-weight:normal; }
+#mainsidebar h1, #mainsidebar h5, #mainsidebar h6, #mainsidebar .divider,
+ #mainsidebar .wikisearch, #mainsidebar .newpage, #mainsidebar .sidehead {
+ font-size:11pt;  font-weight:normal;  white-space:nowrap;
+ text-align:left;  background-color:#eeeeee;  padding-left:6px;
+ padding-right:2px;  padding-bottom:1px;
+ border-top:2px solid #eeeeee;  border-bottom:1px solid #e6e6e6; }
+#mainsidebar .wikisearch, #mainsidebar .newpage { padding-left:3px; padding-right:3px; }
+#mainsidebar strong { font-size:11pt; font-weight:normal; white-space:nowrap;
+ margin-left:4px; margin-right:6px; }
+#mainsidebar ul { white-space:nowrap; font-size:10pt; margin:3px;
+ padding-left:5px; list-style-type:none; }
+#mainsidebar .indent { margin-left:10px; margin-right:2px; }
+
+#mainsidebar form { margin:0px; }
+#mainsidebar input.wikisearchbox, #mainsidebar input.newpagetext {
+ font-size:9pt; margin-left:1px; margin-right:3px; width:100px; }
+#mainsidebar input.wikisearchbutton, #mainsidebar input.newpagebutton {
+ font-size:9pt; font-weight:normal; padding:0px; }
+/*
+#sidebarbottom { display:none; }
+*/
+
+/* Site footer */
+#sitefoot { width:770px; }
+#footleft, #footleft a, #footmiddle, #footmiddle a, #footright, #footright a {
+ font-weight:normal; }
+#footleft { font-size:9pt; padding-left:5px; padding-right:5px; }
+#footedit { }
+#foothist { }
+#footmiddle { font-size:9pt; text-align:center; color:#999999; }
+#footlastmod { }
+#footright { font-size:9pt; text-align:right; padding-left:5px;
+ padding-right:5px; }
+#footchanges { }
+#footeditsb { }
+#sitesole, #sitesole a, #sitesole a:visited { font-weight:normal;
+ color:#cccccc; }
+#sitesole { font-size:0.8em; text-align:center; padding-top:2px;
+ padding-bottom:3px; padding-right:75px; }
+#sitesole a:hover { color:#999999; }
+#copyright { margin-right:5px; }
+
+/* Larger fonts */
+/*
+body { font-size:10.5pt; }
+h1 { font-size:2em; margin-top:16px; margin-bottom:10px; }
+h2 { font-size:1.35em; margin-top:10px; margin-bottom:8px; }
+h3 { font-size:1.17em; margin-top:8px; margin-bottom:7px; }
+h4 { font-size:1.07em; margin-top:7px; margin-bottom:6px; }
+h5 { font-size:1.0em; margin-top:6px; margin-bottom:5px; }
+h6 { font-size:1.0em; margin-top:6px; margin-bottom:5px; }
+#maincontent { font-size:10.5pt; }
+#location .titlelink { font-size:1.62em; }
+*/
+/* Smaller fonts */
+/*
+body { font-size:9pt; }
+h1 { font-size:2em; margin-top:14px; margin-bottom:7px; }
+h2 { font-size:1.4em; margin-top:8px; margin-bottom:6px; }
+h3 { font-size:1.22em; margin-top:6px; margin-bottom:5px; }
+h4 { font-size:1.07em; margin-top:5px; margin-bottom:5px; }
+h5 { font-size:1.00em; margin-top:4px; margin-bottom:4px; }
+h6 { font-size:1.0em; margin-top:4px; margin-bottom:4px; }
+#maincontent { font-size:9pt; }
+#location .titlelink { font-size:1.55em; }
+*/
+
+
+@media print {
+body { font-family: arial, helvetica, geneva, sans-serif; }
+body { width:auto; background-color:#ffffff; margin:0px; padding:0.5em; }
+body, td, th { color:#000000; }
+small { font-size:0.85em; }
+img { border-width: 1px; }
+/* Links */
+a:link { color:#444444; font-weight:bold; text-decoration:none; }
+a:visited { color:#444444; font-weight:bold; text-decoration:none; }
+a.sitelink:hover { color: #444444; text-decoration:underline; }
+a.createlink { color:#444444; }
+a.createlink:visited { color:#444444; }
+a.createlink:hover { color:#ff2222; }
+/* Unique IDs */
+#sitemain { width:97%; border-left:0px; border-right:0px; }
+#maincontent { border-left:0px; border-right:0px; border-top:0px; }
+#mainsidebar, #sitehead { display:none; }
+#sitefoot { width:97%; padding-top:3px; }
+#footleft, #footleft a, #footright, #footright a { display:none;}
+#footleft, #footright { width:0px; }
+#footmiddle { text-align:left; }
+#sitesole { text-align:left; }
+}
+
+
+#rdficon { float: right; margin: 0.6em 1em; }

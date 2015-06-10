@@ -1,0 +1,1874 @@
+@prefix map: <file:/home/user/workspace/linkedct/d2r-server/d2r-server-0.7/initial-linkedct-live.n3#> .
+@prefix db: <> .
+@prefix jdbc: <http://d2rq.org/terms/jdbc/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix d2r: <http://sites.wiwiss.fu-berlin.de/suhl/bizer/d2r-server/config.rdf#> .
+@prefix d2rq: <http://www.wiwiss.fu-berlin.de/suhl/bizer/D2RQ/0.1#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix umbel: <http://umbel.org/umbel/sc/> .
+@prefix foaf: <http://xmlns.com/foaf/spec/#term_> .
+@prefix linkedct: <http://localhost:40116/vocab/resource/> .
+
+<> a d2r:Server;
+    rdfs:label "Linkedct.org D2R Server";
+    d2r:baseURI <http://localhost:40116/>;
+    d2r:port 40116;
+    d2r:documentMetadata [
+        rdfs:comment "Linked Clinical Trials Data is licensed under a Creative Commons Attribution-Noncommercial-Share Alike 2.5 Canada License: http://creativecommons.org/licenses/by-nc-sa/2.5/ca/. Refer to http://linkedct.org for more details. The original data is obtained from Clinicaltrials.gov (http://clinicaltrials.gov). Using this data is subject to Clinicaltrials.gov's Terms and Conditions available at http://www.clinicaltrials.gov/ct2/info/terms.";
+    ];
+    .
+
+map:database a d2rq:Database;
+	d2rq:jdbcDriver "com.mysql.jdbc.Driver";
+	d2rq:jdbcDSN "jdbc:mysql://localhost/dbname?autoReconnect=true";
+	d2rq:username "user";
+	d2rq:password "password";
+	d2rq:resultSizeLimit 5000;
+	jdbc:autoReconnect "true";
+	jdbc:zeroDateTimeBehavior "convertToNull";
+	.
+
+# Defining equivalences
+map:stateEquivalence a d2rq:AdditionalProperty;
+        d2rq:propertyName owl:equivalentClass;
+        d2rq:propertyValue umbel:State_Geopolitical.
+
+map:cityEquivalence a d2rq:AdditionalProperty;
+        d2rq:propertyName owl:equivalentClass;
+        d2rq:propertyValue umbel:City.
+
+map:countryEquivalence a d2rq:AdditionalProperty;
+        d2rq:propertyName owl:equivalentClass;
+        d2rq:propertyValue umbel:Country.
+
+
+# Table linkedct_address
+map:address a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "address/@@linkedct_address.slug|urlify@@";
+	d2rq:class linkedct:address;
+	d2rq:classDefinitionLabel "Address";
+	d2rq:classDefinitionComment "This is an address"@en;
+	.
+map:address__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:address;
+	d2rq:property rdfs:label;
+	d2rq:pattern "linkedct_address #@@linkedct_address.slug@@";
+	.
+map:address_label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:address;
+	d2rq:property rdfs:label;
+	d2rq:column "linkedct_address.label";
+	.
+map:address_zip a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:address;
+	d2rq:property linkedct:address_zip;
+	d2rq:propertyDefinitionLabel "Address zip code";
+	d2rq:column "linkedct_address.zip";
+	d2rq:condition "linkedct_address.zip <> ''"
+	.
+map:address_state a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:address;
+	d2rq:property linkedct:address_state;
+	d2rq:propertyDefinitionLabel "Address state";
+	d2rq:refersToClassMap map:state;
+	d2rq:join "linkedct_address.state_id = linkedct_state.slug";
+	.
+map:address_country a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:address;
+	d2rq:property linkedct:address_country;
+	d2rq:propertyDefinitionLabel "Address country";
+	d2rq:refersToClassMap map:country;
+	d2rq:join "linkedct_address.country_id = linkedct_country.slug";
+	.
+map:address_city a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:address;
+	d2rq:property linkedct:address_city;
+	d2rq:propertyDefinitionLabel "Address city";
+	d2rq:refersToClassMap map:city;
+	d2rq:join "linkedct_address.city_id = linkedct_city.slug";
+	.
+
+# Table linkedct_arm_group
+map:arm_group a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "arm_group/@@linkedct_arm_group.slug|urlify@@";
+	d2rq:class linkedct:arm_group;
+	d2rq:classDefinitionLabel "Arm Group";
+	.
+map:arm_group__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:arm_group;
+	d2rq:property rdfs:label;
+	d2rq:column "linkedct_arm_group.label";
+	.
+map:arm_group_description a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:arm_group;
+	d2rq:property linkedct:arm_group_description;
+	d2rq:propertyDefinitionLabel "Arm Group Description";
+	d2rq:column "linkedct_arm_group.description";
+	d2rq:condition "linkedct_arm_group.description <> ''";
+	.
+map:arm_group_arm_group_type a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:arm_group;
+	d2rq:property linkedct:arm_group_arm_group_type;
+	d2rq:propertyDefinitionLabel "Arm Group Type";
+	d2rq:column "linkedct_arm_group.arm_group_type";
+	.
+
+# Table linkedct_city
+map:city a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "city/@@linkedct_city.slug|urlify@@";
+	d2rq:class linkedct:city;
+	d2rq:classDefinitionLabel "City";
+	d2rq:additionalClassDefinitionProperty map:cityEquivalence;
+	.
+map:city__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:city;
+	d2rq:property rdfs:label;
+	d2rq:column "linkedct_city.label";
+	.
+map:city_city_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:city;
+	d2rq:property linkedct:city_city_name;
+	d2rq:propertyDefinitionLabel "City Name";
+	d2rq:column "linkedct_city.city_name";
+	.
+
+# Table linkedct_condition
+map:condition a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "condition/@@linkedct_condition.slug|urlify@@";
+	d2rq:class linkedct:condition;
+	d2rq:classDefinitionLabel "Condition";
+	.
+map:condition__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:condition;
+	d2rq:property rdfs:label;
+	d2rq:column "linkedct_condition.label";
+	.
+
+# Table linkedct_condition_browse
+map:condition_browse a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "condition_browse/@@linkedct_condition_browse.slug|urlify@@";
+	d2rq:class linkedct:condition_browse;
+	d2rq:classDefinitionLabel "Condition Browse";
+	.
+map:condition_browse__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:condition_browse;
+	d2rq:property rdfs:label;
+	d2rq:column "linkedct_condition_browse.label";
+	.
+map:condition_browse__mesh_terms a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:condition_browse;
+	d2rq:property linkedct:condition_browse_mesh_term;
+	d2rq:propertyDefinitionLabel "Condition browse MeSH (Medical Subject Headings) terms";
+	d2rq:refersToClassMap map:mesh_term;
+	d2rq:join "linkedct_condition_browse.slug = linkedct_condition_browse_mesh_terms.condition_browse_id";
+	d2rq:join "linkedct_condition_browse_mesh_terms.mesh_term_id = linkedct_mesh_term.slug";
+	.
+
+# Table linkedct_contact
+map:contact a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "contact/@@linkedct_contact.slug|urlify@@";
+	d2rq:class linkedct:contact;
+	d2rq:classDefinitionLabel "Contact";
+	.
+map:contact__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:contact;
+	d2rq:property rdfs:label;
+	d2rq:column "linkedct_contact.label";
+	.
+map:contact_phone_ext a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:contact;
+	d2rq:property linkedct:contact_phone_ext;
+	d2rq:propertyDefinitionLabel "Contact Phone Extension";
+	d2rq:column "linkedct_contact.phone_ext";
+	d2rq:condition "linkedct_contact.phone_ext <> ''";
+	.
+map:contact_phone a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:contact;
+	d2rq:property linkedct:contact_phone;
+	d2rq:propertyDefinitionLabel "Contact Phone";
+	d2rq:column "linkedct_contact.phone";
+	d2rq:condition "linkedct_contact.phone <> ''";
+	.
+map:contact_email a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:contact;
+	d2rq:property linkedct:contact_email;
+	d2rq:propertyDefinitionLabel "Contact email";
+	d2rq:column "linkedct_contact.email";
+	d2rq:condition "linkedct_contact.email <> ''";
+	.
+map:contact_last_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:contact;
+	d2rq:property foaf:lastName;
+	d2rq:propertyDefinitionLabel "Contact Last Name";
+	d2rq:column "linkedct_contact.last_name";
+	d2rq:condition "linkedct_contact.last_name <> ''";
+	.
+
+# Table linkedct_country
+map:country a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "country/@@linkedct_country.slug|urlify@@";
+	d2rq:class linkedct:country;
+	d2rq:classDefinitionLabel "Country";
+	d2rq:additionalClassDefinitionProperty map:countryEquivalence;
+	.
+map:country__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:country;
+	d2rq:property rdfs:label;
+	d2rq:column "linkedct_country.label";
+	.
+map:country_country_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:country;
+	d2rq:property linkedct:country_country_name;
+	d2rq:propertyDefinitionLabel "Country Name";
+	d2rq:column "linkedct_country.country_name";
+	.
+
+# Table linkedct_mesh_term
+map:mesh_term a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "linkedct_mesh_term/@@linkedct_mesh_term.slug|urlify@@";
+	d2rq:class linkedct:mesh_term;
+	d2rq:classDefinitionLabel "MeSH (Medical Subject Headings) term";
+	.
+map:linkedct_mesh_term__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:mesh_term;
+	d2rq:property rdfs:label;
+	d2rq:column "linkedct_mesh_term.label";
+	.
+
+# Table linkedct_eligibility
+map:eligibility a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "eligibility/@@linkedct_eligibility.slug|urlify@@";
+	d2rq:class linkedct:eligibility;
+	d2rq:classDefinitionLabel "Eligibility Criteria";
+	.
+map:eligibility__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:eligibility;
+	d2rq:property rdfs:label;
+	d2rq:column "linkedct_eligibility.label";
+	.
+map:eligibility_criteria a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:eligibility;
+	d2rq:property linkedct:eligibility_criteria;
+	d2rq:propertyDefinitionLabel "Eligibility Criteria Description";
+	d2rq:column "linkedct_eligibility.criteria";
+	d2rq:condition "linkedct_eligibility.criteria <> ''";
+	.
+map:eligibility_maximum_age a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:eligibility;
+	d2rq:property linkedct:eligibility_maximum_age;
+	d2rq:propertyDefinitionLabel "Eligibility maximum age";
+	d2rq:column "linkedct_eligibility.maximum_age";
+	d2rq:condition "linkedct_eligibility.maximum_age <> ''";
+	.
+map:eligibility_healthy_volunteers a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:eligibility;
+	d2rq:property linkedct:eligibility_healthy_volunteers;
+	d2rq:propertyDefinitionLabel "Eligibility healthy volunteers";
+	d2rq:column "linkedct_eligibility.healthy_volunteers";
+	d2rq:condition "linkedct_eligibility.healthy_volunteers <> ''";
+	.
+map:eligibility_study_pop a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:eligibility;
+	d2rq:property linkedct:eligibility_study_pop;
+	d2rq:propertyDefinitionLabel "Eligibility study_pop description";
+	d2rq:column "linkedct_eligibility.study_pop";
+	d2rq:condition "linkedct_eligibility.study_pop <> ''";
+	.
+map:eligibility_minimum_age a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:eligibility;
+	d2rq:property linkedct:eligibility_minimum_age;
+	d2rq:propertyDefinitionLabel "Eligibility minimum age";
+	d2rq:column "linkedct_eligibility.minimum_age";
+	d2rq:condition "linkedct_eligibility.minimum_age <> ''";
+	.
+map:eligibility_gender a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:eligibility;
+	d2rq:property linkedct:eligibility_gender;
+	d2rq:propertyDefinitionLabel "Eligibility gender";
+	d2rq:column "linkedct_eligibility.gender";
+	d2rq:condition "linkedct_eligibility.gender <> ''";
+	.
+map:eligibility_sampling_method a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:eligibility;
+	d2rq:property linkedct:eligibility_sampling_method;
+	d2rq:propertyDefinitionLabel "Eligibility sampling method";
+	d2rq:column "linkedct_eligibility.sampling_method";
+	d2rq:condition "linkedct_eligibility.sampling_method <> ''";
+	.
+
+# Table linkedct_external_linkage
+map:external_linkage a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "external_linkage/@@linkedct_external_linkage.slug|urlify@@";
+	d2rq:class linkedct:external_linkage;
+	d2rq:classDefinitionLabel "External Linkage";
+	.
+map:external_linkage__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:external_linkage;
+	d2rq:property rdfs:label;
+	d2rq:column "linkedct_external_linkage.label";
+	.
+map:external_linkage_score a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:external_linkage;
+	d2rq:property linkedct:has_linkage_score;
+	d2rq:propertyDefinitionLabel "Linkage Method Score (if a matching function is used)";
+	d2rq:column "linkedct_external_linkage.score";
+	.
+map:external_linkage_method a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:external_linkage;
+	d2rq:property linkedct:has_linkage_method;
+	d2rq:propertyDefinitionLabel "Link to Linkage Method used to find the linkage";
+	d2rq:refersToClassMap map:linkage_method;
+	d2rq:join "linkedct_external_linkage.method_id = linkedct_linkage_method.slug";
+	.
+map:external_linkage_to_resource a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:external_linkage;
+	d2rq:property linkedct:to_resource;
+	d2rq:propertyDefinitionLabel "Link to external resource";
+	d2rq:uriColumn "linkedct_external_resource.source_url";
+	d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+	.
+
+# Table linkedct_facility
+map:facility a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "facility/@@linkedct_facility.slug|urlify@@";
+	d2rq:class linkedct:facility;
+	d2rq:classDefinitionLabel "Facility";
+	.
+map:facility__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:facility;
+	d2rq:property rdfs:label;
+	d2rq:column "linkedct_facility.label";
+	.
+map:facility_facility_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:facility;
+	d2rq:property linkedct:facility_facility_name;
+	d2rq:propertyDefinitionLabel "Facility name";
+	d2rq:column "linkedct_facility.facility_name";
+	d2rq:condition "linkedct_facility.facility_name <> ''";
+	.
+map:facility_address a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:facility;
+	d2rq:property linkedct:facility_address;
+	d2rq:propertyDefinitionLabel "Facility's Address";
+	d2rq:refersToClassMap map:address;
+	d2rq:join "linkedct_facility.address_id = linkedct_address.slug";
+	.
+
+# Table linkedct_intervention
+map:intervention a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "intervention/@@linkedct_intervention.slug|urlify@@";
+	d2rq:class linkedct:intervention;
+	d2rq:classDefinitionLabel "Intervention";
+	.
+map:intervention__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:intervention;
+	d2rq:property rdfs:label;
+	d2rq:column "linkedct_intervention.label";
+	.
+map:intervention_arm_group_label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:intervention;
+	d2rq:property linkedct:intervention_arm_group_label;
+	d2rq:propertyDefinitionLabel "Intervention Arm Group Label";
+	d2rq:column "linkedct_intervention.arm_group_label";
+	d2rq:condition "linkedct_intervention.arm_group_label <> ''";
+	.
+map:intervention_description a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:intervention;
+	d2rq:property linkedct:intervention_description;
+	d2rq:propertyDefinitionLabel "Intervention description";
+	d2rq:column "linkedct_intervention.description";
+	d2rq:condition "linkedct_intervention.description <> ''";
+	.
+map:intervention_other_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:intervention;
+	d2rq:property linkedct:intervention_other_name;
+	d2rq:propertyDefinitionLabel "Other name for the Intervention";
+	d2rq:column "linkedct_intervention.other_name";
+	d2rq:condition "linkedct_intervention.other_name <> ''";
+	.
+map:intervention_intervention_type a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:intervention;
+	d2rq:property linkedct:intervention_intervention_type;
+	d2rq:propertyDefinitionLabel "Intervention type";
+	d2rq:column "linkedct_intervention.intervention_type";
+	d2rq:condition "linkedct_intervention.intervention_type <> ''";
+	.
+map:intervention_intervention_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:intervention;
+	d2rq:property linkedct:intervention_intervention_name;
+	d2rq:propertyDefinitionLabel "Intervention name";
+	d2rq:column "linkedct_intervention.intervention_name";
+	d2rq:condition "linkedct_intervention.intervention_name <> ''";
+	.
+
+# Table linkedct_intervention_browse
+map:intervention_browse a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "intervention_browse/@@linkedct_intervention_browse.slug|urlify@@";
+	d2rq:class linkedct:intervention_browse;
+	d2rq:classDefinitionLabel "Intervention Browse";
+	.
+map:intervention_browse__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:intervention_browse;
+	d2rq:property rdfs:label;
+	d2rq:pattern "linkedct_intervention_browse #@@linkedct_intervention_browse.slug@@";
+	.
+map:intervention_browse_label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:intervention_browse;
+	d2rq:property linkedct:intervention_browse_label;
+	d2rq:propertyDefinitionLabel "linkedct_intervention_browse label";
+	d2rq:column "linkedct_intervention_browse.label";
+	.
+map:intervention_browse__mesh_terms a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:intervention_browse;
+	d2rq:property linkedct:intervention_browse;
+	d2rq:propertyDefinitionLabel "Condition browse MeSH (Medical Subject Headings) terms";
+	d2rq:refersToClassMap map:mesh_term;
+	d2rq:join "linkedct_intervention_browse.slug = linkedct_intervention_browse_mesh_terms.intervention_browse_id";
+	d2rq:join "linkedct_intervention_browse_mesh_terms.mesh_term_id = linkedct_mesh_term.slug";
+	.
+
+# Table linkedct_investigator
+map:investigator a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "investigator/@@linkedct_investigator.slug|urlify@@";
+	d2rq:class linkedct:investigator;
+	d2rq:classDefinitionLabel "Investigator";
+	.
+map:investigator__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:investigator;
+	d2rq:property rdfs:label;
+	d2rq:column "linkedct_investigator.label";
+	.
+map:investigator_last_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:investigator;
+	d2rq:property foaf:lastName;
+	d2rq:column "linkedct_investigator.last_name";
+	.
+map:investigator_role a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:investigator;
+	d2rq:property linkedct:investigator_role;
+	d2rq:propertyDefinitionLabel "Investigator role";
+	d2rq:column "linkedct_investigator.role";
+	.
+
+# Table linkedct_keyword
+map:keyword a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "keyword/@@linkedct_keyword.slug|urlify@@";
+	d2rq:class linkedct:keyword;
+	d2rq:classDefinitionLabel "Keyword";
+	d2rq:classDefinitionComment "Note that keyword is not necessarily a 'word', it may be a longer term or sentence."@en;
+	.
+map:keyword__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:keyword;
+	d2rq:property rdfs:label;
+	d2rq:column "linkedct_keyword.label";
+	.
+
+# Table linkedct_link
+map:link a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "link/@@linkedct_link.slug|urlify@@";
+	d2rq:class linkedct:link;
+	d2rq:classDefinitionLabel "Link";
+	.
+map:linkedct_link__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:link;
+	d2rq:property rdfs:label;
+	d2rq:column "linkedct_link.label";
+	.
+map:link_description a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:link;
+	d2rq:property linkedct:link_description;
+	d2rq:propertyDefinitionLabel "linkedct_link description";
+	d2rq:column "linkedct_link.description";
+	d2rq:condition "linkedct_link.description <> ''";
+	.
+map:link_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:link;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "linkedct_link.url";
+	.
+
+# Table linkedct_linkage_method
+map:linkage_method a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "linkage_method/@@linkedct_linkage_method.slug|urlify@@";
+	d2rq:class linkedct:linkage_method;
+	d2rq:classDefinitionLabel "Linkage method";
+	d2rq:classDefinitionComment "Linkage method used to discover an (external) linkage";
+	.
+map:linkage_method__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:linkage_method;
+	d2rq:property rdfs:label;
+	d2rq:column "linkedct_linkage_method.label";
+	.
+map:linkage_method_type a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:linkage_method;
+	d2rq:property linkedct:linkage_method_type;
+	d2rq:propertyDefinitionLabel "Type of Linkage Method used to discover the link";
+	d2rq:column "linkedct_linkage_method.type";
+	.
+
+# Table linkedct_location
+map:location a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "location/@@linkedct_location.slug|urlify@@";
+	d2rq:class linkedct:location;
+	d2rq:classDefinitionLabel "Location";
+	.
+map:location__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:location;
+	d2rq:property rdfs:label;
+	d2rq:column "linkedct_location.label";
+	.
+map:location_status a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:location;
+	d2rq:property linkedct:location_status;
+	d2rq:propertyDefinitionLabel "linkedct_location status";
+	d2rq:column "linkedct_location.status";
+	d2rq:condition "linkedct_location.status <> ''";
+	.
+map:location_facility a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:location;
+	d2rq:property linkedct:location_facility;
+	d2rq:propertyDefinitionLabel "Location's facility";
+	d2rq:refersToClassMap map:facility;
+	d2rq:join "linkedct_location.facility_id = linkedct_facility.slug";
+	.
+map:location_investigator a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:location;
+	d2rq:property linkedct:location_investigator;
+	d2rq:propertyDefinitionLabel "Location's investigator";
+	d2rq:refersToClassMap map:investigator;
+	d2rq:join "linkedct_location.slug = linkedct_location_investigators.location_id";
+	d2rq:join "linkedct_location_investigators.investigator_id = linkedct_investigator.slug";
+	.
+map:location_contact a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:location;
+	d2rq:property linkedct:location_contact;
+	d2rq:propertyDefinitionLabel "Location's contact";
+	d2rq:refersToClassMap map:contact;
+	d2rq:join "linkedct_location.slug = linkedct_location_contacts.location_id";
+	d2rq:join "linkedct_location_contacts.contact_id = linkedct_contact.slug";
+	.
+map:location_contact_backup a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:location;
+	d2rq:property linkedct:location_contact_backup;
+	d2rq:propertyDefinitionLabel "Location's contact_backup";
+	d2rq:refersToClassMap map:contact;
+	d2rq:join "linkedct_location.slug = linkedct_location_contact_backups.location_id";
+	d2rq:join "linkedct_location_contact_backups.contact_id = linkedct_contact.slug";
+	.
+	
+
+# Table linkedct_outcome
+map:outcome a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "outcome/@@linkedct_outcome.slug|urlify@@";
+	d2rq:class linkedct:outcome;
+	d2rq:classDefinitionLabel "Trial's Outcome";
+	.
+map:outcome__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:outcome;
+	d2rq:property rdfs:label;
+	d2rq:column "linkedct_outcome.label";
+	.
+map:outcome_safety_issue a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:outcome;
+	d2rq:property linkedct:outcome_safety_issue;
+	d2rq:propertyDefinitionLabel "Outcome's safety issue";
+	d2rq:column "linkedct_outcome.safety_issue";
+	d2rq:condition "linkedct_outcome.safety_issue <> ''";
+	.
+map:outcome_measure a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:outcome;
+	d2rq:property linkedct:outcome_measure;
+	d2rq:propertyDefinitionLabel "Outcome's measure";
+	d2rq:column "linkedct_outcome.measure";
+	d2rq:condition "linkedct_outcome.measure <> ''";
+	.
+map:outcome_description a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:outcome;
+	d2rq:property linkedct:outcome_description;
+	d2rq:propertyDefinitionLabel "Outcome's description";
+	d2rq:column "linkedct_outcome.description";
+	d2rq:condition "linkedct_outcome.description <> ''";
+	.
+map:outcome_time_frame a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:outcome;
+	d2rq:property linkedct:outcome_time_frame;
+	d2rq:propertyDefinitionLabel "Outcome's time frame";
+	d2rq:column "linkedct_outcome.time_frame";
+	d2rq:condition "linkedct_outcome.time_frame <> ''";
+	.
+
+# Table linkedct_overall_official
+map:overall_official a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "overall_official/@@linkedct_overall_official.slug|urlify@@";
+	d2rq:class linkedct:overall_official;
+	d2rq:classDefinitionLabel "Trial's Overall Official";
+	.
+map:overall_official__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:overall_official;
+	d2rq:property rdfs:label;
+	d2rq:column "linkedct_overall_official.label";
+	.
+map:overall_official_last_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:overall_official;
+	d2rq:property foaf:lastName;
+	d2rq:column "linkedct_overall_official.last_name";
+	d2rq:condition "linkedct_overall_official.last_name <> ''";
+	.
+map:overall_official_role a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:overall_official;
+	d2rq:property linkedct:overall_official_role;
+	d2rq:propertyDefinitionLabel "Overall official's role";
+	d2rq:column "linkedct_overall_official.role";
+	d2rq:condition "linkedct_overall_official.role <> ''";
+	.
+map:overall_official_affiliation a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:overall_official;
+	d2rq:property linkedct:overall_official_affiliation;
+	d2rq:propertyDefinitionLabel "Overall official's affiliation";
+	d2rq:column "linkedct_overall_official.affiliation";
+	d2rq:condition "linkedct_overall_official.affiliation <> ''";
+	.
+
+# Table linkedct_oversight_info
+map:oversight_info a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "oversight_info/@@linkedct_oversight_info.slug|urlify@@";
+	d2rq:class linkedct:oversight_info;
+	d2rq:classDefinitionLabel "Oversight information";
+	.
+map:oversight_info__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:oversight_info;
+	d2rq:property rdfs:label;
+	d2rq:column "linkedct_oversight_info.label";
+	.
+map:oversight_info_authority a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:oversight_info;
+	d2rq:property linkedct:oversight_info_authority;
+	d2rq:propertyDefinitionLabel "The authority to oversight";
+	d2rq:column "linkedct_oversight_info.authority";
+	d2rq:condition "linkedct_oversight_info.authority <> ''";
+	.
+map:oversight_info_has_dmc a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:oversight_info;
+	d2rq:property linkedct:oversight_info_has_dmc;
+	d2rq:propertyDefinitionLabel "If oversight has dmc";
+	d2rq:column "linkedct_oversight_info.has_dmc";
+	d2rq:condition "linkedct_oversight_info.has_dmc <> ''";
+	.
+
+# Table linkedct_provenance
+map:provenance a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "provenance/@@linkedct_provenance.slug|urlify@@";
+	d2rq:class linkedct:provenance;
+	d2rq:classDefinitionLabel "Provenance";
+	d2rq:classDefinitionComment "Provenance contains information about the source of each entity"@en;
+	.
+map:provenance__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:provenance;
+	d2rq:property rdfs:label;
+	d2rq:pattern "linkedct_provenance #@@linkedct_provenance.slug@@";
+	.
+map:provenance_label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:provenance;
+	d2rq:property linkedct:provenance_label;
+	d2rq:propertyDefinitionLabel "linkedct_provenance label";
+	d2rq:column "linkedct_provenance.label";
+	.
+map:provenance_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:provenance;
+	d2rq:property linkedct:provenance_url;
+	d2rq:propertyDefinitionLabel "linkedct_provenance url";
+	d2rq:uriColumn "linkedct_provenance.url";
+	.
+map:provenance_time_updated a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:provenance;
+	d2rq:property linkedct:provenance_time_updated;
+	d2rq:propertyDefinitionLabel "linkedct_provenance time_updated";
+	d2rq:column "linkedct_provenance.time_updated";
+	d2rq:datatype xsd:dateTime;
+	.
+map:provenance_time_added a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:provenance;
+	d2rq:property linkedct:provenance_time_added;
+	d2rq:propertyDefinitionLabel "linkedct_provenance time_added";
+	d2rq:column "linkedct_provenance.time_added";
+	d2rq:datatype xsd:dateTime;
+	.
+map:provenance_ip a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:provenance;
+	d2rq:property linkedct:provenance_ip;
+	d2rq:propertyDefinitionLabel "linkedct_provenance ip";
+	d2rq:column "linkedct_provenance.ip";
+	.
+map:provenance_encoding a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:provenance;
+	d2rq:property linkedct:provenance_encoding;
+	d2rq:propertyDefinitionLabel "linkedct_provenance encoding";
+	d2rq:column "linkedct_provenance.encoding";
+	.
+map:provenance_signature a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:provenance;
+	d2rq:property linkedct:provenance_signature;
+	d2rq:propertyDefinitionLabel "linkedct_provenance signature";
+	d2rq:column "linkedct_provenance.signature";
+	.
+
+# Table linkedct_reference
+map:reference a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "reference/@@linkedct_reference.slug|urlify@@";
+	d2rq:class linkedct:reference;
+	d2rq:classDefinitionLabel "Trial's reference";
+	.
+map:reference__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:reference;
+	d2rq:property rdfs:label;
+	d2rq:column "linkedct_reference.label";
+	.
+map:reference_citation a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:reference;
+	d2rq:property linkedct:reference_citation;
+	d2rq:propertyDefinitionLabel "Reference citation";
+	d2rq:column "linkedct_reference.citation";
+	.
+map:reference_PMID a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:reference;
+	d2rq:property linkedct:reference_PMID;
+	d2rq:propertyDefinitionLabel "Reference's PubMed ID";
+	d2rq:column "linkedct_reference.PMID";
+	.
+
+# Table linkedct_responsible_party
+map:responsible_party a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "responsible_party/@@linkedct_responsible_party.slug|urlify@@";
+	d2rq:class linkedct:responsible_party;
+	d2rq:classDefinitionLabel "Trial's Responsible Party";
+	.
+map:responsible_party__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:responsible_party;
+	d2rq:property rdfs:label;
+	d2rq:column "linkedct_responsible_party.label";
+	.
+map:responsible_party_organization a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:responsible_party;
+	d2rq:property linkedct:responsible_party_organization;
+	d2rq:propertyDefinitionLabel "Responsible Party's Organization";
+	d2rq:column "linkedct_responsible_party.organization";
+	d2rq:condition "linkedct_responsible_party.organization <> ''";
+	.
+map:responsible_party_name_title a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:responsible_party;
+	d2rq:property linkedct:responsible_party_name_title;
+	d2rq:propertyDefinitionLabel "Responsible Party's name title";
+	d2rq:column "linkedct_responsible_party.name_title";
+	d2rq:condition "linkedct_responsible_party.name_title <> ''";
+	.
+
+# Table linkedct_sponsor
+map:sponsor a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "sponsor/@@linkedct_sponsor.slug|urlify@@";
+	d2rq:class linkedct:sponsor;
+	d2rq:classDefinitionLabel "Trial's sponsor";
+	.
+map:sponsor__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:sponsor;
+	d2rq:property rdfs:label;
+	d2rq:column "linkedct_sponsor.label";
+	.
+map:sponsor_agency_class a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:sponsor;
+	d2rq:property linkedct:sponsor_agency_class;
+	d2rq:propertyDefinitionLabel "Sponsor agency's class";
+	d2rq:column "linkedct_sponsor.agency_class";
+	d2rq:condition "linkedct_sponsor.agency_class <> ''";
+	.
+map:sponsor_agency a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:sponsor;
+	d2rq:property linkedct:sponsor_agency;
+	d2rq:propertyDefinitionLabel "Sponsor agency";
+	d2rq:column "linkedct_sponsor.agency";
+	d2rq:condition "linkedct_sponsor.agency <> ''";
+	.
+
+# Table linkedct_sponsor_group
+map:sponsor_group a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "sponsor_group/@@linkedct_sponsor_group.slug|urlify@@";
+	d2rq:class linkedct:sponsor_group;
+	d2rq:classDefinitionLabel "Trial's sponsor group";
+	.
+map:sponsor_group__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:sponsor_group;
+	d2rq:property rdfs:label;
+	d2rq:column "linkedct_sponsor_group.label";
+	.
+map:sponsor_group_lead_sponsor a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:sponsor_group;
+	d2rq:property linkedct:sponsor_group_lead_sponsor;
+	d2rq:propertyDefinitionLabel "Sponsor group's lead sponsor";
+	d2rq:refersToClassMap map:sponsor;
+	d2rq:join "linkedct_sponsor_group.lead_sponsor_id = linkedct_sponsor.slug";
+	.
+map:sponsor_group__collaborators a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:sponsor_group;
+	d2rq:property linkedct:collaborator;
+	d2rq:propertyDefinitionLabel "Collaborator of a Trial's Sponsor Group";
+	d2rq:refersToClassMap map:sponsor;
+	d2rq:join "linkedct_sponsor_group.slug = linkedct_sponsor_group_collaborators.sponsor_group_id";
+	d2rq:join "linkedct_sponsor_group_collaborators.sponsor_id = linkedct_sponsor.slug";
+	.
+
+
+# Table linkedct_state
+map:state a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "state/@@linkedct_state.slug|urlify@@";
+	d2rq:class linkedct:state;
+	d2rq:classDefinitionLabel "Address State";
+	d2rq:additionalClassDefinitionProperty map:stateEquivalence;
+	.
+map:state__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:state;
+	d2rq:property rdfs:label;
+	d2rq:column "linkedct_state.label";
+	.
+map:state_state_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:state;
+	d2rq:property linkedct:state_state_name;
+	d2rq:propertyDefinitionLabel "linkedct_state state_name";
+	d2rq:column "linkedct_state.state_name";
+	.
+
+# Table linkedct_trial
+map:trial a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "trial/@@linkedct_trial.slug|urlify@@";
+	d2rq:class linkedct:trial;
+	d2rq:classDefinitionLabel "A Clinical Study (Trial)";
+	.
+map:label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property rdfs:label;
+	d2rq:column "linkedct_trial.label";
+	.
+map:trialid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:trialid;
+	d2rq:propertyDefinitionLabel "Trial's ID";
+	d2rq:column "linkedct_trial.trialid";
+	.
+map:lastchanged_date a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:lastchanged_date;
+	d2rq:propertyDefinitionLabel "Trial's last changed date";
+	d2rq:column "linkedct_trial.lastchanged_date";
+	d2rq:condition "linkedct_trial.lastchanged_date <> ''";
+	.
+map:firstreceived_results_date a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:firstreceived_results_date;
+	d2rq:propertyDefinitionLabel "Trial's first received results date";
+	d2rq:column "linkedct_trial.firstreceived_results_date";
+	d2rq:condition "linkedct_trial.firstreceived_results_date <> ''";
+	.
+map:firstreceived_date a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:firstreceived_date;
+	d2rq:propertyDefinitionLabel "Trial's first received date";
+	d2rq:column "linkedct_trial.firstreceived_date";
+	d2rq:condition "linkedct_trial.firstreceived_date <> ''";
+	.
+map:id_info_nct_id a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:id_info_nct_id;
+	d2rq:propertyDefinitionLabel "Trial's NCT ID";
+	d2rq:column "linkedct_trial.id_info_nct_id";
+	d2rq:condition "linkedct_trial.id_info_nct_id <> ''";
+	.
+map:overall_status a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:overall_status;
+	d2rq:propertyDefinitionLabel "Trial's overall status";
+	d2rq:column "linkedct_trial.overall_status";
+	d2rq:condition "linkedct_trial.overall_status <> ''";
+	.
+map:id_info_secondary_id a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:id_info_secondary_id;
+	d2rq:propertyDefinitionLabel "Trial's secondary ID";
+	d2rq:column "linkedct_trial.id_info_secondary_id";
+	d2rq:condition "linkedct_trial.id_info_secondary_id <> ''";
+	.
+map:biospec_retention a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:biospec_retention;
+	d2rq:propertyDefinitionLabel "Trial's biospec retention";
+	d2rq:column "linkedct_trial.biospec_retention";
+	d2rq:condition "linkedct_trial.biospec_retention <> ''";
+	.
+map:required_header_link_text a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:required_header_link_text;
+	d2rq:propertyDefinitionLabel "Trial's required header link text";
+	d2rq:column "linkedct_trial.required_header_link_text";
+	d2rq:condition "linkedct_trial.required_header_link_text <> ''";
+	.
+map:enrollment a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:enrollment;
+	d2rq:propertyDefinitionLabel "Trial's enrollment";
+	d2rq:column "linkedct_trial.enrollment";
+	d2rq:condition "linkedct_trial.enrollment <> ''";
+	.
+map:number_of_arms a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:number_of_arms;
+	d2rq:propertyDefinitionLabel "Trial's number of arms";
+	d2rq:column "linkedct_trial.number_of_arms";
+	d2rq:condition "linkedct_trial.number_of_arms <> ''";
+	.
+map:is_section_801 a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:is_section_801;
+	d2rq:propertyDefinitionLabel "linkedct_trial is_section_801";
+	d2rq:column "linkedct_trial.is_section_801";
+	d2rq:condition "linkedct_trial.is_section_801 <> ''";
+	.
+map:is_fda_regulated a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:is_fda_regulated;
+	d2rq:propertyDefinitionLabel "If the trial is regulated by FDA";
+	d2rq:column "linkedct_trial.is_fda_regulated";
+	d2rq:condition "linkedct_trial.is_fda_regulated <> ''";
+	.
+map:brief_title a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:brief_title;
+	d2rq:propertyDefinitionLabel "lTrial's brief title";
+	d2rq:column "linkedct_trial.brief_title";
+	d2rq:condition "linkedct_trial.brief_title <> ''";
+	.
+map:acronym a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:acronym;
+	d2rq:propertyDefinitionLabel "Trial's acronym";
+	d2rq:column "linkedct_trial.acronym";
+	d2rq:condition "linkedct_trial.acronym <> ''";
+	.
+map:official_title a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:official_title;
+	d2rq:propertyDefinitionLabel "Trial's official title";
+	d2rq:column "linkedct_trial.official_title";
+	d2rq:condition "linkedct_trial.official_title <> ''";
+	.
+map:study_type a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:study_type;
+	d2rq:propertyDefinitionLabel "Trial's study type";
+	d2rq:column "linkedct_trial.study_type";
+	d2rq:condition "linkedct_trial.study_type <> ''";
+	.
+map:id_info_nct_alias a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:id_info_nct_alias;
+	d2rq:propertyDefinitionLabel "Trial's NCT alias ID";
+	d2rq:column "linkedct_trial.id_info_nct_alias";
+	d2rq:condition "linkedct_trial.id_info_nct_alias <> ''";
+	.
+map:completion_date a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:completion_date;
+	d2rq:propertyDefinitionLabel "Trial's completion date";
+	d2rq:column "linkedct_trial.completion_date";
+	d2rq:condition "linkedct_trial.completion_date <> ''";
+	.
+map:verification_date a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:verification_date;
+	d2rq:propertyDefinitionLabel "Trial's verification date";
+	d2rq:column "linkedct_trial.verification_date";
+	d2rq:condition "linkedct_trial.verification_date <> ''";
+	.
+map:why_stopped a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:why_stopped;
+	d2rq:propertyDefinitionLabel "Why the trial stopped";
+	d2rq:column "linkedct_trial.why_stopped";
+	d2rq:condition "linkedct_trial.why_stopped <> ''";
+	.
+map:id_info_org_study_id a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:id_info_org_study_id;
+	d2rq:propertyDefinitionLabel "Trial's original study ID";
+	d2rq:column "linkedct_trial.id_info_org_study_id";
+	d2rq:condition "linkedct_trial.id_info_org_study_id <> ''";
+	.
+map:required_header_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:required_header_url;
+	d2rq:propertyDefinitionLabel "Trial's required header url";
+	d2rq:column "linkedct_trial.required_header_url";
+	d2rq:condition "linkedct_trial.required_header_url <> ''";
+	.
+map:study_design a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:study_design;
+	d2rq:propertyDefinitionLabel "Trial's study design";
+	d2rq:column "linkedct_trial.study_design";
+	d2rq:condition "linkedct_trial.study_design <> ''";
+	.
+map:source a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:source;
+	d2rq:propertyDefinitionLabel "Trial's source";
+	d2rq:column "linkedct_trial.source";
+	d2rq:condition "linkedct_trial.source <> ''";
+	.
+map:primary_completion_date a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:primary_completion_date;
+	d2rq:propertyDefinitionLabel "Trial's primary completion date";
+	d2rq:column "linkedct_trial.primary_completion_date";
+	d2rq:condition "linkedct_trial.primary_completion_date <> ''";
+	.
+map:brief_summary a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:brief_summary;
+	d2rq:propertyDefinitionLabel "Trial's brief summary";
+	d2rq:column "linkedct_trial.brief_summary";
+	d2rq:condition "linkedct_trial.brief_summary <> ''";
+	.
+map:number_of_groups a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:number_of_groups;
+	d2rq:propertyDefinitionLabel "Trial's number of groups";
+	d2rq:column "linkedct_trial.number_of_groups";
+	d2rq:condition "linkedct_trial.number_of_groups <> ''";
+	.
+map:required_header_download_date a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:required_header_download_date;
+	d2rq:propertyDefinitionLabel "Trial's required header download date";
+	d2rq:column "linkedct_trial.required_header_download_date";
+	d2rq:condition "linkedct_trial.required_header_download_date <> ''";
+	.
+map:phase a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:phase;
+	d2rq:propertyDefinitionLabel "Trial's phase";
+	d2rq:column "linkedct_trial.phase";
+	d2rq:condition "linkedct_trial.phase <> ''";
+	.
+map:start_date a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:start_date;
+	d2rq:propertyDefinitionLabel "Trial's start date";
+	d2rq:column "linkedct_trial.start_date";
+	d2rq:condition "linkedct_trial.start_date <> ''";
+	.
+map:has_expanded_access a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:has_expanded_access;
+	d2rq:propertyDefinitionLabel "If the trial has expanded access";
+	d2rq:column "linkedct_trial.has_expanded_access";
+	d2rq:condition "linkedct_trial.has_expanded_access <> ''";
+	.
+map:biospec_descr a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:biospec_descr;
+	d2rq:propertyDefinitionLabel "Trial's biospec description";
+	d2rq:column "linkedct_trial.biospec_descr";
+	d2rq:condition "linkedct_trial.biospec_descr <> ''";
+	.
+map:detailed_description a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:detailed_description;
+	d2rq:propertyDefinitionLabel "Trial's detailed description";
+	d2rq:column "linkedct_trial.detailed_description";
+	d2rq:condition "linkedct_trial.detailed_description <> ''";
+	.
+map:trial_condition_browse a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:condition_browse;
+	d2rq:propertyDefinitionLabel "Trial's condition browse";
+	d2rq:refersToClassMap map:condition_browse;
+	d2rq:join "linkedct_trial.condition_browse_id = linkedct_condition_browse.slug";
+	.
+map:trial_intervention_browse a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:intervention_browse;
+	d2rq:propertyDefinitionLabel "Trial's intervention browse";
+	d2rq:refersToClassMap map:intervention_browse;
+	d2rq:join "linkedct_trial.intervention_browse_id = linkedct_intervention_browse.slug";
+	.
+map:trial_responsible_party a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:responsible_party;
+	d2rq:propertyDefinitionLabel "Trial responsible party";
+	d2rq:refersToClassMap map:responsible_party;
+	d2rq:join "linkedct_trial.responsible_party_id = linkedct_responsible_party.slug";
+	.
+map:trial_overall_contact a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:overall_contact;
+	d2rq:propertyDefinitionLabel "Trial overall contact";
+	d2rq:refersToClassMap map:contact;
+	d2rq:join "linkedct_trial.overall_contact_id = linkedct_contact.slug";
+	.
+map:trial_overall_contact_backup a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:overall_contact_backup;
+	d2rq:propertyDefinitionLabel "Trial overall contact backup";
+	d2rq:refersToClassMap map:contact;
+	d2rq:join "linkedct_trial.overall_contact_backup_id = linkedct_contact.slug";
+	.
+map:trial_sponsor_group a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:sponsor_group;
+	d2rq:propertyDefinitionLabel "Trial sponsor group";
+	d2rq:refersToClassMap map:sponsor_group;
+	d2rq:join "linkedct_trial.sponsor_group_id = linkedct_sponsor_group.slug";
+	.
+map:trial_oversight_info a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:oversight_info;
+	d2rq:propertyDefinitionLabel "Trial oversight info";
+	d2rq:refersToClassMap map:oversight_info;
+	d2rq:join "linkedct_trial.oversight_info_id = linkedct_oversight_info.slug";
+	.
+map:trial_eligibility a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:eligibility;
+	d2rq:propertyDefinitionLabel "Trial eligibility";
+	d2rq:refersToClassMap map:eligibility;
+	d2rq:join "linkedct_trial.eligibility_id = linkedct_eligibility.slug";
+	.
+map:trial_provenance a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:trial;
+	d2rq:property linkedct:has_provenance;
+	d2rq:propertyDefinitionLabel "Provenance Information";
+	d2rq:refersToClassMap map:provenance;
+	d2rq:join "linkedct_trial.provenance_id = linkedct_provenance.slug";
+	.
+map:trial__keywords a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:trial;
+    d2rq:property linkedct:trial_keyword;
+    d2rq:propertyDefinitionLabel "Trial's Keyword";
+    d2rq:refersToClassMap map:keyword;
+    d2rq:join "linkedct_trial.slug = linkedct_trial_keywords.trial_id";
+    d2rq:join "linkedct_trial_keywords.keyword_id = linkedct_keyword.slug";
+    .
+map:trial__conditions a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:trial;
+    d2rq:property linkedct:trial_condition;
+    d2rq:propertyDefinitionLabel "Trial's Condition";
+    d2rq:refersToClassMap map:condition;
+    d2rq:join "linkedct_trial.slug = linkedct_trial_conditions.trial_id";
+    d2rq:join "linkedct_trial_conditions.condition_id = linkedct_condition.slug";
+    .
+map:trial__locations a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:trial;
+    d2rq:property linkedct:trial_location;
+    d2rq:propertyDefinitionLabel "Trial's Location";
+    d2rq:refersToClassMap map:location;
+    d2rq:join "linkedct_trial.slug = linkedct_trial_locations.trial_id";
+    d2rq:join "linkedct_trial_locations.location_id = linkedct_location.slug";
+    .
+map:trial__links a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:trial;
+    d2rq:property linkedct:trial_link;
+    d2rq:propertyDefinitionLabel "Trial's Link";
+    d2rq:refersToClassMap map:link;
+    d2rq:join "linkedct_trial.slug = linkedct_trial_links.trial_id";
+    d2rq:join "linkedct_trial_links.link_id = linkedct_link.slug";
+    .
+map:trial__results_references a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:trial;
+    d2rq:property linkedct:trial_results_reference;
+    d2rq:propertyDefinitionLabel "Trial's Result reference";
+    d2rq:refersToClassMap map:reference;
+    d2rq:join "linkedct_trial.slug = linkedct_trial_results_references.trial_id";
+    d2rq:join "linkedct_trial_results_references.reference_id = linkedct_reference.slug";
+    .
+map:trial__arm_groups a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:trial;
+    d2rq:property linkedct:trial_arm_group;
+    d2rq:propertyDefinitionLabel "Trial's Arm group";
+    d2rq:refersToClassMap map:arm_group;
+    d2rq:join "linkedct_trial.slug = linkedct_trial_arm_groups.trial_id";
+    d2rq:join "linkedct_trial_arm_groups.arm_group_id = linkedct_arm_group.slug";
+    .
+map:trial__location_countriess a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:trial;
+    d2rq:property linkedct:trial_location_countries;
+    d2rq:propertyDefinitionLabel "Trial's Location countries";
+    d2rq:refersToClassMap map:country;
+    d2rq:join "linkedct_trial.slug = linkedct_trial_location_countries.trial_id";
+    d2rq:join "linkedct_trial_location_countries.country_id = linkedct_country.slug";
+    .
+map:trial__interventions a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:trial;
+    d2rq:property linkedct:trial_intervention;
+    d2rq:propertyDefinitionLabel "Trial's Intervention";
+    d2rq:refersToClassMap map:intervention;
+    d2rq:join "linkedct_trial.slug = linkedct_trial_interventions.trial_id";
+    d2rq:join "linkedct_trial_interventions.intervention_id = linkedct_intervention.slug";
+    .
+map:trial__secondary_outcomes a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:trial;
+    d2rq:property linkedct:trial_secondary_outcome;
+    d2rq:propertyDefinitionLabel "Trial's Secondary outcome";
+    d2rq:refersToClassMap map:outcome;
+    d2rq:join "linkedct_trial.slug = linkedct_trial_secondary_outcomes.trial_id";
+    d2rq:join "linkedct_trial_secondary_outcomes.outcome_id = linkedct_outcome.slug";
+    .
+map:trial__references a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:trial;
+    d2rq:property linkedct:trial_reference;
+    d2rq:propertyDefinitionLabel "Trial's Reference";
+    d2rq:refersToClassMap map:reference;
+    d2rq:join "linkedct_trial.slug = linkedct_trial_references.trial_id";
+    d2rq:join "linkedct_trial_references.reference_id = linkedct_reference.slug";
+    .
+map:trial__primary_outcomes a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:trial;
+    d2rq:property linkedct:trial_primary_outcome;
+    d2rq:propertyDefinitionLabel "Trial's Primary outcome";
+    d2rq:refersToClassMap map:outcome;
+    d2rq:join "linkedct_trial.slug = linkedct_trial_primary_outcomes.trial_id";
+    d2rq:join "linkedct_trial_primary_outcomes.outcome_id = linkedct_outcome.slug";
+    .
+map:trial__removed_countriess a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:trial;
+    d2rq:property linkedct:trial_removed_countries;
+    d2rq:propertyDefinitionLabel "Trial's Removed countries";
+    d2rq:refersToClassMap map:country;
+    d2rq:join "linkedct_trial.slug = linkedct_trial_removed_countries.trial_id";
+    d2rq:join "linkedct_trial_removed_countries.country_id = linkedct_country.slug";
+    .
+map:trial__overall_officials a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:trial;
+    d2rq:property linkedct:trial_overall_official;
+    d2rq:propertyDefinitionLabel "Trial's Overall official";
+    d2rq:refersToClassMap map:overall_official;
+    d2rq:join "linkedct_trial.slug = linkedct_trial_overall_officials.trial_id";
+    d2rq:join "linkedct_trial_overall_officials.overall_official_id = linkedct_overall_official.slug";
+    .
+
+
+
+# Provenances
+
+map:address__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:address;
+    d2rq:property linkedct:has_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_address.slug = linkedct_address_provenances.address_id";
+    d2rq:join "linkedct_address_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:arm_group__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:arm_group;
+    d2rq:property linkedct:has_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_arm_group.slug = linkedct_arm_group_provenances.arm_group_id";
+    d2rq:join "linkedct_arm_group_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:city__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:city;
+    d2rq:property linkedct:has_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_city.slug = linkedct_city_provenances.city_id";
+    d2rq:join "linkedct_city_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:condition__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:condition;
+    d2rq:property linkedct:has_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_condition.slug = linkedct_condition_provenances.condition_id";
+    d2rq:join "linkedct_condition_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:condition_browse__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:condition_browse;
+    d2rq:property linkedct:has_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_condition_browse.slug = linkedct_condition_browse_provenances.condition_browse_id";
+    d2rq:join "linkedct_condition_browse_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:contact__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:contact;
+    d2rq:property linkedct:has_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_contact.slug = linkedct_contact_provenances.contact_id";
+    d2rq:join "linkedct_contact_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:country__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:country;
+    d2rq:property linkedct:has_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_country.slug = linkedct_country_provenances.country_id";
+    d2rq:join "linkedct_country_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:eligibility__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:eligibility;
+    d2rq:property linkedct:has_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_eligibility.slug = linkedct_eligibility_provenances.eligibility_id";
+    d2rq:join "linkedct_eligibility_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:facility__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:facility;
+    d2rq:property linkedct:has_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_facility.slug = linkedct_facility_provenances.facility_id";
+    d2rq:join "linkedct_facility_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:intervention__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:intervention;
+    d2rq:property linkedct:has_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_intervention.slug = linkedct_intervention_provenances.intervention_id";
+    d2rq:join "linkedct_intervention_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:intervention_browse__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:intervention_browse;
+    d2rq:property linkedct:has_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_intervention_browse.slug = linkedct_intervention_browse_provenances.intervention_browse_id";
+    d2rq:join "linkedct_intervention_browse_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:investigator__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:investigator;
+    d2rq:property linkedct:has_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_investigator.slug = linkedct_investigator_provenances.investigator_id";
+    d2rq:join "linkedct_investigator_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:keyword__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:keyword;
+    d2rq:property linkedct:has_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_keyword.slug = linkedct_keyword_provenances.keyword_id";
+    d2rq:join "linkedct_keyword_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:link__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:link;
+    d2rq:property linkedct:has_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_link.slug = linkedct_link_provenances.link_id";
+    d2rq:join "linkedct_link_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:location__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:location;
+    d2rq:property linkedct:has_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_location.slug = linkedct_location_provenances.location_id";
+    d2rq:join "linkedct_location_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:mesh_term__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:mesh_term;
+    d2rq:property linkedct:has_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_mesh_term.slug = linkedct_mesh_term_provenances.mesh_term_id";
+    d2rq:join "linkedct_mesh_term_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:outcome__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:outcome;
+    d2rq:property linkedct:has_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_outcome.slug = linkedct_outcome_provenances.outcome_id";
+    d2rq:join "linkedct_outcome_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:overall_official__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:overall_official;
+    d2rq:property linkedct:has_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_overall_official.slug = linkedct_overall_official_provenances.overall_official_id";
+    d2rq:join "linkedct_overall_official_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:oversight_info__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:oversight_info;
+    d2rq:property linkedct:has_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_oversight_info.slug = linkedct_oversight_info_provenances.oversight_info_id";
+    d2rq:join "linkedct_oversight_info_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:reference__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:reference;
+    d2rq:property linkedct:has_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_reference.slug = linkedct_reference_provenances.reference_id";
+    d2rq:join "linkedct_reference_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:responsible_party__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:responsible_party;
+    d2rq:property linkedct:has_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_responsible_party.slug = linkedct_responsible_party_provenances.responsible_party_id";
+    d2rq:join "linkedct_responsible_party_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:sponsor__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:sponsor;
+    d2rq:property linkedct:has_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_sponsor.slug = linkedct_sponsor_provenances.sponsor_id";
+    d2rq:join "linkedct_sponsor_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:sponsor_group__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:sponsor_group;
+    d2rq:property linkedct:has_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_sponsor_group.slug = linkedct_sponsor_group_provenances.sponsor_group_id";
+    d2rq:join "linkedct_sponsor_group_provenances.provenance_id = linkedct_provenance.slug";
+    .
+map:state__provenances a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:state;
+    d2rq:property linkedct:has_provenance;
+    d2rq:refersToClassMap map:provenance;
+    d2rq:join "linkedct_state.slug = linkedct_state_provenances.state_id";
+    d2rq:join "linkedct_state_provenances.provenance_id = linkedct_provenance.slug";
+    .
+    
+
+# Table linkedct_external_resource
+#map:external_resource a d2rq:ClassMap;
+#	d2rq:dataStorage map:database;
+#	d2rq:uriPattern "linkedct_external_resource/@@linkedct_external_resource.slug|urlify@@";
+#	d2rq:class linkedct:external_resource;
+#	d2rq:classDefinitionLabel "linkedct_external_resource";
+#	.
+#map:external_resource__label a d2rq:PropertyBridge;
+#	d2rq:belongsToClassMap map:external_resource;
+#	d2rq:property rdfs:label;
+#	d2rq:column "linkedct_external_resource.label";
+#	.
+#map:external_resource_source_url a d2rq:PropertyBridge;
+#	d2rq:belongsToClassMap map:external_resource;
+#	d2rq:property linkedct:external_resource_source_url;
+#	d2rq:propertyDefinitionLabel "linkedct_external_resource source_url";
+#	d2rq:uriColumn "linkedct_external_resource.source_url";
+#	.
+#map:external_resource_source_id a d2rq:PropertyBridge;
+#	d2rq:belongsToClassMap map:external_resource;
+#	d2rq:property linkedct:external_resource_source_id;
+#	d2rq:propertyDefinitionLabel "linkedct_external_resource source_id";
+#	d2rq:column "linkedct_external_resource.source_id";
+#	.
+#map:external_resource_source_label a d2rq:PropertyBridge;
+#	d2rq:belongsToClassMap map:external_resource;
+#	d2rq:property linkedct:external_resource_source_label;
+#	d2rq:propertyDefinitionLabel "linkedct_external_resource source_label";
+#	d2rq:column "linkedct_external_resource.source_label";
+#	.
+#map:external_resource_source_name a d2rq:PropertyBridge;
+#	d2rq:belongsToClassMap map:external_resource;
+#	d2rq:property linkedct:external_resource_source_name;
+#	d2rq:propertyDefinitionLabel "linkedct_external_resource source_name";
+#	d2rq:column "linkedct_external_resource.source_name";
+#	.
+#map:external_resource_source_format a d2rq:PropertyBridge;
+#	d2rq:belongsToClassMap map:external_resource;
+#	d2rq:property linkedct:external_resource_source_format;
+#	d2rq:propertyDefinitionLabel "linkedct_external_resource source_format";
+#	d2rq:column "linkedct_external_resource.source_format";
+#	.
+#map:external_resource_related_model_name a d2rq:PropertyBridge;
+#	d2rq:belongsToClassMap map:external_resource;
+#	d2rq:property linkedct:external_resource_related_model_name;
+#	d2rq:propertyDefinitionLabel "linkedct_external_resource related_model_name";
+#	d2rq:column "linkedct_external_resource.related_model_name";
+#	.
+
+
+# External Linkages
+
+map:address__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:address;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_address.slug = linkedct_address_interlinks.address_id";
+    d2rq:join "linkedct_address_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:address__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:address;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_address.slug = linkedct_address_interlinks.address_id";
+    d2rq:condition "linkedct_address_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:arm_group__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:arm_group;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_arm_group.slug = linkedct_arm_group_interlinks.arm_group_id";
+    d2rq:join "linkedct_arm_group_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:arm_group__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:arm_group;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_arm_group.slug = linkedct_arm_group_interlinks.arm_group_id";
+    d2rq:condition "linkedct_arm_group_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:city__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:city;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_city.slug = linkedct_city_interlinks.city_id";
+    d2rq:join "linkedct_city_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:city__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:city;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_city.slug = linkedct_city_interlinks.city_id";
+    d2rq:condition "linkedct_city_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:condition__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:condition;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_condition.slug = linkedct_condition_interlinks.condition_id";
+    d2rq:join "linkedct_condition_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:condition__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:condition;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_condition.slug = linkedct_condition_interlinks.condition_id";
+    d2rq:condition "linkedct_condition_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:condition_browse__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:condition_browse;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_condition_browse.slug = linkedct_condition_browse_interlinks.condition_browse_id";
+    d2rq:join "linkedct_condition_browse_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:condition_browse__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:condition_browse;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_condition_browse.slug = linkedct_condition_browse_interlinks.condition_browse_id";
+    d2rq:condition "linkedct_condition_browse_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:contact__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:contact;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_contact.slug = linkedct_contact_interlinks.contact_id";
+    d2rq:join "linkedct_contact_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:contact__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:contact;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_contact.slug = linkedct_contact_interlinks.contact_id";
+    d2rq:condition "linkedct_contact_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:country__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:country;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_country.slug = linkedct_country_interlinks.country_id";
+    d2rq:join "linkedct_country_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:country__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:country;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_country.slug = linkedct_country_interlinks.country_id";
+    d2rq:condition "linkedct_country_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:eligibility__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:eligibility;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_eligibility.slug = linkedct_eligibility_interlinks.eligibility_id";
+    d2rq:join "linkedct_eligibility_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:eligibility__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:eligibility;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_eligibility.slug = linkedct_eligibility_interlinks.eligibility_id";
+    d2rq:condition "linkedct_eligibility_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:facility__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:facility;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_facility.slug = linkedct_facility_interlinks.facility_id";
+    d2rq:join "linkedct_facility_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:facility__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:facility;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_facility.slug = linkedct_facility_interlinks.facility_id";
+    d2rq:condition "linkedct_facility_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:intervention__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:intervention;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_intervention.slug = linkedct_intervention_interlinks.intervention_id";
+    d2rq:join "linkedct_intervention_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:intervention__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:intervention;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_intervention.slug = linkedct_intervention_interlinks.intervention_id";
+    d2rq:condition "linkedct_intervention_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:intervention_browse__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:intervention_browse;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_intervention_browse.slug = linkedct_intervention_browse_interlinks.intervention_browse_id";
+    d2rq:join "linkedct_intervention_browse_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:intervention_browse__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:intervention_browse;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_intervention_browse.slug = linkedct_intervention_browse_interlinks.intervention_browse_id";
+    d2rq:condition "linkedct_intervention_browse_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:investigator__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:investigator;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_investigator.slug = linkedct_investigator_interlinks.investigator_id";
+    d2rq:join "linkedct_investigator_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:investigator__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:investigator;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_investigator.slug = linkedct_investigator_interlinks.investigator_id";
+    d2rq:condition "linkedct_investigator_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:keyword__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:keyword;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_keyword.slug = linkedct_keyword_interlinks.keyword_id";
+    d2rq:join "linkedct_keyword_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:keyword__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:keyword;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_keyword.slug = linkedct_keyword_interlinks.keyword_id";
+    d2rq:condition "linkedct_keyword_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:link__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:link;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_link.slug = linkedct_link_interlinks.link_id";
+    d2rq:join "linkedct_link_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:link__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:link;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_link.slug = linkedct_link_interlinks.link_id";
+    d2rq:condition "linkedct_link_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:location__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:location;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_location.slug = linkedct_location_interlinks.location_id";
+    d2rq:join "linkedct_location_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:location__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:location;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_location.slug = linkedct_location_interlinks.location_id";
+    d2rq:condition "linkedct_location_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:mesh_term__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:mesh_term;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_mesh_term.slug = linkedct_mesh_term_interlinks.mesh_term_id";
+    d2rq:join "linkedct_mesh_term_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:mesh_term__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:mesh_term;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_mesh_term.slug = linkedct_mesh_term_interlinks.mesh_term_id";
+    d2rq:condition "linkedct_mesh_term_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:outcome__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:outcome;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_outcome.slug = linkedct_outcome_interlinks.outcome_id";
+    d2rq:join "linkedct_outcome_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:outcome__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:outcome;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_outcome.slug = linkedct_outcome_interlinks.outcome_id";
+    d2rq:condition "linkedct_outcome_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:overall_official__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:overall_official;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_overall_official.slug = linkedct_overall_official_interlinks.overall_official_id";
+    d2rq:join "linkedct_overall_official_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:overall_official__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:overall_official;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_overall_official.slug = linkedct_overall_official_interlinks.overall_official_id";
+    d2rq:condition "linkedct_overall_official_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:oversight_info__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:oversight_info;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_oversight_info.slug = linkedct_oversight_info_interlinks.oversight_info_id";
+    d2rq:join "linkedct_oversight_info_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:oversight_info__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:oversight_info;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_oversight_info.slug = linkedct_oversight_info_interlinks.oversight_info_id";
+    d2rq:condition "linkedct_oversight_info_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:reference__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:reference;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_reference.slug = linkedct_reference_interlinks.reference_id";
+    d2rq:join "linkedct_reference_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:reference__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:reference;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_reference.slug = linkedct_reference_interlinks.reference_id";
+    d2rq:condition "linkedct_reference_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:responsible_party__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:responsible_party;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_responsible_party.slug = linkedct_responsible_party_interlinks.responsible_party_id";
+    d2rq:join "linkedct_responsible_party_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:responsible_party__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:responsible_party;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_responsible_party.slug = linkedct_responsible_party_interlinks.responsible_party_id";
+    d2rq:condition "linkedct_responsible_party_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:sponsor__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:sponsor;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_sponsor.slug = linkedct_sponsor_interlinks.sponsor_id";
+    d2rq:join "linkedct_sponsor_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:sponsor__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:sponsor;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_sponsor.slug = linkedct_sponsor_interlinks.sponsor_id";
+    d2rq:condition "linkedct_sponsor_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:sponsor_group__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:sponsor_group;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_sponsor_group.slug = linkedct_sponsor_group_interlinks.sponsor_group_id";
+    d2rq:join "linkedct_sponsor_group_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:sponsor_group__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:sponsor_group;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_sponsor_group.slug = linkedct_sponsor_group_interlinks.sponsor_group_id";
+    d2rq:condition "linkedct_sponsor_group_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+map:state__interlinks a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:state;
+    d2rq:property linkedct:has_external_linkage;
+    d2rq:refersToClassMap map:external_linkage;
+    d2rq:join "linkedct_state.slug = linkedct_state_interlinks.state_id";
+    d2rq:join "linkedct_state_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    .
+map:state__seeAlso a d2rq:PropertyBridge;
+    d2rq:belongsToClassMap map:state;
+    d2rq:property rdfs:seeAlso;
+    d2rq:uriColumn "linkedct_external_resource.source_url";
+    d2rq:condition "linkedct_state.slug = linkedct_state_interlinks.state_id";
+    d2rq:condition "linkedct_state_interlinks.external_linkage_id = linkedct_external_linkage.slug";
+    d2rq:condition "linkedct_external_linkage.to_resource_id = linkedct_external_resource.slug";
+    .
+
+
+
+
+

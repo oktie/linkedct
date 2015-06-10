@@ -1,0 +1,1592 @@
+@prefix map: <file:/C:/d2r-server-0.4/mapping.n3#> .
+@prefix db: <> .
+@prefix movie: <movie/> .
+@prefix oddlinker: <oddlinker/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix d2r: <http://sites.wiwiss.fu-berlin.de/suhl/bizer/d2r-server/config.rdf#> .
+@prefix d2rq: <http://www.wiwiss.fu-berlin.de/suhl/bizer/D2RQ/0.1#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix dbpedia: <http://dbpedia.org/property/> .
+
+<> a d2r:Server;
+    rdfs:label "D2R Server";
+    d2r:baseURI <http://localhost:2020/>;
+    d2r:port 2020;
+    d2r:documentMetadata [
+        rdfs:comment "Contents of this file may include content from 
+		      FreeBase (http://www.freebase.com) or Wikipedia 
+		      (http://www.wikipedia.org) licensed under CC-BY
+		      (http://www.freebase.com/view/common/license/cc_attribution_25)
+		      or GFDL (http://en.wikipedia.org/wiki/Wikipedia:Text_of_the_GNU_Free_Documentation_License). 
+		      Refer to http://www.linkedmdb.org:8080/Main/Licensing for more details.";
+    ];
+    .
+map:database a d2rq:Database;
+	d2rq:jdbcDriver "COM.ibm.db2.jdbc.app.DB2Driver";
+	d2rq:jdbcDSN "jdbc:db2:odb";
+	d2rq:username "db2inst1";
+	d2rq:password "db2inst1";
+	d2rq:resultSizeLimit 500;
+	d2rq:resourceBaseURI <http://localhost:2020/>;
+	.
+
+# Table actor
+map:actor a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "actor/@@actor.actorid@@";
+	d2rq:class movie:actor, foaf:Person;
+	.
+map:actor__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:actor;
+	d2rq:property rdfs:label;
+	d2rq:pattern "@@actor.name@@ (Actor)";
+	.
+map:actor_actorid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:actor;
+	d2rq:property movie:actor_actorid;
+	d2rq:column "actor.actorid";
+	d2rq:datatype xsd:int;
+	.
+map:actor_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:actor;
+	d2rq:property movie:actor_name;
+	d2rq:column "actor.name";
+	.
+map:actor_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:actor;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "actor.freebase_url";
+	.
+map:actor_imdb_entry a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:actor;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "actor.imdb_entry";
+	.
+map:actor_yago a d2rq:PropertyBridge;
+        d2rq:belongsToClassMap map:actor;
+        d2rq:property owl:SameAs;
+        d2rq:uriColumn "actor2yago.uri";
+        d2rq:join "actor.actorid = actor2yago.actorid";
+        .
+map:actor_dbpedia a d2rq:PropertyBridge;
+        d2rq:belongsToClassMap map:actor;
+        d2rq:property owl:SameAs;
+        d2rq:uriColumn "actor2dbpedia.uri";
+        d2rq:join "actor.actorid = actor2dbpedia.actorid";
+        .
+map:actor_flickr a d2rq:PropertyBridge;
+        d2rq:belongsToClassMap map:actor;
+        d2rq:property dbpedia:hasPhotoCollection;
+        d2rq:uriColumn "actor2flickr.uri";
+        d2rq:join "actor.actorid = actor2flickr.actorid";
+        .
+
+# Table cinematographer
+map:cinematographer a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "cinematographer/@@cinematographer.cinematographerid@@";
+	d2rq:class movie:cinematographer, foaf:Person;
+	.
+map:cinematographer__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cinematographer;
+	d2rq:property rdfs:label;
+	d2rq:pattern "@@cinematographer.name@@ (Cinematographer)";
+	.
+map:cinematographer_cinematographerid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cinematographer;
+	d2rq:property movie:cinematographer_cinematographerid;
+	d2rq:column "cinematographer.cinematographerid";
+	d2rq:datatype xsd:int;
+	.
+map:cinematographer_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cinematographer;
+	d2rq:property movie:cinematographer_name;
+	d2rq:column "cinematographer.name";
+	.
+map:cinematographer_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cinematographer;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "cinematographer.freebase_url";
+	.
+map:cinematographer_imdb_entry a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:cinematographer;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "cinematographer.imdb_entry";
+	.
+
+# Table content_rating
+map:content_rating a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "content_rating/@@content_rating.content_ratingid@@";
+	d2rq:class movie:content_rating;
+	.
+map:content_rating__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:content_rating;
+	d2rq:property rdfs:label;
+	d2rq:pattern "@@content_rating.name@@ (Content Rating)";
+	.
+map:content_rating_content_ratingid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:content_rating;
+	d2rq:property movie:content_rating_content_ratingid;
+	d2rq:column "content_rating.content_ratingid";
+	d2rq:datatype xsd:int;
+	.
+map:content_rating_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:content_rating;
+	d2rq:property movie:content_rating_name;
+	d2rq:column "content_rating.name";
+	.
+map:content_rating_country a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:content_rating;
+	d2rq:property movie:content_rating_country;
+	d2rq:column "content_rating.country";
+	.
+map:content_rating_minimum_unaccompanied_age a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:content_rating;
+	d2rq:property movie:content_rating_minimum_unaccompanied_age;
+	d2rq:column "content_rating.minimum_unaccompanied_age";
+	d2rq:datatype xsd:int;
+	.
+map:content_rating_film_rating_system a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:content_rating;
+	d2rq:property movie:content_rating_film_rating_system;
+	d2rq:column "content_rating.film_rating_system";
+	.
+map:content_rating_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:content_rating;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "content_rating.freebase_url";
+	.
+
+# Table content_rating_system
+map:content_rating_system a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "content_rating_system/@@content_rating_system.content_rating_systemid@@";
+	d2rq:class movie:content_rating_system;
+	.
+map:content_rating_system__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:content_rating_system;
+	d2rq:property rdfs:label;
+	d2rq:pattern "@@content_rating_system.name@@ (Content Rating System)";
+	.
+map:content_rating_system_content_rating_systemid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:content_rating_system;
+	d2rq:property movie:content_rating_system_content_rating_systemid;
+	d2rq:column "content_rating_system.content_rating_systemid";
+	d2rq:datatype xsd:int;
+	.
+map:content_rating_system_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:content_rating_system;
+	d2rq:property movie:content_rating_system_name;
+	d2rq:column "content_rating_system.name";
+	.
+map:content_rating_system_jurisdiction a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:content_rating_system;
+	d2rq:property movie:content_rating_system_jurisdiction;
+	d2rq:column "content_rating_system.jurisdiction";
+	.
+map:content_rating_system_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:content_rating_system;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "content_rating_system.freebase_url";
+	.
+
+# Table director
+map:director a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "director/@@director.directorid@@";
+	d2rq:class movie:director, foaf:Person;
+	.
+map:director__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:director;
+	d2rq:property rdfs:label;
+	d2rq:pattern "@@director.name@@ (Director)";
+	.
+map:director_directorid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:director;
+	d2rq:property movie:director_directorid;
+	d2rq:column "director.directorid";
+	d2rq:datatype xsd:int;
+	.
+map:director_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:director;
+	d2rq:property movie:director_name;
+	d2rq:column "director.name";
+	.
+map:director_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:director;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "director.freebase_url";
+	.
+map:director_imdb_entry a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:director;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "director.imdb_entry";
+	.
+map:director_film a d2rq:PropertyBridge;
+        d2rq:belongsToClassMap map:director;
+        d2rq:property foaf:made;
+        d2rq:refersToClassMap map:film;
+        d2rq:join "film.id = film2director.id1";
+        d2rq:join "film2director.id2 = director.id";
+        .
+
+# Table dubbing_performance
+map:dubbing_performance a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "dubbing_performance/@@dubbing_performance.dubbing_performanceid@@";
+	d2rq:class movie:dubbing_performance;
+	.
+map:dubbing_performance__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:dubbing_performance;
+	d2rq:property rdfs:label;
+	d2rq:pattern "dubbing_performance @@dubbing_performance.dubbing_performanceid@@";
+	.
+map:dubbing_performance_dubbing_performanceid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:dubbing_performance;
+	d2rq:property movie:dubbing_performance_dubbing_performanceid;
+	d2rq:column "dubbing_performance.dubbing_performanceid";
+	d2rq:datatype xsd:int;
+	.
+map:dubbing_performance_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:dubbing_performance;
+	d2rq:property movie:dubbing_performance_name;
+	d2rq:column "dubbing_performance.name";
+	.
+map:dubbing_performance_language a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:dubbing_performance;
+	d2rq:property movie:dubbing_performance_language;
+	d2rq:column "dubbing_performance.language";
+	.
+map:dubbing_performance_character a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:dubbing_performance;
+	d2rq:property movie:dubbing_performance_character;
+	d2rq:column "dubbing_performance.character";
+	.
+map:dubbing_performance_actor a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:dubbing_performance;
+	d2rq:property movie:dubbing_performance_actor;
+	d2rq:column "dubbing_performance.actor";
+	.
+map:dubbing_performance_film a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:dubbing_performance;
+	d2rq:property movie:dubbing_performance_film;
+	d2rq:column "dubbing_performance.film";
+	.
+map:dubbing_performance_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:dubbing_performance;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "dubbing_performance.freebase_url";
+	.
+
+# Table editor
+map:editor a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "editor/@@editor.editorid@@";
+	d2rq:class movie:editor, foaf:Person;
+	.
+map:editor__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:editor;
+	d2rq:property rdfs:label;
+	d2rq:pattern "@@editor.name@@ (Editor)";
+	.
+map:editor_editorid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:editor;
+	d2rq:property movie:editor_editorid;
+	d2rq:column "editor.editorid";
+	d2rq:datatype xsd:int;
+	.
+map:editor_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:editor;
+	d2rq:property movie:editor_name;
+	d2rq:column "editor.name";
+	.
+map:editor_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:editor;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "editor.freebase_url";
+	.
+map:editor_imdb_entry a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:editor;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "editor.imdb_entry";
+	.
+
+# Table film
+map:film a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "film/@@film.filmid@@";
+	d2rq:class movie:film;
+	.
+map:film__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film;
+	d2rq:property rdfs:label, dc:title;
+	d2rq:pattern "@@film.name@@";
+	.
+map:film_filmid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film;
+	d2rq:property movie:filmid;
+	d2rq:column "film.filmid";
+	d2rq:datatype xsd:int;
+	.
+map:film_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "film.freebase_url";
+	.
+map:film_imdb_id a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "film.imdb_id";
+	.
+map:film_initial_release_date a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film;
+	d2rq:property movie:initial_release_date, dc:date;
+	d2rq:column "film.initial_release_date";
+	.
+map:film_actor a d2rq:PropertyBridge;
+        d2rq:belongsToClassMap map:film;
+        d2rq:property movie:actor;
+        d2rq:refersToClassMap map:actor;
+        d2rq:join "actor.id = actor2film.actorid";
+        d2rq:join "actor2film.filmid = film.id";
+        .
+map:film_director a d2rq:PropertyBridge;
+        d2rq:belongsToClassMap map:film;
+        d2rq:property movie:director;
+        d2rq:refersToClassMap map:director;
+        d2rq:join "film.id = film2director.id1";
+        d2rq:join "film2director.id2 = director.id";
+        .
+map:film_producer a d2rq:PropertyBridge;
+        d2rq:belongsToClassMap map:film;
+        d2rq:property movie:producer;
+        d2rq:refersToClassMap map:producer;
+        d2rq:join "film.id = film2producer.id1";
+        d2rq:join "film2producer.id2 = producer.id";
+        .
+map:film_sequel a d2rq:PropertyBridge;
+        d2rq:belongsToClassMap map:film;
+        d2rq:property movie:sequel;
+        d2rq:refersToClassMap map:film;
+        d2rq:join "film.id = film2sequel.id1";
+        d2rq:join "film2.id = film2sequel.id2";
+        d2rq:alias "film AS film2";
+        .
+map:film_cinematographer a d2rq:PropertyBridge;
+        d2rq:belongsToClassMap map:film;
+        d2rq:property movie:cinematographer;
+        d2rq:refersToClassMap map:cinematographer;
+        d2rq:join "film.id = film2cinematography.id1";
+        d2rq:join "film2cinematography.id2 = cinematographer.id";
+        .
+map:film_writer a d2rq:PropertyBridge;
+        d2rq:belongsToClassMap map:film;
+        d2rq:property movie:writer;
+        d2rq:refersToClassMap map:writer;
+        d2rq:join "film.id = film2writer.id1";
+        d2rq:join "film2writer.id2 = writer.id";
+        .
+map:film_film_subject a d2rq:PropertyBridge;
+        d2rq:belongsToClassMap map:film;
+        d2rq:property skos:subject;
+        d2rq:refersToClassMap map:film_subject;
+        d2rq:join "film.id = film2subjects.id1";
+        d2rq:join "film2subjects.id2 = film_subject.id";
+        .
+map:film_film_story_contributor a d2rq:PropertyBridge;
+        d2rq:belongsToClassMap map:film;
+        d2rq:property movie:story_contributor;
+        d2rq:refersToClassMap map:film_story_contributor;
+        d2rq:join "film.id = film2story_contributor.id1";
+        d2rq:join "film2story_contributor.id2 = film_story_contributor.id";
+        .
+map:film_film_collection a d2rq:PropertyBridge;
+        d2rq:belongsToClassMap map:film;
+        d2rq:property movie:film_collection;
+        d2rq:refersToClassMap map:film_collection;
+        d2rq:join "film.id = film2collections.id1";
+        d2rq:join "film2collections.id2 = film_collection.id";
+        .
+map:film_editor a d2rq:PropertyBridge;
+        d2rq:belongsToClassMap map:film;
+        d2rq:property movie:editor;
+        d2rq:refersToClassMap map:editor;
+        d2rq:join "film.id = film2editor.id1";
+        d2rq:join "film2editor.id2 = editor.id";
+        .
+map:film_music_contributor a d2rq:PropertyBridge;
+        d2rq:belongsToClassMap map:film;
+        d2rq:property movie:music_contributor;
+        d2rq:refersToClassMap map:music_contributor;
+        d2rq:join "film.id = film2music.id1";
+        d2rq:join "film2music.id2 = music_contributor.id";
+        .
+map:film_film_genre a d2rq:PropertyBridge;
+        d2rq:belongsToClassMap map:film;
+        d2rq:property movie:genre;
+        d2rq:refersToClassMap map:film_genre;
+        d2rq:join "film.id = film2genre.id1";
+        d2rq:join "film2genre.id2 = film_genre.id";
+        .
+map:film_film_location a d2rq:PropertyBridge;
+        d2rq:belongsToClassMap map:film;
+        d2rq:property movie:location;
+        d2rq:refersToClassMap map:film_location;
+        d2rq:join "film.id = film2locations.id1";
+        d2rq:join "film2locations.id2 = film_location.id";
+        .
+map:film_film_costume a d2rq:PropertyBridge;
+        d2rq:belongsToClassMap map:film;
+        d2rq:property movie:costume_designer;
+        d2rq:refersToClassMap map:film_costume_designer;
+        d2rq:join "film.id = film2costume.id1";
+        d2rq:join "film2costume.id2 = film_costume_designer.id";
+        .
+map:film_film_rating a d2rq:PropertyBridge;
+        d2rq:belongsToClassMap map:film;
+        d2rq:property movie:rating;
+        d2rq:refersToClassMap map:content_rating;
+        d2rq:join "film.id = film2rating.id1";
+        d2rq:join "film2rating.id2 = content_rating.id";
+        .
+map:film_film_cut a d2rq:PropertyBridge;
+        d2rq:belongsToClassMap map:film;
+        d2rq:property movie:film_cut;
+        d2rq:refersToClassMap map:film_cut;
+        d2rq:join "film.id = film_cut2film.id2";
+        d2rq:join "film_cut2film.id1 = film_cut.id";
+        .
+map:film_runtime a d2rq:PropertyBridge;
+        d2rq:belongsToClassMap map:film;
+        d2rq:property movie:runtime;
+        d2rq:column "film_cut.runtime";
+        d2rq:join "film.id = film_cut2film.id2";
+        d2rq:join "film_cut2film.id1 = film_cut.id";
+        .
+map:film_film_format a d2rq:PropertyBridge;
+        d2rq:belongsToClassMap map:film;
+        d2rq:property movie:film_format;
+        d2rq:refersToClassMap map:film_format;
+        d2rq:join "film.id = film2film_format.id1";
+        d2rq:join "film2film_format.id2 = film_format.id";
+        .
+map:film_country a d2rq:PropertyBridge;
+        d2rq:belongsToClassMap map:film;
+        d2rq:property movie:country;
+        d2rq:refersToClassMap map:country;
+        d2rq:join "film.id = film2country.id";
+        d2rq:join "film2country.country = country.name";
+        .
+map:film_country2 a d2rq:PropertyBridge;
+        d2rq:belongsToClassMap map:film;
+        d2rq:property foaf:based_near;
+        d2rq:uriColumn "country.geonameURL";
+        d2rq:join "film.id = film2country.id";
+        d2rq:join "film2country.country = country.name";
+        .
+map:film_language a d2rq:PropertyBridge;
+        d2rq:belongsToClassMap map:film;
+        d2rq:property movie:language;
+        d2rq:uriColumn "film2lingvoj.uri";
+        d2rq:join "film.filmid = film2lingvoj.filmid";
+        .
+map:film_film_series a d2rq:PropertyBridge;
+        d2rq:belongsToClassMap map:film;
+        d2rq:property movie:film_series;
+        d2rq:refersToClassMap map:film_series;
+        d2rq:join "film.id = film_series2film.id2";
+        d2rq:join "film_series2film.id1 = film_series.id";
+        .
+map:film_yago a d2rq:PropertyBridge;
+        d2rq:belongsToClassMap map:film;
+        d2rq:property owl:SameAs;
+        d2rq:uriColumn "film2yago.uri";
+        d2rq:join "film.filmid = film2yago.tid";
+        .
+map:film_dbpedia a d2rq:PropertyBridge;
+        d2rq:belongsToClassMap map:film;
+        d2rq:property owl:SameAs;
+        d2rq:uriColumn "film2dbpedia.uri";
+        d2rq:join "film.filmid = film2dbpedia.tid";
+        .
+map:film_flickr a d2rq:PropertyBridge;
+        d2rq:belongsToClassMap map:film;
+        d2rq:property dbpedia:hasPhotoCollection;
+        d2rq:uriColumn "film2flickr.uri";
+        d2rq:join "film.filmid = film2flickr.tid";
+        .
+map:film_rotten a d2rq:PropertyBridge;
+        d2rq:belongsToClassMap map:film;
+        d2rq:property foaf:page;
+        d2rq:uriColumn "film2rotten.uri";
+        d2rq:join "film.filmid = film2rotten.tid";
+        .
+map:film_book a d2rq:PropertyBridge;
+        d2rq:belongsToClassMap map:film;
+        d2rq:property movie:relatedBook;
+        d2rq:uriColumn "film2book.uri";
+        d2rq:join "film.filmid = film2book.tid";
+        .
+
+# Table interlink
+map:interlink a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "interlink/@@interlinks.linkid@@";
+	d2rq:class oddlinker:interlink;
+	.
+map:interlink__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:interlink;
+	d2rq:property rdfs:label;
+	d2rq:pattern "@@interlinks.linkid@@ (Interlink)";
+	.
+map:interlink_linkid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:interlink;
+	d2rq:property movie:linkid;
+	d2rq:column "interlinks.linkid";
+	d2rq:datatype xsd:int;
+	.
+map:interlink_sourcef a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:interlink;
+	d2rq:property oddlinker:link_source;
+	d2rq:refersToClassMap map:film;
+	d2rq:join "film.filmid = interlinks.sid";
+	d2rq:condition "interlinks.sourceTable = 'film'";
+	.
+map:interlink_sourcec a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:interlink;
+	d2rq:property oddlinker:link_source;
+	d2rq:refersToClassMap map:country;
+	d2rq:join "country.id = interlinks.sid";
+	d2rq:condition "interlinks.sourceTable = 'country'";
+	.
+map:interlink_sourcem a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:interlink;
+	d2rq:property oddlinker:link_source;
+	d2rq:refersToClassMap map:music_contributor;
+	d2rq:join "music_contributor.music_contributorid = interlinks.sid";
+	d2rq:condition "interlinks.sourceTable = 'music_contributor'";
+	.
+map:interlink_sourcea a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:interlink;
+	d2rq:property oddlinker:link_source;
+	d2rq:refersToClassMap map:actor;
+	d2rq:join "actor.actorid = interlinks.sid";
+	d2rq:condition "interlinks.sourceTable = 'actor'";
+	.
+map:interlink_source_writer a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:interlink;
+	d2rq:property oddlinker:link_source;
+	d2rq:refersToClassMap map:writer;
+	d2rq:join "writer.writerid = interlinks.sid";
+	d2rq:condition "interlinks.sourceTable = 'writer'";
+	.
+map:interlink_target a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:interlink;
+	d2rq:property oddlinker:link_target;
+	d2rq:uriColumn "interlinks.target";
+	.
+map:interlink_type a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:interlink;
+	d2rq:property oddlinker:link_type;
+	d2rq:column "interlinks.type";
+	.
+map:interlink_score a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:interlink;
+	d2rq:property oddlinker:linkage_score;
+	d2rq:column "interlinks.score";
+	.
+map:interlink_bundle a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:interlink;
+	d2rq:refersToClassMap map:linkage_run;
+	d2rq:property oddlinker:linkage_run;
+	d2rq:join "interlinks.bundleid = linkruns.bundleid";
+	.
+
+# Table linkage_run
+map:linkage_run a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "linkage_run/@@linkruns.bundleid@@";
+	d2rq:class oddlinker:linkage_run;
+	.
+map:linkage_run_method a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:linkage_run;
+	d2rq:property oddlinker:linkage_method;
+	d2rq:column "linkruns.method";
+	.
+map:linkage_run_date a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:linkage_run;
+	d2rq:property oddlinker:linkage_date;
+	d2rq:column "linkruns.date";
+	.
+
+# Table film_awards_ceremony
+map:film_awards_ceremony a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "film_awards_ceremony/@@film_awards_ceremony.film_awards_ceremonyid@@";
+	d2rq:class movie:film_awards_ceremony;
+	.
+map:film_awards_ceremony__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_awards_ceremony;
+	d2rq:property rdfs:label;
+	d2rq:pattern "@@film_awards_ceremony.name@@ (Film Awards Ceremony)";
+	.
+map:film_awards_ceremony_film_awards_ceremonyid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_awards_ceremony;
+	d2rq:property movie:film_awards_ceremony_film_awards_ceremonyid;
+	d2rq:column "film_awards_ceremony.film_awards_ceremonyid";
+	d2rq:datatype xsd:int;
+	.
+map:film_awards_ceremony_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_awards_ceremony;
+	d2rq:property movie:film_awards_ceremony_name;
+	d2rq:column "film_awards_ceremony.name";
+	.
+map:film_awards_ceremony_id a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_awards_ceremony;
+	d2rq:property movie:film_awards_ceremony_id;
+	d2rq:column "film_awards_ceremony.id";
+	.
+map:film_awards_ceremony_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_awards_ceremony;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "film_awards_ceremony.freebase_url";
+	.
+
+# Table film_character
+map:film_character a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "film_character/@@film_character.film_characterid@@";
+	d2rq:class movie:film_character;
+	.
+map:film_character__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_character;
+	d2rq:property rdfs:label;
+	d2rq:pattern "@@film_character.film_characterid@@ (Film Character)";
+	.
+map:film_character_film_characterid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_character;
+	d2rq:property movie:film_character_film_characterid;
+	d2rq:column "film_character.film_characterid";
+	d2rq:datatype xsd:int;
+	.
+map:film_character_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_character;
+	d2rq:property movie:film_character_name;
+	d2rq:column "film_character.name";
+	.
+map:film_character_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_character;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "film_character.freebase_url";
+	.
+
+# Table film_collection
+map:film_collection a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "film_collection/@@film_collection.film_collectionid@@";
+	d2rq:class movie:film_collection;
+	.
+map:film_collection__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_collection;
+	d2rq:property rdfs:label;
+	d2rq:pattern "@@film_collection.name@@ (Film Collection)";
+	.
+map:film_collection_film_collectionid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_collection;
+	d2rq:property movie:film_collection_film_collectionid;
+	d2rq:column "film_collection.film_collectionid";
+	d2rq:datatype xsd:int;
+	.
+map:film_collection_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_collection;
+	d2rq:property movie:film_collection_name;
+	d2rq:column "film_collection.name";
+	.
+map:film_collection_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_collection;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "film_collection.freebase_url";
+	.
+
+# Table film_company
+map:film_company a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "film_company/@@film_company.film_companyid@@";
+	d2rq:class movie:film_company, foaf:Agent;
+	.
+map:film_company__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_company;
+	d2rq:property rdfs:label;
+	d2rq:pattern "@@film_company.film_companyid@@ (Film Company)";
+	.
+map:film_company_film_companyid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_company;
+	d2rq:property movie:film_company_film_companyid;
+	d2rq:column "film_company.film_companyid";
+	d2rq:datatype xsd:int;
+	.
+map:film_company_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_company;
+	d2rq:property movie:film_company_name;
+	d2rq:column "film_company.name";
+	.
+map:film_company_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_company;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "film_company.freebase_url";
+	.
+
+# Table film_costume_designer
+map:film_costume_designer a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "film_costume_designer/@@film_costume_designer.film_costume_designerid@@";
+	d2rq:class movie:film_costume_designer, foaf:Agent;
+	.
+map:film_costume_designer__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_costume_designer;
+	d2rq:property rdfs:label;
+	d2rq:pattern "@@film_costume_designer.name@@ (Film Costume Designer)";
+	.
+map:film_costume_designer_film_costume_designerid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_costume_designer;
+	d2rq:property movie:film_costume_designer_film_costume_designerid;
+	d2rq:column "film_costume_designer.film_costume_designerid";
+	d2rq:datatype xsd:int;
+	.
+map:film_costume_designer_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_costume_designer;
+	d2rq:property movie:film_costume_designer_name;
+	d2rq:column "film_costume_designer.name";
+	.
+map:film_costume_designer_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_costume_designer;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "film_costume_designer.freebase_url";
+	.
+map:film_costume_designer_imdb_entry a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_costume_designer;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "film_costume_designer.imdb_entry";
+	.
+
+# Table film_crew_gig
+map:film_crew_gig a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "film_crew_gig/@@film_crew_gig.film_crew_gigid@@";
+	d2rq:class movie:film_crew_gig;
+	.
+map:film_crew_gig__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_crew_gig;
+	d2rq:property rdfs:label;
+	d2rq:pattern "@@film_crew_gig.name@@ (Film Crew Gig)";
+	.
+map:film_crew_gig_film_crew_gigid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_crew_gig;
+	d2rq:property movie:film_crew_gig_film_crew_gigid;
+	d2rq:column "film_crew_gig.film_crew_gigid";
+	d2rq:datatype xsd:int;
+	.
+map:film_crew_gig_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_crew_gig;
+	d2rq:property movie:film_crew_gig_name;
+	d2rq:column "film_crew_gig.name";
+	.
+map:film_crew_gig_id a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_crew_gig;
+	d2rq:property movie:film_crew_gig_id;
+	d2rq:column "film_crew_gig.id";
+	.
+map:film_crew_gig_crewrole a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_crew_gig;
+	d2rq:property movie:film_crew_role;
+	d2rq:column "film_crew_gig.film_crew_role";
+	.
+map:film_crew_gig_crewmember a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_crew_gig;
+	d2rq:property movie:crewmember;
+	d2rq:column "film_crew_gig.crewmember";
+	.
+map:film_crew_gig_film a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_crew_gig;
+	d2rq:property movie:crew_gig_film;
+	d2rq:column "film_crew_gig.film";
+	.
+map:film_crew_gig_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_crew_gig;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "film_crew_gig.freebase_url";
+	.
+
+# Table film_crewmember
+map:film_crewmember a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "film_crewmember/@@film_crewmember.film_crewmemberid@@";
+	d2rq:class movie:film_crewmember, foaf:Person;
+	.
+map:film_crewmember__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_crewmember;
+	d2rq:property rdfs:label;
+	d2rq:pattern "@@film_crewmember.name@@ (Film Crewmember)";
+	.
+map:film_crewmember_film_crewmemberid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_crewmember;
+	d2rq:property movie:film_crewmember_film_crewmemberid;
+	d2rq:column "film_crewmember.film_crewmemberid";
+	d2rq:datatype xsd:int;
+	.
+map:film_crewmember_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_crewmember;
+	d2rq:property movie:film_crewmember_name;
+	d2rq:column "film_crewmember.name";
+	.
+map:film_crewmember_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_crewmember;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "film_crewmember.freebase_url";
+	.
+
+# Table film_critic
+map:film_critic a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "film_critic/@@film_critic.film_criticid@@";
+	d2rq:class movie:film_critic;
+	.
+map:film_critic__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_critic;
+	d2rq:property rdfs:label;
+	d2rq:pattern "@@film_critic.name@@ (Film Critic)";
+	.
+map:film_critic_film_criticid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_critic;
+	d2rq:property movie:film_critic_film_criticid;
+	d2rq:column "film_critic.film_criticid";
+	d2rq:datatype xsd:int;
+	.
+map:film_critic_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_critic;
+	d2rq:property movie:film_critic_name;
+	d2rq:column "film_critic.name";
+	.
+map:film_critic_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_critic;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "film_critic.freebase_url";
+	.
+
+# Table film_cut
+map:film_cut a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "film_cut/@@film_cut.film_cutid@@";
+	d2rq:class movie:film_cut;
+	.
+map:film_cut__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_cut;
+	d2rq:property rdfs:label;
+	d2rq:pattern "Film Cut #@@film_cut.film_cutid@@";
+	.
+map:film_cut_film_cutid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_cut;
+	d2rq:property movie:film_cut_film_cutid;
+	d2rq:column "film_cut.film_cutid";
+	d2rq:datatype xsd:int;
+	.
+map:film_cut_film_release_region a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_cut;
+	d2rq:property movie:film_release_region;
+	d2rq:column "film_cut.film_release_region";
+	.
+map:film_cut_note a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_cut;
+	d2rq:property movie:film_cut_note;
+	d2rq:column "film_cut.note";
+	.
+map:film_cut_runtime a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_cut;
+	d2rq:property movie:runtime;
+	d2rq:column "film_cut.runtime";
+	.
+map:film_cut_type_of_film_cut a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_cut;
+	d2rq:property movie:type_of_film_cut;
+	d2rq:column "film_cut.type_of_film_cut";
+	.
+map:film_cut_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_cut;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "film_cut.freebase_url";
+	.
+
+# Table film_distribution_medium
+map:film_distribution_medium a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "film_distribution_medium/@@film_distribution_medium.film_distribution_mediumid@@";
+	d2rq:class movie:film_distribution_medium;
+	.
+map:film_distribution_medium__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_distribution_medium;
+	d2rq:property rdfs:label;
+	d2rq:pattern "@@film_distribution_medium.name@@ (Film Distribution Medium)";
+	.
+map:film_distribution_medium_film_distribution_mediumid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_distribution_medium;
+	d2rq:property movie:film_distribution_medium_film_distribution_mediumid;
+	d2rq:column "film_distribution_medium.film_distribution_mediumid";
+	d2rq:datatype xsd:int;
+	.
+map:film_distribution_medium_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_distribution_medium;
+	d2rq:property movie:film_distribution_medium_name;
+	d2rq:column "film_distribution_medium.name";
+	.
+map:film_distribution_medium_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_distribution_medium;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "film_distribution_medium.freebase_url";
+	.
+
+# Table film_festival
+map:film_festival a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "film_festival/@@film_festival.film_festivalid@@";
+	d2rq:class movie:film_festival;
+	.
+map:film_festival__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_festival;
+	d2rq:property rdfs:label;
+	d2rq:pattern "@@film_festival.name@@ (Film Festival)";
+	.
+map:film_festival_film_festivalid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_festival;
+	d2rq:property movie:film_festival_film_festivalid;
+	d2rq:column "film_festival.film_festivalid";
+	d2rq:datatype xsd:int;
+	.
+map:film_festival_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_festival;
+	d2rq:property movie:film_festival_name;
+	d2rq:column "film_festival.name";
+	.
+map:film_festival_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_festival;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "film_festival.freebase_url";
+	.
+
+# Table film_format
+map:film_format a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "film_format/@@film_format.film_formatid@@";
+	d2rq:class movie:film_format;
+	.
+map:film_format__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_format;
+	d2rq:property rdfs:label;
+	d2rq:pattern "@@film_format.name@@ (Film Format)";
+	.
+map:film_format_film_formatid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_format;
+	d2rq:property movie:film_format_film_formatid;
+	d2rq:column "film_format.film_formatid";
+	d2rq:datatype xsd:int;
+	.
+map:film_format_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_format;
+	d2rq:property movie:film_format_name;
+	d2rq:column "film_format.name";
+	.
+map:film_format_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_format;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "film_format.freebase_url";
+	.
+
+# Table film_genre
+map:film_genre a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "film_genre/@@film_genre.film_genreid@@";
+	d2rq:class movie:film_genre;
+	.
+map:film_genre__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_genre;
+	d2rq:property rdfs:label;
+	d2rq:pattern "@@film_genre.name@@ (Film Genre)";
+	.
+map:film_genre_film_genreid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_genre;
+	d2rq:property movie:film_genre_film_genreid;
+	d2rq:column "film_genre.film_genreid";
+	d2rq:datatype xsd:int;
+	.
+map:film_genre_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_genre;
+	d2rq:property movie:film_genre_name;
+	d2rq:column "film_genre.name";
+	.
+map:film_genre_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_genre;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "film_genre.freebase_url";
+	.
+
+# Table film_job
+map:film_job a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "film_job/@@film_job.film_jobid@@";
+	d2rq:class movie:film_job;
+	.
+map:film_job__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_job;
+	d2rq:property rdfs:label;
+	d2rq:pattern "@@film_job.name@@ (Film Job)";
+	.
+map:film_job_film_jobid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_job;
+	d2rq:property movie:film_job_film_jobid;
+	d2rq:column "film_job.film_jobid";
+	d2rq:datatype xsd:int;
+	.
+map:film_job_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_job;
+	d2rq:property movie:film_job_name;
+	d2rq:column "film_job.name";
+	.
+map:film_job_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_job;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "film_job.freebase_url";
+	.
+
+# Table film_location
+map:film_location a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "film_location/@@film_location.film_locationid@@";
+	d2rq:class movie:film_location;
+	.
+map:film_location__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_location;
+	d2rq:property rdfs:label;
+	d2rq:pattern "@@film_location.name@@ (Film Location)";
+	.
+map:film_location_film_locationid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_location;
+	d2rq:property movie:film_location_film_locationid;
+	d2rq:column "film_location.film_locationid";
+	d2rq:datatype xsd:int;
+	.
+map:film_location_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_location;
+	d2rq:property movie:film_location_name;
+	d2rq:column "film_location.name";
+	.
+map:film_location_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_location;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "film_location.freebase_url";
+	.
+
+# Table film_series
+map:film_series a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "film_series/@@film_series.film_seriesid@@";
+	d2rq:class movie:film_series;
+	.
+map:film_series__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_series;
+	d2rq:property rdfs:label;
+	d2rq:pattern "@@film_series.name@@ (Film Series)";
+	.
+map:film_series_film_seriesid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_series;
+	d2rq:property movie:film_series_film_seriesid;
+	d2rq:column "film_series.film_seriesid";
+	d2rq:datatype xsd:int;
+	.
+map:film_series_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_series;
+	d2rq:property movie:film_series_name;
+	d2rq:column "film_series.name";
+	.
+map:film_series_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_series;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "film_series.freebase_url";
+	.
+
+# Table film_story_contributor
+map:film_story_contributor a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "film_story_contributor/@@film_story_contributor.film_story_contributorid@@";
+	d2rq:class movie:film_story_contributor;
+	.
+map:film_story_contributor__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_story_contributor;
+	d2rq:property rdfs:label;
+	d2rq:pattern "@@film_story_contributor.name@@ (Film Story Contributor)";
+	.
+map:film_story_contributor_film_story_contributorid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_story_contributor;
+	d2rq:property movie:film_story_contributor_film_story_contributorid;
+	d2rq:column "film_story_contributor.film_story_contributorid";
+	d2rq:datatype xsd:int;
+	.
+map:film_story_contributor_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_story_contributor;
+	d2rq:property movie:film_story_contributor_name;
+	d2rq:column "film_story_contributor.name";
+	.
+map:film_story_contributor_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_story_contributor;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "film_story_contributor.freebase_url";
+	.
+
+# Table film_subject
+map:film_subject a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "film_subject/@@film_subject.film_subjectid@@";
+	d2rq:class movie:film_subject;
+	.
+map:film_subject__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_subject;
+	d2rq:property rdfs:label;
+	d2rq:pattern "@@film_subject.name@@ (Film Subject)";
+	.
+map:film_subject_film_subjectid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_subject;
+	d2rq:property movie:film_subject_film_subjectid;
+	d2rq:column "film_subject.film_subjectid";
+	d2rq:datatype xsd:int;
+	.
+map:film_subject_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_subject;
+	d2rq:property movie:film_subject_name;
+	d2rq:column "film_subject.name";
+	.
+map:film_subject_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_subject;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "film_subject.freebase_url";
+	.
+
+# Table film_theorist
+map:film_theorist a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "film_theorist/@@film_theorist.film_theoristid@@";
+	d2rq:class movie:film_theorist;
+	.
+map:film_theorist__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_theorist;
+	d2rq:property rdfs:label;
+	d2rq:pattern "@@film_theorist.name@@ (Film Theorist)";
+	.
+map:film_theorist_film_theoristid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_theorist;
+	d2rq:property movie:film_theorist_film_theoristid;
+	d2rq:column "film_theorist.film_theoristid";
+	d2rq:datatype xsd:int;
+	.
+map:film_theorist_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_theorist;
+	d2rq:property movie:film_theorist_name;
+	d2rq:column "film_theorist.name";
+	.
+map:film_theorist_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:film_theorist;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "film_theorist.freebase_url";
+	.
+
+# Table minor_film_genre
+map:minor_film_genre a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "minor_film_genre/@@minor_film_genre.minor_film_genreid@@";
+	d2rq:class movie:minor_film_genre;
+	.
+map:minor_film_genre__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:minor_film_genre;
+	d2rq:property rdfs:label;
+	d2rq:pattern "@@minor_film_genre.name@@ (Minor Film Genre)";
+	.
+map:minor_film_genre_minor_film_genreid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:minor_film_genre;
+	d2rq:property movie:minor_film_genre_minor_film_genreid;
+	d2rq:column "minor_film_genre.minor_film_genreid";
+	d2rq:datatype xsd:int;
+	.
+map:minor_film_genre_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:minor_film_genre;
+	d2rq:property movie:minor_film_genre_name;
+	d2rq:column "minor_film_genre.name";
+	.
+map:minor_film_genre_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:minor_film_genre;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "minor_film_genre.freebase_url";
+	.
+
+# Table music_contributor
+map:music_contributor a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "music_contributor/@@music_contributor.music_contributorid@@";
+	d2rq:class movie:music_contributor;
+	.
+map:music_contributor__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:music_contributor;
+	d2rq:property rdfs:label;
+	d2rq:pattern "@@music_contributor.name@@ (Music Contributor)";
+	.
+map:music_contributor_music_contributorid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:music_contributor;
+	d2rq:property movie:music_contributor_music_contributorid;
+	d2rq:column "music_contributor.music_contributorid";
+	d2rq:datatype xsd:int;
+	.
+map:music_contributor_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:music_contributor;
+	d2rq:property movie:music_contributor_name;
+	d2rq:column "music_contributor.name";
+	.
+map:music_contributor_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:music_contributor;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "music_contributor.freebase_url";
+	.
+map:music_contributor_musicbrainz a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:music_contributor;
+	d2rq:property owl:SameAs;
+	d2rq:uriColumn "musiccont2musicbrainz.uri";
+	d2rq:join "musiccont2musicbrainz.tid = music_contributor.music_contributorid";
+	.
+
+# Table performance
+map:performance a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "performance/@@performance.performanceid@@";
+	d2rq:class movie:performance;
+	.
+map:performance__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:performance;
+	d2rq:property rdfs:label;
+	d2rq:pattern "performance #@@performance.performanceid@@";
+	.
+map:performance_performanceid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:performance;
+	d2rq:property movie:performance_performanceid;
+	d2rq:column "performance.performanceid";
+	d2rq:datatype xsd:int;
+	.
+map:performance_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:performance;
+	d2rq:property movie:performance_name;
+	d2rq:column "performance.name";
+	.
+map:performance_film a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:performance;
+	d2rq:property movie:performance_film;
+	d2rq:column "performance.film";
+	.
+map:performance_character a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:performance;
+	d2rq:property movie:performance_character;
+	d2rq:column "performance.character";
+	.
+map:performance_part a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:performance;
+	d2rq:property movie:performance_part;
+	d2rq:column "performance.part";
+	.
+map:performance_special_performance_type a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:performance;
+	d2rq:property movie:performance_special_performance_type;
+	d2rq:column "performance.special_performance_type";
+	.
+map:performance_actor a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:performance;
+	d2rq:property movie:performance_actor;
+	d2rq:column "performance.actor";
+	.
+map:performance_note a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:performance;
+	d2rq:property movie:performance_note;
+	d2rq:column "performance.note";
+	.
+map:performance_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:performance;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "performance.freebase_url";
+	.
+
+# Table personal_film_appearance
+map:personal_film_appearance a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "personal_film_appearance/@@personal_film_appearance.personal_film_appearanceid@@";
+	d2rq:class movie:personal_film_appearance;
+	.
+map:personal_film_appearance__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:personal_film_appearance;
+	d2rq:property rdfs:label;
+	d2rq:pattern "personal_film_appearance #@@personal_film_appearance.personal_film_appearanceid@@";
+	.
+map:personal_film_appearance_personal_film_appearanceid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:personal_film_appearance;
+	d2rq:property movie:personal_film_appearance_personal_film_appearanceid;
+	d2rq:column "personal_film_appearance.personal_film_appearanceid";
+	d2rq:datatype xsd:int;
+	.
+map:personal_film_appearance_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:personal_film_appearance;
+	d2rq:property movie:personal_film_appearance_name;
+	d2rq:column "personal_film_appearance.name";
+	.
+map:personal_film_appearance_person a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:personal_film_appearance;
+	d2rq:property movie:personal_film_appearance_person;
+	d2rq:column "personal_film_appearance.person";
+	.
+map:personal_film_appearance_film a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:personal_film_appearance;
+	d2rq:property movie:personal_film_appearance_film;
+	d2rq:column "personal_film_appearance.film";
+	.
+map:personal_film_appearance_type_of_appearance a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:personal_film_appearance;
+	d2rq:property movie:personal_film_appearance_type_of_appearance;
+	d2rq:column "personal_film_appearance.type_of_appearance";
+	.
+map:personal_film_appearance_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:personal_film_appearance;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "personal_film_appearance.freebase_url";
+	.
+
+# Table personal_film_appearance_type
+map:personal_film_appearance_type a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "personal_film_appearance_type/@@personal_film_appearance_type.personal_film_appearance_typeid@@";
+	d2rq:class movie:personal_film_appearance_type;
+	.
+map:personal_film_appearance_type__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:personal_film_appearance_type;
+	d2rq:property rdfs:label;
+	d2rq:pattern "personal_film_appearance_type #@@personal_film_appearance_type.personal_film_appearance_typeid@@";
+	.
+map:personal_film_appearance_type_personal_film_appearance_typeid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:personal_film_appearance_type;
+	d2rq:property movie:personal_film_appearance_type_personal_film_appearance_typeid;
+	d2rq:column "personal_film_appearance_type.personal_film_appearance_typeid";
+	d2rq:datatype xsd:int;
+	.
+map:personal_film_appearance_type_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:personal_film_appearance_type;
+	d2rq:property movie:personal_film_appearance_type_name;
+	d2rq:column "personal_film_appearance_type.name";
+	.
+map:personal_film_appearance_type_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:personal_film_appearance_type;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "personal_film_appearance_type.freebase_url";
+	.
+
+# Table producer
+map:producer a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "producer/@@producer.producerid@@";
+	d2rq:class movie:producer;
+	.
+map:producer__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:producer;
+	d2rq:property rdfs:label;
+	d2rq:pattern "@@producer.name@@ (Producer)";
+	.
+map:producer_producerid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:producer;
+	d2rq:property movie:producer_producerid;
+	d2rq:column "producer.producerid";
+	d2rq:datatype xsd:int;
+	.
+map:producer_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:producer;
+	d2rq:property movie:producer_name;
+	d2rq:column "producer.name";
+	.
+map:producer_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:producer;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "producer.freebase_url";
+	.
+
+# Table production_company
+map:production_company a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "production_company/@@production_company.production_companyid@@";
+	d2rq:class movie:production_company;
+	.
+map:production_company__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:production_company;
+	d2rq:property rdfs:label;
+	d2rq:pattern "@@production_company.name@@ (Production Company)";
+	.
+map:production_company_production_companyid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:production_company;
+	d2rq:property movie:production_company_production_companyid;
+	d2rq:column "production_company.production_companyid";
+	d2rq:datatype xsd:int;
+	.
+map:production_company_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:production_company;
+	d2rq:property movie:production_company_name;
+	d2rq:column "production_company.name";
+	.
+map:production_company_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:production_company;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "production_company.freebase_url";
+	.
+
+# Table special_film_performance_type
+map:special_film_performance_type a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "special_film_performance_type/@@special_film_performance_type.special_film_performance_typeid@@";
+	d2rq:class movie:special_film_performance_type;
+	.
+map:special_film_performance_type__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:special_film_performance_type;
+	d2rq:property rdfs:label;
+	d2rq:pattern "@@special_film_performance_type.name@@ (Special Film Performance Type)";
+	.
+map:special_film_performance_type_special_film_performance_typeid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:special_film_performance_type;
+	d2rq:property movie:special_film_performance_type_special_film_performance_typeid;
+	d2rq:column "special_film_performance_type.special_film_performance_typeid";
+	d2rq:datatype xsd:int;
+	.
+map:special_film_performance_type_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:special_film_performance_type;
+	d2rq:property movie:special_film_performance_type_name;
+	d2rq:column "special_film_performance_type.name";
+	.
+map:special_film_performance_type_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:special_film_performance_type;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "special_film_performance_type.freebase_url";
+	.
+
+# Table writer
+map:writer a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "writer/@@writer.writerid@@";
+	d2rq:class movie:writer;
+	.
+map:writer__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:writer;
+	d2rq:property rdfs:label;
+	d2rq:pattern "@@writer.name@@ (Writer)";
+	.
+map:writer_writerid a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:writer;
+	d2rq:property movie:writer_writerid;
+	d2rq:column "writer.writerid";
+	d2rq:datatype xsd:int;
+	.
+map:writer_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:writer;
+	d2rq:property movie:writer_name;
+	d2rq:column "writer.name";
+	.
+map:writer_freebase_url a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:writer;
+	d2rq:property foaf:page;
+	d2rq:uriColumn "writer.freebase_url";
+	.
+map:writer_bookmashup a d2rq:PropertyBridge;
+        d2rq:belongsToClassMap map:writer;
+        d2rq:property rdfs:SeeAlso;
+        d2rq:uriColumn "writer2bookmashup.uri";
+        d2rq:join "writer.writerid = writer2bookmashup.writerid";
+        .
+
+# Table country
+map:country a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "country/@@country.iso_alpha2@@";
+	d2rq:class movie:country;
+	.
+map:country__label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:country;
+	d2rq:property rdfs:label;
+	d2rq:pattern "@@country.name@@ (Country)";
+	.
+map:country_id a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:country;
+	d2rq:property movie:country_id;
+	d2rq:column "country.id";
+	d2rq:datatype xsd:int;
+	.
+map:country_iso_alpha2 a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:country;
+	d2rq:property movie:country_iso_alpha2;
+	d2rq:column "country.iso_alpha2";
+	.
+map:country_iso_alpha3 a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:country;
+	d2rq:property movie:country_iso_alpha3;
+	d2rq:column "country.iso_alpha3";
+	.
+map:country_iso_numeric a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:country;
+	d2rq:property movie:country_iso_numeric;
+	d2rq:column "country.iso_numeric";
+	.
+map:country_fips_code a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:country;
+	d2rq:property movie:country_fips_code;
+	d2rq:column "country.fips_code";
+	.
+map:country_name a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:country;
+	d2rq:property movie:country_name;
+	d2rq:column "country.name";
+	.
+map:country_capital a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:country;
+	d2rq:property movie:country_capital;
+	d2rq:column "country.capital";
+	.
+map:country_areaInSqKm a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:country;
+	d2rq:property movie:country_areaInSqKm;
+	d2rq:column "country.areaInSqKm";
+	d2rq:datatype xsd:double;
+	.
+map:country_population a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:country;
+	d2rq:property movie:country_population;
+	d2rq:column "country.population";
+	.
+map:country_continent a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:country;
+	d2rq:property movie:country_continent;
+	d2rq:column "country.continent";
+	.
+map:country_languages a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:country;
+	d2rq:property movie:country_languages;
+	d2rq:column "country.languages";
+	.
+map:country_currency a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:country;
+	d2rq:property movie:country_currency;
+	d2rq:column "country.currency";
+	.
+map:country_geonameURL a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:country;
+	d2rq:property owl:SameAs;
+	d2rq:uriColumn "country.geonameURL";
+	.
+
