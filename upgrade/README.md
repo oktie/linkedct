@@ -1,6 +1,10 @@
-# Development Guide
+# LinkedCT
 
-## Install dependencies
+[Project description goes in here]
+
+## Development Guide
+
+### Install dependencies
 
 Use pip to install dependencies:
 
@@ -12,7 +16,7 @@ Note for "EnvironmentError: mysql\_config not found" error:
 if you are on Ubuntu,
 install the package `libmysqlclient-dev`.
 
-## Set up MySQL database
+### Set up MySQL database
 
 To set up a MySQL database for the Django site on your machine,
 first install MySQL and then create a database called `ctdjango`.
