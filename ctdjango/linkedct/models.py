@@ -79,10 +79,10 @@ class Provenance(CommonInfoBase):
     object and Provenance for tracking which object is created by which 
     XML file.
     """
-    url = models.URLField(verify_exists=False, max_length=512)
+    url = models.URLField(max_length=512)
     time_updated = models.DateTimeField(auto_now=True)
     time_added = models.DateTimeField(auto_now_add=True)
-    ip = models.IPAddressField(null=True)
+    ip = models.GenericIPAddressField(null=True)
     encoding = models.CharField(max_length=20, blank=True)
     signature = models.CharField(max_length=33, blank=True)
 
@@ -101,7 +101,7 @@ class Alt_name(CommonInfoBase):
 
 class External_resource(CommonInfoBase):
     #label = models.CharField(max_length=255)
-    source_url = models.URLField(verify_exists=False, max_length=2550)
+    source_url = models.URLField(max_length=2550)
     #oktie: TODO: may need to make this many-to-many in the future
     source_id = models.CharField(max_length=255)
     source_label = models.CharField(max_length=255)
@@ -286,11 +286,11 @@ class Mesh_term(CommonInfo):
 
 class Condition_browse(CommonInfo):
     # property path: /clinical_study/condition_browse/mesh_term/text()
-    mesh_terms = models.ManyToManyField(Mesh_term, null=True, related_name="%(app_label)s_%(class)s_related")
+    mesh_terms = models.ManyToManyField(Mesh_term, related_name="%(app_label)s_%(class)s_related")
 
 class Intervention_browse(CommonInfo):
     # property path: /clinical_study/intervention_browse/mesh_term/text()
-    mesh_terms = models.ManyToManyField(Mesh_term, null=True, related_name="%(app_label)s_%(class)s_related")
+    mesh_terms = models.ManyToManyField(Mesh_term, related_name="%(app_label)s_%(class)s_related")
 
 
 class Link(CommonInfo):
@@ -439,11 +439,11 @@ class Location(CommonInfo):
     # relation path: /clinical_study/location/facility
     facility = models.ForeignKey(Facility, null=True, related_name="%(app_label)s_%(class)s_related")
     # relation path: /clinical_study/location/investigator
-    investigators = models.ManyToManyField(Investigator, null=True, related_name="%(app_label)s_%(class)s_related")
+    investigators = models.ManyToManyField(Investigator, related_name="%(app_label)s_%(class)s_related")
     # relation path: /clinical_study/location/contact_backup
-    contact_backups = models.ManyToManyField(Contact, null=True, related_name="%(app_label)s_%(class)s_related1")
+    contact_backups = models.ManyToManyField(Contact, related_name="%(app_label)s_%(class)s_related1")
     # relation path: /clinical_study/location/contact
-    contacts = models.ManyToManyField(Contact, null=True, related_name="%(app_label)s_%(class)s_related2")
+    contacts = models.ManyToManyField(Contact, related_name="%(app_label)s_%(class)s_related2")
 
 
 
@@ -493,7 +493,7 @@ class Sponsor(CommonInfo):
 
 class Sponsor_group(CommonInfo):
     # relation path: /clinical_study/sponsors/collaborator
-    collaborators = models.ManyToManyField(Sponsor, null=True, related_name='%(class)s_collaborator_related')
+    collaborators = models.ManyToManyField(Sponsor, related_name='%(class)s_collaborator_related')
     # relation path: /clinical_study/sponsors/lead_sponsor
     lead_sponsor = models.ForeignKey(Sponsor, null=True, related_name='%(class)s_lead_sponsor_related')
 
@@ -611,31 +611,31 @@ class Trial(CommonInfoBase):
     detailed_description = models.TextField(blank=True) 
     
     # property path: /clinical_study/keyword/text()
-    keywords = models.ManyToManyField(Keyword, null=True, related_name='%(class)s_keyword_related')
+    keywords = models.ManyToManyField(Keyword, related_name='%(class)s_keyword_related')
     # property path: /clinical_study/condition/text()
-    conditions = models.ManyToManyField(Condition, null=True, related_name="%(class)s_conditions_related")
+    conditions = models.ManyToManyField(Condition, related_name="%(class)s_conditions_related")
     # relation path: /clinical_study/location
-    locations = models.ManyToManyField(Location, null=True, related_name="%(class)s_locations_related")
+    locations = models.ManyToManyField(Location, related_name="%(class)s_locations_related")
     # relation path: /clinical_study/condition_browse
     condition_browse = models.ForeignKey(Condition_browse, null=True, related_name='%(class)s_condition_browse_related')
     # relation path: /clinical_study/intervention_browse
     intervention_browse = models.ForeignKey(Intervention_browse, null=True, related_name='%(class)s_intervention_related')
     # relation path: /clinical_study/link
-    links = models.ManyToManyField(Link, null=True, related_name='%(class)s_links_related')
+    links = models.ManyToManyField(Link, related_name='%(class)s_links_related')
     # relation path: /clinical_study/responsible_party
     responsible_party = models.ForeignKey(Responsible_party, null=True, related_name='clinical_study_responsible_party_related')
     # relation path: /clinical_study/results_reference
-    results_references = models.ManyToManyField(Reference, null=True, related_name='%(class)s_results_reference_related')
+    results_references = models.ManyToManyField(Reference, related_name='%(class)s_results_reference_related')
     # relation path: /clinical_study/overall_contact
     overall_contact = models.ForeignKey(Contact, null=True, related_name='clinical_study__overall_contact')
     # relation path: /clinical_study/arm_group
-    arm_groups = models.ManyToManyField(Arm_group, null=True, related_name='%(class)s_arm_group_related')
+    arm_groups = models.ManyToManyField(Arm_group, related_name='%(class)s_arm_group_related')
     # relation path: /clinical_study/location_countries
-    location_countries = models.ManyToManyField(Country, null=True, related_name='%(class)s_location_countries_related')
+    location_countries = models.ManyToManyField(Country, related_name='%(class)s_location_countries_related')
     # relation path: /clinical_study/intervention
-    interventions = models.ManyToManyField(Intervention, null=True, related_name='%(class)s_intervention_related')
+    interventions = models.ManyToManyField(Intervention, related_name='%(class)s_intervention_related')
     # relation path: /clinical_study/secondary_outcome
-    secondary_outcomes = models.ManyToManyField(Outcome, null=True, related_name='%(class)s_secondary_outcome_related')
+    secondary_outcomes = models.ManyToManyField(Outcome, related_name='%(class)s_secondary_outcome_related')
     # relation path: /clinical_study/biospec_descr
     #biospec_descr = models.ForeignKey(Biospec_descr, null=True, related_name='clinical_study__biospec_descr')
     # relation path: /clinical_study/overall_contact_backup
@@ -643,19 +643,19 @@ class Trial(CommonInfoBase):
     # relation path: /clinical_study/detailed_description
     #detailed_description = models.ForeignKey(Detailed_description, null=True, related_name='clinical_study__detailed_description')
     # relation path: /clinical_study/reference
-    references = models.ManyToManyField(Reference, null=True, related_name='%(class)s_reference_related')
+    references = models.ManyToManyField(Reference, related_name='%(class)s_reference_related')
     # relation path: /clinical_study/primary_outcome
-    primary_outcomes = models.ManyToManyField(Outcome, null=True, related_name='%(class)s_primary_outcome_related')
+    primary_outcomes = models.ManyToManyField(Outcome, related_name='%(class)s_primary_outcome_related')
     # relation path: /clinical_study/sponsors
     sponsor_group = models.ForeignKey(Sponsor_group, null=True, related_name='clinical_study__sponsors')
     # relation path: /clinical_study/oversight_info
     oversight_info = models.ForeignKey(Oversight_info, null=True, related_name='clinical_study__oversight_info')
     # relation path: /clinical_study/removed_countries/country
-    removed_countries = models.ManyToManyField(Country, null=True, related_name='%(class)s_removed_countries_related)')
+    removed_countries = models.ManyToManyField(Country, related_name='%(class)s_removed_countries_related')
     # relation path: /clinical_study/eligibility
     eligibility = models.ForeignKey(Eligibility, null=True, related_name='clinical_study__eligibility')
     # relation path: /clinical_study/overall_official
-    overall_officials = models.ManyToManyField(Overall_official, null=True, related_name='%(class)s_overall_official_related')
+    overall_officials = models.ManyToManyField(Overall_official, related_name='%(class)s_overall_official_related')
 
     #coordinates = models.ManyToManyField(Coordinates, null=True, related_name='%(class)s_coordinates_related')
 

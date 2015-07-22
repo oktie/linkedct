@@ -22,7 +22,7 @@ from django.shortcuts import render_to_response
 from django.utils.text import capfirst
 from django.utils.encoding import force_unicode
 from django.utils.safestring import mark_safe
-from django.views.generic import date_based
+from django.views.generic import dates
 from django.utils import datetime_safe
 
 class CalendarPlugin(DatabrowsePlugin):
@@ -84,19 +84,19 @@ class CalendarPlugin(DatabrowsePlugin):
         queryset = easy_model.get_query_set()
         extra_context = {'root_url': self.site.root_url, 'model': easy_model, 'field': field}
         if day is not None:
-            return date_based.archive_day(request, year, month, day, queryset, field.name,
+            return dates.DayArchiveView.get(request, year, month, day, queryset, field.name,
                 template_name='databrowse/calendar_day.html', allow_empty=False, allow_future=True,
                 extra_context=extra_context)
         elif month is not None:
-            return date_based.archive_month(request, year, month, queryset, field.name,
+            return dates.MonthArchiveView.get(request, year, month, queryset, field.name,
                 template_name='databrowse/calendar_month.html', allow_empty=False, allow_future=True,
                 extra_context=extra_context)
         elif year is not None:
-            return date_based.archive_year(request, year, queryset, field.name,
+            return dates.YearArchiveView.get(request, year, queryset, field.name,
                 template_name='databrowse/calendar_year.html', allow_empty=False, allow_future=True,
                 extra_context=extra_context)
         else:
-            return date_based.archive_index(request, queryset, field.name,
+            return dates.ArchiveIndexView.get(request, queryset, field.name,
                 template_name='databrowse/calendar_main.html', allow_empty=True, allow_future=True,
                 extra_context=extra_context)
         assert False, ('%s, %s, %s, %s' % (field, year, month, day))

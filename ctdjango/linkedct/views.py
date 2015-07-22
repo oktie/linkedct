@@ -24,7 +24,7 @@ from django.contrib.flatpages.models import FlatPage
 from django.core import urlresolvers
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import list_detail
+from django.views.generic import ListView
 import databrowse
 from databrowse.datastructures import *
 
@@ -243,7 +243,7 @@ def search(request, object_type, keyword, **kwargs):
     easy_qs = matched_objects._clone(klass=EasyQuerySet)
     easy_qs._easymodel = easy_model
     databrowse.site.root_url = CONFIG['ROOT']
-    return list_detail.object_list(
+    return ListView.as_view(
         request, queryset=matched_objects, template_name=template_name,
         extra_context={ 'model': easy_model,
                         'root_url': databrowse.site.root_url,

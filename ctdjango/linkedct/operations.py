@@ -16,14 +16,13 @@
 
 import hashlib
 import urllib2
-import chardet
-import models
+from geopy import geocoders
 from xml.etree.ElementTree import fromstring 
 #from elementtree.ElementTree import fromstring
 from xml.parsers.expat import ExpatError
-
 from django.template.defaultfilters import slugify
-from geopy import geocoders
+import chardet
+import models
 
 class UrlException(urllib2.URLError):
     """Exception for URL read error.
