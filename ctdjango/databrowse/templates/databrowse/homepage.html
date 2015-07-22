@@ -19,10 +19,12 @@
 {% endfor %}
 
 <!-- flat pages -->
+{% load flatpages %}
+{% get_flatpages as flatpages %}
 <div class="modelgroup {% cycle 'even' 'odd' %}">
     <h2><a href="#">Documentations</a></h2>
     <p>
-    {% for flatpage in flat_page_model.objects.all %}
+    {% for flatpage in flatpages %}
         <a href="{{ flatpage.url }}">{{ flatpage.title }}</a>{% if not forloop.last %}, {% endif %}
     {% endfor %}
     </p>

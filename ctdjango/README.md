@@ -41,3 +41,9 @@ Now use Django to create tables in the database before we can use them:
 ```
 python manage.py migrate
 ```
+
+### Start development server
+
+```
+python manage.py runserver
+```

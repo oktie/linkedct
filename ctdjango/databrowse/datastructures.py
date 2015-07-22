@@ -20,13 +20,13 @@ convenience functionality and permalink functions for the databrowse app.
 """
 
 from django.db import models
+from django.db.models.query import QuerySet
 from django.utils import formats
 from django.utils.text import capfirst
 from django.utils.encoding import smart_unicode, smart_str, iri_to_uri
 from django.utils.safestring import mark_safe
-from django.db.models.query import QuerySet
+from django.conf import settings
 from linkedct.models import External_resource
-from settings import CONFIG
 
 EMPTY_VALUE = '(None)'
 DISPLAY_SIZE = 100
@@ -54,13 +54,13 @@ class EasyModel(object):
 
     def url(self):
         #return mark_safe('%s%s/%s/' % (self.site.root_url, self.model._meta.app_label, self.model._meta.module_name))
-        return mark_safe('%s%s/' % (self.site.root_url, self.model._meta.module_name))
+        return mark_safe('%s%s/' % (self.site.root_url, self.model._meta.model_name))
 
     def objects(self, **kwargs):
         return self.get_query_set().filter(**kwargs)
 
     def get_query_set(self):
-        easy_qs = self.model._default_manager.get_query_set()._clone(klass=EasyQuerySet)
+        easy_qs = self.model._default_manager.get_queryset()._clone(klass=EasyQuerySet)
         easy_qs._easymodel = self
         return easy_qs
 
@@ -95,10 +95,10 @@ class EasyField(object):
     def url(self):
         if self.field.choices:
             #return mark_safe('%s%s/%s/%s/' % (self.model.site.root_url, self.model.model._meta.app_label, self.model.model._meta.module_name, self.field.name))
-            return mark_safe('%s%s/%s/' % (self.model.site.root_url, self.model.model._meta.module_name, self.field.name))
+            return mark_safe('%s%s/%s/' % (self.model.site.root_url, self.model.model._meta.model_name, self.field.name))
         elif self.field.rel:
             #return mark_safe('%s%s/%s/' % (self.model.site.root_url, self.model.model._meta.app_label, self.model.model._meta.module_name))
-            return mark_safe('%s%s/' % (self.model.site.root_url, self.model.model._meta.module_name))
+            return mark_safe('%s%s/' % (self.model.site.root_url, self.model.model._meta.model_name))
 
 class EasyChoice(object):
     def __init__(self, easy_model, field, value, label):
@@ -110,7 +110,7 @@ class EasyChoice(object):
 
     def url(self):
         #return mark_safe('%s%s/%s/%s/%s/' % (self.model.site.root_url, self.model.model._meta.app_label, self.model.model._meta.module_name, self.field.field.name, iri_to_uri(self.value)))
-        return mark_safe('%s%s/%s/%s/' % (self.model.site.root_url, self.model.model._meta.module_name, self.field.field.name, iri_to_uri(self.value)))
+        return mark_safe('%s%s/%s/%s/' % (self.model.site.root_url, self.model.model._meta.model_name, self.field.field.name, iri_to_uri(self.value)))
 
 class EasyInstance(object):
     def __init__(self, easy_model, instance):
@@ -133,11 +133,11 @@ class EasyInstance(object):
 
     def url(self):
         #return mark_safe('%s%s/%s/objects/%s/' % (self.model.site.root_url, self.model.model._meta.app_label, self.model.model._meta.module_name, iri_to_uri(self.pk())))
-        return mark_safe('%s%s/%s/' % (self.model.site.root_url, self.model.model._meta.module_name, iri_to_uri(self.pk())))
+        return mark_safe('%s%s/%s/' % (self.model.site.root_url, self.model.model._meta.model_name, iri_to_uri(self.pk())))
     
     def rdf_url(self):
         #return mark_safe('%s%s/%s/objects/%s/' % (self.model.site.root_url, self.model.model._meta.app_label, self.model.model._meta.module_name, iri_to_uri(self.pk())))
-        return mark_safe('%s%s/%s/' % (CONFIG['RDF_ROOT'], self.model.model._meta.module_name, iri_to_uri(self.pk())))
+        return mark_safe('%s%s/%s/' % (settings.CONFIG['RDF_ROOT'], self.model.model._meta.model_name, iri_to_uri(self.pk())))
 
     def links(self):
         list = []
@@ -230,7 +230,7 @@ class EasyInstanceField(object):
                 lst = []
                 for value in self.values():
                     #url = mark_safe('%s%s/%s/objects/%s/' % (self.model.site.root_url, m.model._meta.app_label, m.model._meta.module_name, iri_to_uri(value._get_pk_val())))
-                    url = mark_safe('%s%s/%s/' % (self.model.site.root_url, m.model._meta.module_name, iri_to_uri(value._get_pk_val())))
+                    url = mark_safe('%s%s/%s/' % (self.model.site.root_url, m.model._meta.model_name, iri_to_uri(value._get_pk_val())))
                     lst.append((smart_unicode(value), url))
             #
             # Showing proper links to external sources
@@ -245,7 +245,7 @@ class EasyInstanceField(object):
         elif self.field.choices:
             lst = []
             for value in self.values():
-                url = mark_safe('%s%s/fields/%s/%s/' % (self.model.site.root_url, self.model.model._meta.module_name, self.field.name, iri_to_uri(self.raw_value)))
+                url = mark_safe('%s%s/fields/%s/%s/' % (self.model.site.root_url, self.model.model._meta.model_name, self.field.name, iri_to_uri(self.raw_value)))
                 lst.append((value, url))
         elif isinstance(self.field, models.URLField):
             val = self.values()[0]
