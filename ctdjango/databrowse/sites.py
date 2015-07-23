@@ -16,6 +16,7 @@
 
 from django import http
 from django.db import models
+from django.apps import apps
 from databrowse.datastructures import EasyModel
 from django.shortcuts import render_to_response
 from django.utils.safestring import mark_safe
@@ -162,7 +163,7 @@ class DatabrowseSite(object):
         Handles the model-specific functionality of the databrowse site, delegating
         to the appropriate ModelDatabrowse class.
         """
-        model = models.get_model(app_label, model_name)
+        model = apps.get_model(app_label, model_name)
         if model is None:
             raise http.Http404("App %r, model %r, not found." % (app_label, model_name))
         try:
