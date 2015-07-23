@@ -13,66 +13,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-from django.conf.urls import patterns, url
+from django.conf.urls import url
+from django.views.decorators.vary import vary_on_headers
 import databrowse
 from models import *
 import update
 import views
 
-
-from django.views.decorators.vary import vary_on_headers
-from django.conf import settings
-#pubentry_list = views.generate_object_list(models.PubEntry,
-#    models.PubEntry.objects.select_related(*models.SELECT_RELATED_LIST))
-#author_list = views.generate_object_list(models.Author)
-
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^$', views.homepage, name='homepage'),
-)
-
-# Add list and detail view for Journal, Keyword, Language, etc. Author and
-# PubEntry has their special attributes and views for them are added
-# separately.
-
-model_list = [ Trial, Intervention, Condition,
-               Country, City, State, Location,
-               Eligibility, Keyword, Mesh_term, 
-               Condition_browse, Intervention_browse,
-               Reference, Link, Investigator, Responsible_party,
-               Outcome, Arm_group,  
-               Contact, Address, Facility, Oversight_info,  
-               Overall_official, Sponsor, Sponsor_group,
-               Provenance ]
-
-#for model in model_list:
-#    queryset_list = views.generate_object_list(model)
-#    model_name = model._meta.verbose_name
-#
-#    urlpatterns += patterns('',
-#        url(r'^list/' + model_name + '/$',
-#            view='django.views.generic.list_detail.object_list',
-#            kwargs=dict(queryset_list, template_name='base_list.html'),
-#            name=model_name + '_list'),
-#
-#        url(r'^' + model_name + '/(?P<slug>.+)/$',
-#            view=views.multi_format_object_detail,
-#            kwargs=dict(queryset_list),
-#            name=model_name + '_detail'),
-#
-##        url(r'^xml/abc/(?P<slug>.+)/$',
-##            view=views.cfxml,
-##            kwargs=dict(queryset_list),
-##            name='author_xml'),
-##        (r'^xml/abc/(?P<slug>.+)/$', 'ctdjango.linkedct.views.cfxml'),
-##         (r'^xml/' + model_name + '/(?P<slug>.+)/$', views.cfxml),
-#    )
-
-
-#pub_types = [type[0] for type in models.PubEntry.TYPE_CHOICES]
-#pub_types_regex = '|'.join(pub_types)
-
-urlpatterns += patterns('',
 
     # Search.
     url(r'^search/(?P<object_type>\w+)/(?P<keyword>.+)/$', views.search,
@@ -100,31 +49,22 @@ urlpatterns += patterns('',
         name='loadsource'),
         
     # Databrowse
-    (r'^resource/(.*)', databrowse.site.root),
+    url(r'^resource/(.*)', databrowse.site.root),
     
     # RDF and vocab
-    (r'^data/(.*)', views.rdf_view),
+    url(r'^data/(.*)', views.rdf_view),
     
-    (r'^vocab/(.*)', views.vocab_view),
+    url(r'^vocab/(.*)', views.vocab_view),
     
-    (r'^sparql/(.*)', views.sparql_view),
+    url(r'^sparql/(.*)', views.sparql_view),
     
-    #(r'^snorql/(.*)', views.snorql_view),
+    url(r'^stats/', views.stats_view),
     
-    (r'^stats/', views.stats_view),
+    url(r'^geosearch/$', views.map_view),
     
-    (r'^geosearch/$', views.map_view),
+    url(r'^geosearch/results/', views.map_search_result_view),
     
-    (r'^geosearch/results/', views.map_search_result_view),
+    url(r'^keyword_search/$', views.keyword_search_view),
     
-    (r'^keyword_search/$', views.keyword_search_view),
-    
-    (r'^keyword_search/', views.keyword_search_view),    
-
-)
-
-if settings.DEBUG:
-    urlpatterns += patterns('', (r'^static/(?P<path>.*)$', 'django.views.static.serve',\
-        {'document_root': settings.MEDIA_ROOT}),
-)
-
+    url(r'^keyword_search/', views.keyword_search_view),    
+]

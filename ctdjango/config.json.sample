@@ -1,0 +1,19 @@
+{
+	"MYSQL_CONFIG" : {
+		"NAME" : "ctdjango",
+		"USER" : "root",
+		"PASSWORD" : "",
+		"HOST" : "localhost"
+	},
+	"SITE_CONFIG" : {
+		"HOME": "http://data.linkedct.org",
+		"ROOT": "/resource/",
+		"RDF_ROOT": "/data/",
+		"MEDIAROOT": "/root/linkedct/media",
+		"D2R_SERVER": "http://localhost:40116/",
+		"D2RMAP": "xmlns:map='file:/home/user/workspace/linkedct/d2r-server/d2r-server-0.7/initial-linkedct-live.n3#'\n",
+		"AWS_ACCESS_KEY": "",
+		"AWS_SECRET_KEY": "",
+		"BUCKET_NAME": "25048f14379dfe2191d7f606ee62fb2c"
+	}
+}

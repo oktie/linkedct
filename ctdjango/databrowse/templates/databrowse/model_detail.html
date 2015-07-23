@@ -10,7 +10,7 @@
 <h1>{{ model.objects.count }} {% if model.objects.count|pluralize %}{{ model.verbose_name_plural }}{% else %}{{ model.verbose_name }}{% endif %}</h1>
 
 <div>
-<form action="{% url search_form model.verbose_name %}" method="POST">
+<form action="{% url 'search_form' model.verbose_name %}" method="POST">
 Search for {{ model.name_plural }}: <input type="text" name="keyword" value="{{ keyword }}"/>
 </form>
 </div>
