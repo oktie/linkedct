@@ -15,6 +15,9 @@ import os, json
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# Load configuration file
+with open(os.path.join(BASE_DIR, 'config.json')) as c:
+    SERVER_CONFIG = json.load(c)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
@@ -78,16 +81,9 @@ WSGI_APPLICATION = 'ctdjango.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-    }
+    'default': SERVER_CONFIG['DATABASE']
 }
-# Load MySQL connection info from a separate file to avoid 
-# storing password in Git
-with open(os.path.join(BASE_DIR, 'mysql.json')) as f:
-    DATABASES['default'].update(json.load(f))
 
 
 # Internationalization
@@ -109,59 +105,15 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-
-HOME_CONFIG = {
-    'HOME': 'http://server.name/linkedct',
-    'ROOT': '/linkedct/resource/',
-    'RDF_ROOT': '/data/',
-    'MEDIAROOT': '/home/user/workspace/linkedct/trunk/ctdjango/linkedct/static/',
+CONFIG = {
+    # Some common configurations
     'XML_SIZE_LIMIT': 500 * 1024,  # in KB
-    'D2R_SERVER': 'http://localhost:2020/',
-    'D2RMAP': '@prefix map:     <file:/home/user/workspace/linkedct/d2r-server/d2r-server-0.7/initial-linkedct-live.n3#> .\n',
     'RECOVER_LOC': os.path.join(BASE_DIR, 'cache/list.txt'),
     'SOURCES_FILE_LOC': os.path.join(BASE_DIR, 'cache/'),
-    'AWS_ACCESS_KEY': '',
-    'AWS_SECRET_KEY': '',
-    'BUCKET_NAME': '25048f14379dfe2191d7f606ee62fb2c',
     'URL_BACKUP_KEY': 'URL_BAK',
 }
+CONFIG.update(SERVER_CONFIG['SITE'])
 
-SERVER_CONFIG = {
-    'HOME': 'http://data.linkedct.org',
-    'ROOT': '/resource/',
-    'RDF_ROOT': '/data/',
-    'MEDIAROOT': '/root/linkedct/media',
-    #'ROOT': '/resource/',
-    'XML_SIZE_LIMIT': 500 * 1024,  # in KB
-    'D2R_SERVER': 'http://localhost:2020/',
-    'D2RMAP': '@prefix map:     <file:/root/linkedct/d2r-server/d2r-server-0.7/initial-linkedct-live.n3#> .\n',
-    'RECOVER_LOC': os.path.join(BASE_DIR, 'cache/list.txt'),
-    'SOURCES_FILE_LOC': os.path.join(BASE_DIR, 'cache/'),
-    'AWS_ACCESS_KEY': '',
-    'AWS_SECRET_KEY': '',
-    'BUCKET_NAME': '25048f14379dfe2191d7f606ee62fb2c',
-    'URL_BACKUP_KEY': 'URL_BAK',
-}
-
-CS_CONFIG = {
-#    'HOME': 'http://www.cs.toronto.edu:40104',
-    'HOME': 'http://data.linkedct.org',
-    'ROOT': '/resource/',
-    'RDF_ROOT': '/data/',
-    'MEDIAROOT': '/root/linkedct/media',
-    #'ROOT': '/resource/',
-    'XML_SIZE_LIMIT': 500 * 1024,  # in KB
-    'D2R_SERVER': 'http://localhost:40116/',
-    'D2RMAP': '    xmlns:map="file:/home/user/workspace/linkedct/d2r-server/d2r-server-0.7/initial-linkedct-live.n3#"\n',
-    'RECOVER_LOC': os.path.join(BASE_DIR, 'cache/list.txt'),
-    'SOURCES_FILE_LOC': os.path.join(BASE_DIR, 'cache/'),
-    'AWS_ACCESS_KEY': '',
-    'AWS_SECRET_KEY': '',
-    'BUCKET_NAME': '25048f14379dfe2191d7f606ee62fb2c',
-    'URL_BACKUP_KEY': 'URL_BAK',
-}
-
-CONFIG = CS_CONFIG
 
 PAGINATION_INVALID_PAGE_RAISES_404 = True
 

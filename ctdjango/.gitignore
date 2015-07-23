@@ -1,6 +1,6 @@
 # Project specific
 # Don't add the mysql connection info file
-mysql.json
+config.json
 .*.swp
 
 # Byte-compiled / optimized / DLL files
