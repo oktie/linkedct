@@ -24,7 +24,7 @@ urlpatterns = [
     url(r'^$', views.homepage, name='homepage'),
 
     # Search.
-    url(r'^search/(?P<object_type>\w+)/(?P<keyword>.+)/$', views.search,
+    url(r'^search/(?P<object_type>\w+)/(?P<keyword>.+)/$', views.SearchResultView.as_view(),
         name='search'),
     url(r'^search/(?P<object_type>\w+)/$', views.search_form,
         name='search_form'),

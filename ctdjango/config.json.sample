@@ -4,7 +4,7 @@
 		"NAME" : "ctdjango.db"
 	},
 	"SITE" : {
-		"HOME": "http://data.linkedct.org",
+		"HOME": "http://localhost:8000",
 		"ROOT": "/resource/",
 		"RDF_ROOT": "/data/",
 		"MEDIAROOT": "/root/linkedct/media",
