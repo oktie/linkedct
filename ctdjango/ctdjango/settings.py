@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'linkedct',
     'databrowse',
     'pagination',
+    'mod_wsgi.server',
 )
 
 MIDDLEWARE_CLASSES = (
