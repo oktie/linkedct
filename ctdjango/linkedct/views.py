@@ -763,7 +763,7 @@ def map_view(request):
             over_max = True
             
         else:
-            g = geocoders.Google()
+            g = geocoders.GoogleV3()
             try:
                 _, (lat, lng) = g.geocode(city+','+country, exactly_one=False)[0]                
             except:
