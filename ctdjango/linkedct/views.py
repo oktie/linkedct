@@ -215,40 +215,36 @@ def search_form(request, object_type):
         {'form': form},
         context_instance=template.RequestContext(request))
 
-def search(request, object_type, keyword, **kwargs):
-    """Search for a keyword.
 
-    If there is only one match, redirect to the detail page of the object. If
-    there are multiple matches, display a list.
+class SearchResultView(ListView):
 
-    Args:
-        object_type: One of (pub, author, journal, series, school, keyword).
-        keyword: The keyword to search for.
-    """
-    model = getattr(models, object_type.capitalize())
     template_name = 'databrowse/model_detail.html'
 
-    matched_objects = model.objects.filter(label__icontains=keyword)
+    def get_queryset(self):
+        '''
+        object_type: One of (pub, author, journal, series, school, keyword).
+        keyword: The keyword to search for.
+        '''
+        object_type = self.kwargs['object_type']
+        keyword = self.kwargs['keyword']
+        model = getattr(models, object_type.capitalize())
+        matched_objects = model.objects.filter(label__icontains=keyword)
+        return matched_objects
 
-    # If there is only one match, redirect to the detail page.
-    if matched_objects.count() == 1:
-        databrowse.site.root_url=CONFIG['ROOT']
-        m = EasyModel(databrowse.site, matched_objects[0])
-        i = EasyInstance(m, matched_objects[0])
-        return shortcuts.redirect(i.url())
-
-    # If there are multiple matches, display a page listing all matched
-    # objects.
-    easy_model = EasyModel(databrowse.site, model)
-    easy_qs = matched_objects._clone(klass=EasyQuerySet)
-    easy_qs._easymodel = easy_model
-    databrowse.site.root_url = CONFIG['ROOT']
-    return ListView.as_view(
-        request, queryset=matched_objects, template_name=template_name,
-        extra_context={ 'model': easy_model,
-                        'root_url': databrowse.site.root_url,
-                        'request': request,
-                        'objectlist': easy_qs})
+    def get_context_data(self, **kwargs):
+        context = super(SearchResultView, self).get_context_data(**kwargs)
+        self.queryset = self.get_queryset()
+        model = getattr(models, self.kwargs['object_type'].capitalize())
+        easy_model = EasyModel(databrowse.site, model)
+        easy_qs = self.queryset._clone(klass=EasyQuerySet)
+        easy_qs._easymodel = easy_model
+        databrowse.site.root_url = CONFIG['ROOT']
+        extra_context = {'model': easy_model,
+                         'root_url': databrowse.site.root_url,
+                         'request': self.request,
+                         'objectlist': easy_qs}
+        context.update(extra_context)
+        return context
 
 
 @csrf_exempt
