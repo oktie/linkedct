@@ -2,3 +2,4 @@ django>=1.8
 mysqlclient>=1.3.3
 geopy
 mod_wsgi
+django-http-proxy

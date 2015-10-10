@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'databrowse',
     'pagination',
     'mod_wsgi.server',
+    'httpproxy',
 )
 
 MIDDLEWARE_CLASSES = (

@@ -17,11 +17,14 @@ import os
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.conf import settings
+from httpproxy.views import HttpProxy
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^static/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': os.path.join(settings.BASE_DIR, 'static'),
          'show_indexes': True}),
+    url(r'^srch2/(?P<url>.*)$', 
+        HttpProxy.as_view(base_url=settings.CONFIG['SRCH2'])),
     url(r'^', include('linkedct.urls')),
 ]

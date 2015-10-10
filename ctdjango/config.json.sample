@@ -5,6 +5,7 @@
 	},
 	"SITE" : {
 		"HOME": "http://localhost:8000",
+		"SRCH2" : "http://localhost:8081",
 		"ROOT": "/resource/",
 		"RDF_ROOT": "/data/",
 		"MEDIAROOT": "/root/linkedct/media",
