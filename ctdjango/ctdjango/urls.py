@@ -24,7 +24,7 @@ urlpatterns = [
     url(r'^static/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': os.path.join(settings.BASE_DIR, 'static'),
          'show_indexes': True}),
-    url(r'^srch2/(?P<url>.*)$', 
+    url(r'^srch2/(?P<url>.*)$',
         HttpProxy.as_view(base_url=settings.CONFIG['SRCH2'])),
     url(r'^', include('linkedct.urls')),
 ]

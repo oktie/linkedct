@@ -110,7 +110,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
-
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+)
 STATIC_URL = '/static/'
 
 CONFIG = {
@@ -125,9 +127,9 @@ CONFIG.update(SERVER_CONFIG['SITE'])
 
 PAGINATION_INVALID_PAGE_RAISES_404 = True
 
-CACHE_MIDDLEWARE_SECONDS = 100000 
+CACHE_MIDDLEWARE_SECONDS = 100000
 CACHE_MIDDLEWARE_KEY_PREFIX = 'ctdjango'
 #CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
 CACHE_BACKEND = 'file:///u/user/tmp/django_cache'
 
-SITE_ID = 0 
+SITE_ID = 0

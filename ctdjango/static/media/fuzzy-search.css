@@ -1,0 +1,30 @@
+/* General layout */
+.title-container {
+    margin-top: 20px;
+}
+
+.search-container {
+    margin-top: 20px;
+}
+
+.result-container {
+    margin-top: 20px;
+}
+
+
+/* Search result highlights */
+.exact_complete {
+	color:blue;
+}
+
+.exact_prefix {
+	color:blue;
+}
+
+.fuzzy_complete {
+	color:red;
+}
+
+.fuzzy_prefix {
+	color:red;
+}

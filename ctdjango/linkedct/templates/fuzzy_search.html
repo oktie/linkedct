@@ -1,0 +1,37 @@
+{% extends "databrowse/base_site.html" %}
+{% load humanize %}
+{% block title %}Fuzzy Search{% endblock %}
+{% block extrahead %}
+<!-- Bootstrap -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="/static/media/fuzzy-search.css">
+{% endblock %}
+{% block bodyid %}homepage{% endblock %}
+{% block content %}
+<div class="container">
+	<div class="row">
+		<div class="title-container">
+			<h1>LinkedCT Data Search</h1>
+		</div>
+	</div>
+	<div class="row">
+		<div class="search-container">
+			<input id="search-query" type="text" class="form-control"
+				placeholder="Type something, results will automatically appear">
+		</div>
+	</div>
+	<div class="row">
+		<div class="result-container">
+			<div id="search-result" class="table-responsive"></div>
+		</div>
+	</div>
+</div>
+<!-- Bootstrap -->
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> -->
+<!-- srch2 JS API -->
+<script type="text/javascript" src="/static/js/srch2.js"></script>
+<script type="text/javascript" src="/static/js/fuzzy-search.js"></script>
+<script type="text/javascript">
+	client.init();
+</script>
+{% endblock %}

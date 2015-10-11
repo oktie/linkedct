@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="{{ LANGUAGE_CODE|default:"en-us" }}" xml:lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
 <head>
 <title>{% block title %}{% endblock %}</title>
@@ -87,7 +87,7 @@ p { margin:0.5em 0 1em 0; }
 </head>
 <body id="{% block bodyid %}page{% endblock %}">
 
-<div id="headerside"> 
+<div id="headerside">
 <table align=right width=330>
 <tr align=right>
 <td><a href="/stats">Live Stats</a> / <a href="http://code.google.com/p/linkedct/issues/entry">Bug Report</a> / <a href="/faq">FAQ</a> / <a href="/about">About LinkedCT</a></td>
@@ -104,20 +104,20 @@ p { margin:0.5em 0 1em 0; }
 </div>
 
 
-    <div id="footer"> 
+    <div id="footer">
     <br/> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/2.5/ca/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/2.5/ca/88x31.png" /></a><br /><span xmlns:dc="http://purl.org/dc/elements/1.1/" property="dc:title">Linked Clinical Trials Data</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://www.oktie.com/" property="cc:attributionName" rel="cc:attributionURL">Oktie Hassanzadeh</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/2.5/ca/">Creative Commons Attribution-Noncommercial-Share Alike 2.5 Canada License</a>.<br />Based on a work at <a xmlns:dc="http://purl.org/dc/elements/1.1/" href="http://ClinicalTrials.gov" rel="dc:source">ClinicalTrials.gov</a>.<br />Permissions beyond the scope of this license may be available at <a xmlns:cc="http://creativecommons.org/ns#" href="http://www.clinicaltrials.gov/ct2/info/terms" rel="cc:morePermissions">http://www.clinicaltrials.gov/ct2/info/terms</a>.
     <br/> Information on this website is obtained from <a class="cp" href="http://clinicaltrials.gov">ClinicalTrials.gov</a>. Using this information is subject to ClinicalTrials.gov's <a class="cp" href="http://www.clinicaltrials.gov/ct2/info/terms">Terms and Conditions</a>.
     <br/> <big> --- Powered by: <a class="cp" href="http://dblab.cs.toronto.edu/project/xcurator">xCurator</a> --- </big>
-    </div> 
- 
-    <script type="text/javascript"> 
+    </div>
+
+    <script type="text/javascript">
     var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
     document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-    </script> 
-    <script type="text/javascript"> 
+    </script>
+    <script type="text/javascript">
     var pageTracker = _gat._getTracker("UA-6048614-1");
     pageTracker._trackPageview();
-    </script> 
+    </script>
 
 </body>
 </html>

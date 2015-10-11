@@ -32,7 +32,7 @@ urlpatterns = [
     # Add new xml file.
     url(r'^processxml/(?P<url>.+)/$', views.process_xml,
         name='processxml'),
-        
+
     # Re-process or add an xml file.
     url(r'^reprocessxml/(?P<url>.+)/$', views.reprocess_xml,
         name='reprocessxml'),
@@ -40,31 +40,31 @@ urlpatterns = [
     # Display the form to select a xml file.
     url(r'^uploadxml/$', views.upload_xml,
         name='uploadxml'),
-        
+
     url(r'^uploadxml/$', views.upload_xml,
         name='uploadxml'),
-        
+
     # Add new xml file.
     url(r'^loadsource/(?P<source_name>.+)/$', views.load_external_source,
         name='loadsource'),
-        
+
     # Databrowse
     url(r'^resource/(.*)', databrowse.site.root),
-    
+
     # RDF and vocab
     url(r'^data/(.*)', views.rdf_view),
-    
+
     url(r'^vocab/(.*)', views.vocab_view),
-    
+
     url(r'^sparql/(.*)', views.sparql_view),
-    
+
     url(r'^stats/', views.stats_view),
-    
+
     url(r'^geosearch/$', views.map_view),
-    
+
     url(r'^geosearch/results/', views.map_search_result_view),
-    
-    url(r'^keyword_search/$', views.keyword_search_view),
-    
-    url(r'^keyword_search/', views.keyword_search_view),    
+
+    url(r'^fuzzy_search/$', views.fuzzy_search_view),
+
+    url(r'^fuzzy_search/', views.fuzzy_search_view),
 ]

@@ -861,7 +861,7 @@ def map_search_result_view(request):
     return shortcuts.render_to_response('map_search_result.html', 
                                         {'error':error, 'root_url': databrowse.site.root_url})
 
-def keyword_search_view(request):
+def fuzzy_search_view(request):
 
     databrowse.site.root_url = CONFIG['ROOT']
 
@@ -927,4 +927,4 @@ def keyword_search_view(request):
         return http.HttpResponse(response, content_type="application/javascript")
 
     else:
-        return shortcuts.render_to_response('keyword_search.html', {'root_url': databrowse.site.root_url})
+        return shortcuts.render_to_response('fuzzy_search.html', {'root_url': databrowse.site.root_url})
