@@ -11,6 +11,10 @@
     margin-top: 20px;
 }
 
+.result-row {
+    margin-bottom: 20px;
+}
+
 
 /* Search result highlights */
 .exact_complete {

@@ -1,3 +1,8 @@
+String.prototype.trunc = String.prototype.trunc ||
+      function(n){
+          return this.length>n ? this.substr(0,n-1)+'&hellip;' : this;
+      };
+
 client = {
 	init : function() {
         /*
@@ -56,23 +61,17 @@ client = {
         if (responseText) {
             var output = "";
             var results = responseText.results;
-            output += "<table class='table table-hover'>";
-            output += "<tr>";
-			output += "<td style='border-bottom:thick;font-weight:bold;'>" + 'ID' + "</td>";
-            output += "<td style='border-bottom:thick;font-weight:bold;'>" + 'Title' + "</td>";
-            output += "</tr>";
             client.queryKeywords = responseText.query_keywords;
             for (var i = 0; i < results.length; i++) {
-                output += "<tr class='result-row'>";
+                output += "<div class='result-row'>";
                 var record = results[i].record;
                 var prefix = results[i].matching_prefix;
-				output += "<td>" + client.addHighlighting(prefix, record.id) + "</td>";
-                output += "<td>" + client.addHighlighting(prefix, record.official_title) + "</td>";
-                output += "</tr>";
+                output += "<div class='result-title'><a>" + client.addHighlighting(prefix, record.official_title) + "</a></div>";
+				output += "<div class='result-description'><small>" + client.addHighlighting(prefix, record.detailed_description.trunc(500)) + "</small></div>";
+                output += "</div>";
             }
-            output += "</table>";
-            client.log("got it", "debug");
-            client.log(JSON.stringify(responseText), "debug");
+            // client.log("got it", "debug");
+            // client.log(JSON.stringify(responseText), "debug");
             var element = document.getElementById("search-result");
             if (output == "") {
                 element.innerHTML = "No results mate!";
