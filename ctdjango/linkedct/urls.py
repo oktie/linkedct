@@ -62,7 +62,4 @@ urlpatterns = [
 
     url(r'^geosearch/results/', views.map_search_result_view),
 
-    url(r'^fuzzy_search/$', views.fuzzy_search_view),
-
-    url(r'^fuzzy_search/', views.fuzzy_search_view),
 ]

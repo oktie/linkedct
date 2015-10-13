@@ -48,6 +48,7 @@ INSTALLED_APPS = (
     'pagination',
     'mod_wsgi.server',
     'stats',
+    'fuzzysearch',
     'httpproxy',
 )
 

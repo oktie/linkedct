@@ -4,12 +4,12 @@ String.prototype.trunc = String.prototype.trunc ||
       };
 
 client = {
-	init : function() {
+	init : function(endpointUrl) {
         /*
          * Initialize the server setting
          */
         var srch2ServerSetting = {
-            serverUrl : "/srch2/", // use your own server URL
+            serverUrl : endpointUrl, // use your own server URL
             debug : false, // enable the debug mode which will display debug messages to the console.
                           // IE may not have "console.log" function. If you are using IE, please set it to false.
         };
@@ -81,7 +81,7 @@ client = {
         } else {
             var element = document.getElementById("search-result");
             element.innerHTML = "No results mate!";
-            client.log("empty response", "debug");
+            // client.log("empty response", "debug");
         }
     },
 
@@ -121,7 +121,7 @@ client = {
         var m = re.exec(word);
         var returnObj = {};
         if (m == null) {
-            this.log("no match", "debug");
+            // this.log("no match", "debug");
             returnObj.success = false;
             return returnObj;
         } else {

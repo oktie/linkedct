@@ -17,7 +17,6 @@ import os
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.conf import settings
-from httpproxy.views import HttpProxy
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -25,8 +24,7 @@ urlpatterns = [
         {'document_root': os.path.join(settings.BASE_DIR, 'static'),
          'show_indexes': True}),
     # Fuzzy search app
-    url(r'^srch2/(?P<url>.*)$',
-        HttpProxy.as_view(base_url=settings.CONFIG['SRCH2'])),
+    url(r'^fuzzysearch/', include('fuzzysearch.urls', namespace='fuzzysearch')),
     # Stats app
     url(r'^stats/', include('stats.urls', namespace='stats')),
     # LinkedCT main app
