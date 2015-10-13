@@ -536,7 +536,7 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
                     address.save()
 
                 if not models.Coordinates.objects.filter(address=address):
-                    g = geocoders.Google()
+                    g = geocoders.GoogleV3()
                     add = ""
                     if ("Investigative " in str(address.city)) or ("Various" in str(address.city)) or \
                        ("Multiple" in str(address.city)) or ("To Be Determined" in str(address.city)) or \
@@ -756,7 +756,7 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
 
             location.save()
             trial.locations.add(location)
-            trial.coordinates.add(coordinates)
+            # trial.coordinates.add(coordinates)
 
         #
         # 2) condition_browse (1-1)
