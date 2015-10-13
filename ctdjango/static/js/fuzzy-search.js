@@ -66,7 +66,7 @@ client = {
                 output += "<div class='result-row'>";
                 var record = results[i].record;
                 var prefix = results[i].matching_prefix;
-                output += "<div class='result-title'><a>" + client.addHighlighting(prefix, record.official_title) + "</a></div>";
+                output += "<div class='result-title'><a href='/resource/trial/" + record.slug + "/'>" + client.addHighlighting(prefix, record.brief_title) + "</a></div>";
 				output += "<div class='result-description'><small>" + client.addHighlighting(prefix, record.detailed_description.trunc(500)) + "</small></div>";
                 output += "</div>";
             }
