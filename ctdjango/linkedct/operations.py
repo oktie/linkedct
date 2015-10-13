@@ -17,7 +17,7 @@
 import hashlib
 import urllib2
 from geopy import geocoders
-from xml.etree.ElementTree import fromstring 
+from xml.etree.ElementTree import fromstring
 #from elementtree.ElementTree import fromstring
 from xml.parsers.expat import ExpatError
 from django.template.defaultfilters import slugify
@@ -53,7 +53,6 @@ class XMLFileFormatException(Exception):
 
 def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
     """Process an incoming XML file."""
-
     if url.startswith("http://clinicaltrials.gov/show/"):
         if (len(url)<42):
             raise XMLFileFormatException("Bad URL: " + url)
@@ -70,11 +69,11 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
 
     # See if provenance exists.
     provenance, created = models.Provenance.objects.get_or_create(url=url)
-    
+
     old_signature = provenance.signature
 
     # Only reload the file if the hash signature is different.
-    
+
     #
     # TODO: fix this when done debuggin!
     #
@@ -82,7 +81,7 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
     if reprocess or (old_signature != signature):
         # Removing everything from associated with the old provenance
         for (o, m) in provenance._meta.get_all_related_m2m_objects_with_model():
-            objectlist = provenance.__getattribute__(o.var_name + '_set').all()
+            objectlist = provenance.__getattribute__(o.name + '_set').all()
             for object in objectlist:
                 object.provenances.remove(provenance)
                 if len(object.provenances.all())==0:
@@ -96,7 +95,7 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
                     #print str(object) + ' deleted'
         provenance.delete()
         provenance = models.Provenance.objects.create(url=url)
-        
+
         provenance.ip = client_ip
         provenance.time_added = provenance.time_added
 
@@ -112,32 +111,32 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
         # Convert to unicode.
         content = content.decode(encoding)
 
-        
+
         try:
             p = fromstring(content.encode('utf-8'))
         except ExpatError, e:
             raise XMLFileFormatException(str(e))
-            
+
         result = p.findall('id_info/nct_id')
         if result:
             trialid = result[0].text
         else:
             raise XMLFileFormatException("Trial ID not found in URL: " + url)
-        
+
         id_info_nct_id = trialid
         lookup_name = trialid
         label = trialid
-    
+
         biospec_descr = ''
         result = p.findall('biospec_descr/textblock')
         if result:
             biospec_descr = result[0].text
-            
+
         detailed_description = ''
         result = p.findall('detailed_description/textblock')
         if result:
             detailed_description = result[0].text
-    
+
         lastchanged_date = ''
         result = p.findall('lastchanged_date')
         if result:
@@ -287,7 +286,7 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
         result = p.findall('has_expanded_access')
         if result:
             has_expanded_access = result[0].text
-        
+
         try:
             trial = models.Trial.objects.create(
                         provenance = provenance,
@@ -383,7 +382,7 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
             location_hasharray = ['Location']
             #
             # The key of location is considered to be concat (city,state,country,zipcode)
-            #  or just facility ??? 
+            #  or just facility ???
             #
             status = ''
             status_result = result.findall('status')
@@ -391,14 +390,14 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
                 status = status_result[0].text
                 location_hasharray.append(status + '(status)')
 
-                
-            
+
+
             # locations has status and 1) facility 2) investigator 3) contact_backup 4) contact
-            
+
             #
             # facility (1-1)
             #
-            
+
             facility = None
             facility_hasharray = ['Facility']
 
@@ -410,14 +409,14 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
                 if name_result:
                     facility_name = name_result[0].text
                     facility_hasharray.append(facility_name)
-                    
-                
+
+
                 # facility has label and 1) address
-                
+
                 #
                 # address (1-1)
                 #
-                
+
                 address = None
                 address_hasharray = ['Address']
 
@@ -429,13 +428,13 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
                     if zip_result:
                         zip = zip_result[0].text
                         address_hasharray.append(zip + '(zip)')
-                        
+
                     # address has zip and 1)city 2))state 3)country
-                    
+
                     ##
                     ## class: city
                     ##
-            
+
                     city_result = address_result.findall('city')
                     if city_result:
                         city_name = city_result[0].text
@@ -456,11 +455,11 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
                     else:
                         city_name = ''
                         city = None
-                        
+
                     ##
                     ## class: state
                     ##
-            
+
                     state_result = address_result.findall('state')
                     if state_result:
                         state_name = state_result[0].text
@@ -481,11 +480,11 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
                     else:
                         state_name = ''
                         state = None
-                        
+
                     ##
                     ## class: country
                     ##
-            
+
                     country_result = address_result.findall('country')
                     if country_result:
                         country_name = country_result[0].text
@@ -507,9 +506,9 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
                     else:
                         country_name = ''
                         country = None
-                     
+
                     address_slug = hashlib.md5(str(address_hasharray)).hexdigest()
-                    facility_hasharray.append(address_slug) 
+                    facility_hasharray.append(address_slug)
                     address_name = ''
                     if city_name!='':
                         address_name += city_name + ', '
@@ -535,7 +534,7 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
                         address = models.Address.objects.get(slug = address_slug)
                     address.provenances.add(provenance)
                     address.save()
-                
+
                 if not models.Coordinates.objects.filter(address=address):
                     g = geocoders.Google()
                     add = ""
@@ -550,29 +549,29 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
                     elif str(address.country) == "Korea, Republic of":
                         add = str(address.city)+","+str(address.state)+","+str(address.zip)+","\
                               +"South Korea"
-                        
+
                     if not add:
                         add = address
-                    
+
                     results = []
                     try:
-                        results = g.geocode(add, exactly_one = False)  
-                        
+                        results = g.geocode(add, exactly_one = False)
+
                     except:
                         pass
-                    
-                    if results:       
+
+                    if results:
                         _, (lat, lng) = results[0]
                         coordinates, created = models.Coordinates.objects.get_or_create(
                             latitude = str(lat),
                             longitude = str(lng),
                             address = address)
-                
+
                 else:
                     coordinates = models.Coordinates.objects.get(address=address)
-                
-                
-                        
+
+
+
                 facility_slug = hashlib.md5(str(str(facility_hasharray))).hexdigest()
                 location_hasharray.append(facility_slug)
                 facility_label = facility_slug
@@ -586,14 +585,14 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
                                 )
                 facility.provenances.add(provenance)
                 facility.save()
-            
+
             ##
             ## class: investigator
             ##
-    
+
             investigators_hasharray = ['Investigators']
             investigators_list = []
-    
+
             investigator_results = result.findall('investigator')
             for investigator_result in investigator_results:
                 investigator_hasharray = ['An Investigator']
@@ -607,11 +606,11 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
                 if role_result:
                     role = role_result[0].text
                     investigator_hasharray.append(role + '(role)')
-                
+
                 investigator_name = last_name
                 if role:
                     investigator_name += ' (' + role + ')'
-                
+
                 investigator_slug = hashlib.md5(str(set(investigator_hasharray))).hexdigest()
 
                 investigator, created = models.Investigator.objects.get_or_create(
@@ -622,20 +621,20 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
                                 )
                 investigator.provenances.add(provenance)
                 investigator.save()
-                
+
                 investigators_list.append(investigator)
                 investigators_hasharray.append(investigator_slug)
-            
+
             investigators_slug = hashlib.md5(str(set(investigators_hasharray))).hexdigest()
             location_hasharray.append(investigators_slug)
-            
+
             ##
             ## class: contact_backup
             ##
-    
+
             contacts_hasharray = ['Contacts']
             contact_backups_list = []
-    
+
             contact_results = result.findall('contact_backup')
             for contact_result in contact_results:
                 contact_hasharray = ['A Contact']
@@ -664,7 +663,7 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
                 contact_name = contactslug
                 if last_name:
                     contact_name = last_name + ' (Contact)'
-                    
+
                 contact, created = models.Contact.objects.get_or_create(
                                 label = contact_name,
                                 #label = slug,
@@ -677,14 +676,14 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
                 contact.provenances.add(provenance)
                 contact.save()
                 contact_backups_list.append(contact)
-                
+
             #
             # contact
             #
-            
+
             contacts_list = []
-            
-            
+
+
             contact_results = result.findall('contact')
             for contact_result in contact_results:
                 contact_hasharray = ['A Contact']
@@ -713,7 +712,7 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
                 contact_name = contact_slug
                 if last_name:
                     contact_name = last_name + ' (Contact)'
-                
+
                 contact, created = models.Contact.objects.get_or_create(
                                 label = contact_name,
                                 #label = slug,
@@ -727,27 +726,27 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
                 contact.save()
                 contacts_list.append(contact)
                 contacts_hasharray.append(contact_slug)
-                
+
             contacts_slug = hashlib.md5(str(set(contacts_hasharray))).hexdigest()
             location_hasharray.append(contacts_slug)
-            
+
             location_slug = hashlib.md5(str(set(location_hasharray))).hexdigest()
-            
+
             location, created = models.Location.objects.get_or_create(
                             label = location_slug,
                             slug = location_slug,
                             status = status,
                             facility = facility,
                             )
-            
+
             location.provenances.add(provenance)
-            
+
             #if not created:
             #    print "Warning, model not created - it already exists"
             #else:
             #    print created
             #    print "New object created"
-            
+
             for i in investigators_list:
                 location.investigators.add(i)
             for i in contact_backups_list:
@@ -758,11 +757,11 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
             location.save()
             trial.locations.add(location)
             trial.coordinates.add(coordinates)
-            
+
         #
         # 2) condition_browse (1-1)
         #
-        
+
         condition_browse_hasharray = ['Condition Browse']
 
         condition_browse_results = p.findall('condition_browse')
@@ -788,25 +787,25 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
                 mesh_term.provenances.add(provenance)
                 mesh_term.save()
                 mesh_term_list.append(mesh_term)
-            
+
             condition_browse_slug = hashlib.md5(str(set(condition_browse_hasharray))).hexdigest()
-            
+
             condition_browse, created = models.Condition_browse.objects.get_or_create(
                         label = condition_browse_slug,
                         )
             condition_browse.provenances.add(provenance)
-            
+
             for mesh_term in mesh_term_list:
                 condition_browse.mesh_terms.add(mesh_term)
-                
+
             condition_browse.save()
-            
+
             trial.condition_browse = condition_browse
 
         #
         # 3) intervention_browse
         #
-        
+
         intervention_browse_hasharray = ['Intervention Browse']
 
         intervention_browse_results = p.findall('intervention_browse')
@@ -832,25 +831,25 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
                 mesh_term.provenances.add(provenance)
                 mesh_term.save()
                 mesh_term_list.append(mesh_term)
-            
+
             intervention_browse_slug = hashlib.md5(str(set(intervention_browse_hasharray))).hexdigest()
-            
+
             intervention_browse, created = models.Intervention_browse.objects.get_or_create(
                         label = intervention_browse_slug,
                         )
             intervention_browse.provenances.add(provenance)
-            
+
             for mesh_term in mesh_term_list:
                 intervention_browse.mesh_terms.add(mesh_term)
-                
+
             intervention_browse.save()
-            
+
             trial.intervention_browse = intervention_browse
-        
+
         #
         # 4) link
         #
-        
+
         link_results = p.findall('link')
         for link_result in link_results:
             link_hasharray = ['Link']
@@ -875,11 +874,11 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
             link.provenances.add(provenance)
             link.save()
             trial.links.add(link)
-        
+
         #
         # 5) responsible_party
         #
-        
+
         responsible_party_results = p.findall('responsible_party')
         if responsible_party_results:
             responsible_party_result = responsible_party_results[0]
@@ -895,7 +894,7 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
                 name_title = name_title_result[0].text
                 responsible_party_hasharray.append(name_title_result[0].text  + '(name_title)')
             responsible_party_slug = hashlib.md5(str(set(responsible_party_hasharray))).hexdigest()
-            
+
             #responsible_party_name = ...
             responsible_party, created = models.Responsible_party.objects.get_or_create(
                             #label = responsible_party_name,
@@ -906,15 +905,15 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
                             )
 
             responsible_party.provenances.add(provenance)
-            
+
             responsible_party.save()
-            
+
             trial.responsible_party = responsible_party
-        
+
         #
         # 6) results_reference
         #
-        
+
         results_reference = p.findall('results_reference')
         for results_reference in results_reference:
             results_reference_hasharray = ['Reference']
@@ -942,11 +941,11 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
 
             results_reference.save()
             trial.results_references.add(results_reference)
-        
+
         #
         # 7) overall_contact
         #
-        
+
         overall_contact_results = p.findall('overall_contact')
         if overall_contact_results:
             overall_contact_result = overall_contact_results[0]
@@ -956,19 +955,19 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
             if phone_ext_result:
                 phone_ext = phone_ext_result[0].text
                 overall_contact_hasharray.append(phone_ext_result[0].text + '(phone_ext)')
-            
+
             phone = ''
             phone_result = overall_contact_result.findall('phone')
             if phone_result:
                 phone = phone_result[0].text
                 overall_contact_hasharray.append(phone_result[0].text + '(phone)')
-            
+
             email = ''
             email_result = overall_contact_result.findall('email')
             if email_result:
                 email = email_result[0].text
                 overall_contact_hasharray.append(email_result[0].text + '(email)')
-            
+
             last_name = ''
             last_name_result = overall_contact_result.findall('last_name')
             if last_name_result:
@@ -990,11 +989,11 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
 
             overall_contact.save()
             trial.overall_contact = overall_contact
-        
+
         #
         # 8) arm_group
         #
-        
+
         arm_group_results = p.findall('arm_group')
         for arm_group_result in arm_group_results:
             arm_group_hasharray = ['Arm Group']
@@ -1027,11 +1026,11 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
             arm_group.provenances.add(provenance)
             arm_group.save()
             trial.arm_groups.add(arm_group)
-        
+
         #
         # 9) location_countries
         #
-        
+
         location_countries_results = p.findall('location_countries')
         for location_countries_result in location_countries_results:
             country_results = location_countries_result.findall('country')
@@ -1046,11 +1045,11 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
                 country.provenances.add(provenance)
                 country.save()
                 trial.location_countries.add(country)
-        
+
         #
         # 10) intervention
         #
-        
+
         intervention_results = p.findall('intervention')
         for intervention_result in intervention_results:
             intervention_hasharray = ['Intervention']
@@ -1095,11 +1094,11 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
             intervention.provenances.add(provenance)
             intervention.save()
             trial.interventions.add(intervention)
-        
+
         #
         # 11) secondary_outcome
         #
-        
+
         secondary_outcome_results = p.findall('secondary_outcome')
         for secondary_outcome_result in secondary_outcome_results:
             secondary_outcome_hasharray = ['Outcome']
@@ -1137,11 +1136,11 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
             secondary_outcome.provenances.add(provenance)
             secondary_outcome.save()
             trial.secondary_outcomes.add(secondary_outcome)
-        
+
         #
         # 12) Keyword
         #
-        
+
         keyword_results = p.findall('keyword')
         for keyword_result in keyword_results:
             keyword_name = keyword_result.text
@@ -1159,12 +1158,12 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
                             )
             keyword.provenances.add(provenance)
             keyword.save()
-            trial.keywords.add(keyword) 
-        
+            trial.keywords.add(keyword)
+
         #
         # 13) overall_contact_backup
         #
-        
+
         overall_contact_backup_results = p.findall('overall_contact_backup')
         if overall_contact_backup_results:
             overall_contact_backup_result = overall_contact_backup_results[0]
@@ -1174,19 +1173,19 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
             if phone_ext_result:
                 phone_ext = phone_ext_result[0].text
                 overall_contact_backup_hasharray.append(phone_ext_result[0].text + '(phone_ext)')
-            
+
             phone = ''
             phone_result = overall_contact_backup_result.findall('phone')
             if phone_result:
                 phone = phone_result[0].text
                 overall_contact_backup_hasharray.append(phone_result[0].text + '(phone)')
-            
+
             email = ''
             email_result = overall_contact_backup_result.findall('email')
             if email_result:
                 email = email_result[0].text
                 overall_contact_backup_hasharray.append(email_result[0].text + '(email)')
-            
+
             last_name = ''
             last_name_result = overall_contact_backup_result.findall('last_name')
             if last_name_result:
@@ -1208,11 +1207,11 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
 
             overall_contact_backup.save()
             trial.overall_contact_backup = overall_contact_backup
-        
+
         #
         # 14) condition
         #
-        
+
         condition_results = p.findall('condition')
         for condition_result in condition_results:
             condition_name = condition_result.text
@@ -1228,15 +1227,15 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
                 condition = models.Condition.objects.get(
                             slug = condition_slug,
                             )
-            
+
             condition.provenances.add(provenance)
             condition.save()
-            trial.conditions.add(condition) 
-        
+            trial.conditions.add(condition)
+
         #
         # 15) reference
         #
-        
+
         reference = p.findall('reference')
         for reference in reference:
             reference_hasharray = ['Reference']
@@ -1264,11 +1263,11 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
 
             reference.save()
             trial.references.add(reference)
-        
+
         #
         # 16) primary_outcome
         #
-        
+
         primary_outcome_results = p.findall('primary_outcome')
         for primary_outcome_result in primary_outcome_results:
             primary_outcome_hasharray = ['Outcome']
@@ -1306,11 +1305,11 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
             primary_outcome.provenances.add(provenance)
             primary_outcome.save()
             trial.primary_outcomes.add(primary_outcome)
-        
+
         #
         # 17) sponsors
         #
-        
+
         sponsor_group_hasharray = ['Sponsor Group']
 
         sponsor_group_results = p.findall('sponsors')
@@ -1332,7 +1331,7 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
                     collaborator_hasharray.append(agency + '(agency)')
                 collaborator_slug = hashlib.md5(str(set(collaborator_hasharray))).hexdigest()
                 if agency_result:
-                    collaborator_name = agency + ' (Sponsor)' 
+                    collaborator_name = agency + ' (Sponsor)'
                 collaborator, created = models.Sponsor.objects.get_or_create(
                                 label = collaborator_name,
                                 slug = collaborator_slug,
@@ -1340,12 +1339,12 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
                                 agency = agency,
                                 )
                 collaborator.provenances.add(provenance)
-    
+
                 sponsor_group_hasharray.append(collaborator_slug)
                 collaborator.save()
                 collaborator_list.append(collaborator)
                 #trial.collaborators.add(collaborator)
-    
+
             lead_sponsor_results = sponsor_group_result.findall('lead_sponsor')
             if lead_sponsor_results:
                 lead_sponsor_result = lead_sponsor_results[0]
@@ -1374,9 +1373,9 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
                 sponsor_group_hasharray.append(lead_sponsor_slug)
                 lead_sponsor.save()
                 #trial.lead_sponsor_group.add(lead_sponsor)
-            
-            
-            
+
+
+
             sponsor_group_slug = hashlib.md5(str(set(sponsor_group_hasharray))).hexdigest()
             #sponsor_group_name = ...
             sponsor_group, created = models.Sponsor_group.objects.get_or_create(
@@ -1392,7 +1391,7 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
 
             sponsor_group.save()
             trial.sponsor_group = sponsor_group
-        
+
         #
         # 18) oversight_info
         #
@@ -1429,11 +1428,11 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
             oversight_info.provenances.add(provenance)
             oversight_info.save()
             trial.oversight_info = oversight_info
-        
+
         #
         # 19) removed_countries_country
         #
-        
+
         removed_countries_results = p.findall('removed_countries')
         for removed_countries_result in removed_countries_results:
             country_results = removed_countries_result.findall('country')
@@ -1448,11 +1447,11 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
                 country.provenances.add(provenance)
                 country.save()
                 trial.removed_countries.add(country)
-        
+
         #
         # 20) eligibility
         #
-        
+
         eligibility_results = p.findall('eligibility')
         for eligibility_result in eligibility_results:
             eligibility_hasharray = ['Eligibility']
@@ -1508,11 +1507,11 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
             eligibility.provenances.add(provenance)
             eligibility.save()
             trial.eligibility = eligibility
-        
+
         #
         # 21) overall_official
         #
-        
+
         overall_official_results = p.findall('overall_official')
         for overall_official_result in overall_official_results:
             overall_official_hasharray = ['Overall Official']
@@ -1544,8 +1543,8 @@ def process_xml(url, size_limit, client_ip, encoding=None, reprocess=False):
             overall_official.provenances.add(provenance)
             overall_official.save()
             trial.overall_officials.add(overall_official)
-        
-        
+
+
         trial.save()
 
     provenance.signature = signature

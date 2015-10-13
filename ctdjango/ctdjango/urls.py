@@ -27,6 +27,8 @@ urlpatterns = [
     url(r'^fuzzysearch/', include('fuzzysearch.urls', namespace='fuzzysearch')),
     # Stats app
     url(r'^stats/', include('stats.urls', namespace='stats')),
+    # Geo search app
+    url(r'^geosearch/', include('geosearch.urls', namespace='geosearch')),
     # LinkedCT main app
     url(r'^', include('linkedct.urls')),
 ]

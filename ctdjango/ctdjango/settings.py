@@ -49,6 +49,7 @@ INSTALLED_APPS = (
     'mod_wsgi.server',
     'stats',
     'fuzzysearch',
+    'geosearch',
     'httpproxy',
 )
 

@@ -58,8 +58,4 @@ urlpatterns = [
 
     url(r'^sparql/(.*)', views.sparql_view),
 
-    url(r'^geosearch/$', views.map_view),
-
-    url(r'^geosearch/results/', views.map_search_result_view),
-
 ]
