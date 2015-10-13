@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'databrowse',
     'pagination',
     'mod_wsgi.server',
+    'stats',
     'httpproxy',
 )
 

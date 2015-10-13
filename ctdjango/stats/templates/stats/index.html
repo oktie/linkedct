@@ -14,7 +14,10 @@
 <h1>
 <table>
 {% for model in model_list %}
-	<tr align="center"><td>   {{ model.objects.count|intcomma }} <a href="{{ model.url }}">{{ model.verbose_name_plural|capfirst }} </a> </td></tr>
+	<tr align="center"><td>
+		{{ model.objects.count|intcomma }}
+		<a href="{{ model.url }}">{{ model.verbose_name_plural|capfirst }}</a>
+	</td></tr>
 {% endfor %}
 </table>
 </h1>

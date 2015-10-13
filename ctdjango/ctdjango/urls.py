@@ -24,7 +24,11 @@ urlpatterns = [
     url(r'^static/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': os.path.join(settings.BASE_DIR, 'static'),
          'show_indexes': True}),
+    # Fuzzy search app
     url(r'^srch2/(?P<url>.*)$',
         HttpProxy.as_view(base_url=settings.CONFIG['SRCH2'])),
+    # Stats app
+    url(r'^stats/', include('stats.urls', namespace='stats')),
+    # LinkedCT main app
     url(r'^', include('linkedct.urls')),
 ]

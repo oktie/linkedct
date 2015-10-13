@@ -55,11 +55,11 @@ class HttpResponseSeeOther(http.HttpResponseRedirect):
 def homepage(request):
     model_list = [ Trial, Intervention, Condition,
                Country, City, State, Location,
-               Eligibility, Keyword, Mesh_term, 
+               Eligibility, Keyword, Mesh_term,
                Condition_browse, Intervention_browse,
                Reference, Link, Investigator, Responsible_party,
-               Outcome, Arm_group,  
-               Contact, Address, Facility, Oversight_info,  
+               Outcome, Arm_group,
+               Contact, Address, Facility, Oversight_info,
                Overall_official, Sponsor, Sponsor_group,
                Provenance ]
 #    easy_model_list = [EasyModel(model) for model in model_list]
@@ -67,35 +67,11 @@ def homepage(request):
 #    return shortcuts.render_to_response('homepage.html',
 #        {'model_list': easy_model_list, 'flat_page_model': flat_page_model,
 #         'upload_form': forms.XMLSelectForm()})
-    
+
     #m_list = [EasyModel(databrowse.site, m) for m in databrowse.site.registry.keys()]
     databrowse.site.root_url = CONFIG['ROOT']
     m_list = [EasyModel(databrowse.site, m) for m in model_list]
     return shortcuts.render_to_response('databrowse/homepage.html', {'model_list': m_list, 'root_url': databrowse.site.root_url, 'flat_page_model': flat_page_model})
-
-@never_cache
-def stats_view(request):
-    """Display live stats for entity and link counts.
-    """
-    model_list = [ Trial, External_linkage, 
-               Country, City, State, Location, Intervention, Condition,
-               Eligibility, Keyword, Mesh_term, 
-               Condition_browse, Intervention_browse,
-               Reference, Link, Investigator, Responsible_party,
-               Outcome, Arm_group,  
-               Contact, Address, Facility, Oversight_info,  
-               Overall_official, Sponsor, Sponsor_group,
-               Provenance ]
-#    easy_model_list = [EasyModel(model) for model in model_list]
-    flat_page_model = FlatPage
-#    return shortcuts.render_to_response('homepage.html',
-#        {'model_list': easy_model_list, 'flat_page_model': flat_page_model,
-#         'upload_form': forms.XMLSelectForm()})
-    
-    #m_list = [EasyModel(databrowse.site, m) for m in databrowse.site.registry.keys()]
-    databrowse.site.root_url = CONFIG['ROOT']
-    m_list = [EasyModel(databrowse.site, m) for m in model_list]
-    return shortcuts.render_to_response('stats.html', {'model_list': m_list, 'root_url': databrowse.site.root_url, 'flat_page_model': flat_page_model})
 
 #def gen_view(request, **kwargs):
 #    return list_detail.object_detail(request, **kwargs)
@@ -267,12 +243,12 @@ def upload_xml(request):
     return shortcuts.render_to_response('form_upload_xml.html',
         {'form': form},
         context_instance=template.RequestContext(request))
-    
-    
+
+
 
 def load_external_source(request, source_name):
     """Loads an external source."""
-    
+
     ## Loading DBpedia
     if source_name == 'dbpedia':
         for m in External_resource.objects.filter(source_name='dbpedia'):
@@ -312,7 +288,7 @@ def load_external_source(request, source_name):
                                     )
                 except StopIteration:
                     row = None
-                    
+
         ## Loading drugs
         inputfilename = CONFIG.get('SOURCES_FILE_LOC') + 'dbpedia_drugs.csv'
         inputfile = file(inputfilename,'r')
@@ -349,8 +325,8 @@ def load_external_source(request, source_name):
                 except StopIteration:
                     row = None
         return http.HttpResponse("{'status':'OK'}")
-    
-    ## Loading Drugbank    
+
+    ## Loading Drugbank
     elif source_name == 'drugbank':
         for m in External_resource.objects.filter(source_name='drugbank'):
             m.delete()
@@ -390,7 +366,7 @@ def load_external_source(request, source_name):
                                     )
                 except StopIteration:
                     row = None
-        
+
         # alternative names
         inputfilename = CONFIG.get('SOURCES_FILE_LOC') + 'drugbank_drug_brandnames.csv'
         inputfile = file(inputfilename,'r')
@@ -446,10 +422,10 @@ def load_external_source(request, source_name):
                                     )
                 except StopIteration:
                     row = None
-        
+
         return http.HttpResponse("{'status':'OK'}")
-    
-    ## Loading Dailymed   
+
+    ## Loading Dailymed
     elif source_name == 'dailymed':
         for m in External_resource.objects.filter(source_name='dailymed'):
             m.delete()
@@ -524,7 +500,7 @@ def load_external_source(request, source_name):
                     row = None
 
         return http.HttpResponse("{'status':'OK'}")
-    
+
     ## Loading diseasome
     elif source_name == 'diseasome':
         for m in External_resource.objects.filter(source_name='diseasome'):
@@ -566,11 +542,11 @@ def load_external_source(request, source_name):
                 except StopIteration:
                     row = None
         return http.HttpResponse("{'status':'OK'}")
-    
+
     ## Other sources
     else:
         return http.HttpResponse("{'status':'FAIL', 'reason':'Source %s not found'}" % source_name)
-            
+
 
 def reprocess_xml(request, url):
     """Re-process an XML file."""
@@ -582,7 +558,7 @@ def reprocess_xml(request, url):
 
         #return http.HttpResponseRedirect(
         #    urlresolvers.reverse('provenance_detail', args=[provenance.slug]))
-        
+
         return http.HttpResponse("OK")
 #        return shortcuts.render_to_response('error.html', {'content': 'OK'})
 
@@ -602,7 +578,7 @@ def process_xml(request, url):
 
         #return http.HttpResponseRedirect(
         #    urlresolvers.reverse('provenance_detail', args=[provenance.slug]))
-        
+
         return http.HttpResponse("OK")
 #        return shortcuts.render_to_response('error.html', {'content': 'OK'})
 
@@ -617,12 +593,12 @@ def rdf_view(request, url):
     try:
         home_url = CONFIG["HOME"]
         d2rserver_url = CONFIG['D2R_SERVER']
-        
+
         rdf_url = url
         if url.endswith('/'):
             rdf_url = url[:-1]
         rdf_url = d2rserver_url + 'data/' + rdf_url
-        
+
         try:
             #request = urllib.urlopen(rdf_url)
             req = urllib2.Request(url=rdf_url)
@@ -647,12 +623,12 @@ def vocab_view(request, url):
     try:
         home_url = CONFIG["HOME"]
         d2rserver_url = CONFIG['D2R_SERVER']
-        
+
         rdf_url = url
         if url.endswith('/'):
             rdf_url = url[:-1]
         rdf_url = d2rserver_url + 'vocab/data/' + rdf_url
-        
+
         try:
             #request = urllib.urlopen(rdf_url)
             req = urllib2.Request(url=rdf_url)
@@ -679,7 +655,7 @@ def sparql_view(request, url):
         if query:
             rdf_url = d2rserver_url + 'sparql?query=' + query
             #print rdf_url
-            
+
             try:
                 request = urllib.urlopen(rdf_url)
                 response = http.HttpResponse(request.read().replace(d2rserver_url,home_url+'/'), mimetype='text/rdf+n3')
@@ -704,9 +680,9 @@ def snorql_view(request, url):
         if query:
             rdf_url = d2rserver_url + 'snorql/index.html?' + query + '/'
         else:
-            rdf_url = d2rserver_url + 'snorql/' + url 
+            rdf_url = d2rserver_url + 'snorql/' + url
         #print rdf_url
-        
+
         try:
             request = urllib.urlopen(rdf_url)
             response = http.HttpResponse(request.read().replace(d2rserver_url,home_url+'/'))
@@ -724,50 +700,50 @@ def generate_object_list(model, queryset=None):
     return {
         'queryset': queryset,
         'extra_context': {'model': EasyModel(model)}}
-    
+
 
 def map_view(request):
-    
+
     databrowse.site.root_url = CONFIG['ROOT']
     countries = Country.objects.all().order_by('country_name')
-    
+
     country = 'Canada'
     city = 'Toronto'
     dist = '5'
     condition = ''
-    
+
     input_error = False
-    geo_error = False  
+    geo_error = False
     over_max = False
-    no_result = False   
+    no_result = False
     error = False
-    
+
     inputs = request.GET
     if ('country' in inputs) and ('city' in inputs) and ('distance' in inputs) and ('condition' in inputs):
-        
+
         country = inputs.get('country')
         city = inputs.get('city')
         dist = inputs.get('distance')
-        condition = inputs.get('condition')        
-        
-        
+        condition = inputs.get('condition')
+
+
         if not country or not city or not dist or not condition:
             input_error = True
-        
-          
+
+
         elif float(dist) > 50 or float(dist) < 0:
             over_max = True
-            
+
         else:
             g = geocoders.GoogleV3()
             try:
-                _, (lat, lng) = g.geocode(city+','+country, exactly_one=False)[0]                
+                _, (lat, lng) = g.geocode(city+','+country, exactly_one=False)[0]
             except:
                 geo_error = True
                 error = True
-            
-            
-            radius = float(dist) 
+
+
+            radius = float(dist)
             if not error:
                 lat_diff = radius/69
                 lng_diff = radius/abs(math.cos(math.radians(lat))*69)
@@ -777,88 +753,88 @@ def map_view(request):
                 lng2 = str(lng + lng_diff)
                 coords = Coordinates.objects.select_related('address', 'latitude', 'longitude', 'address__country__country_name').\
                                              filter(address__country__country_name = country,
-                                                    latitude__range=(lat1, lat2), 
+                                                    latitude__range=(lat1, lat2),
                                                     longitude__range=(lng1,lng2)).values_list('address', 'latitude', 'longitude')
-                
+
                 within = []
                 for c in coords:
                     if distance.distance((lat,lng), (float(c[1]),float(c[2]))).miles < radius:
                         within.append(c)
-                
-                if not within:  
+
+                if not within:
                     no_result = True
                     error = True
-                   
+
             if not error:
                 conds = Condition.objects.select_related('label', 'slug').filter(label__icontains=condition).values_list('slug', flat=True)
                 trials = Trial.objects.only('conditions__slug').filter(conditions__slug__in=conds).distinct()
-            
+
                 if not trials:
                     no_result = True
-                    error = True            
-            
-                
+                    error = True
+
+
             trials_dict = {}
             if not error:
                 for c in within:
                     ts = trials.filter(locations__facility__address__in = [c[0]])[:4].count()
-                    if ts:                            
+                    if ts:
                         trials_dict[c] = ts
                 if not trials_dict:
                     no_result = True
                     error = True
-            
-                   
-            if not error:   
+
+
+            if not error:
                 return shortcuts.render_to_response('map_results.html',
-                       {'coordinates': (lat, lng),  'trials': trials_dict.items(), 'countries': countries, 
+                       {'coordinates': (lat, lng),  'trials': trials_dict.items(), 'countries': countries,
                         'country':country, 'city':city, 'distance':dist, 'condition':condition, 'root_url': databrowse.site.root_url})
-            
+
     return shortcuts.render_to_response('map.html',
            {'input_error': input_error, 'geo_error': geo_error, 'over_max': over_max, 'no_result': no_result,
-            'countries': countries, 'country':country, 'city':city, 'distance':dist, 
+            'countries': countries, 'country':country, 'city':city, 'distance':dist,
             'condition':condition, 'root_url': databrowse.site.root_url})
-    
-    
+
+
 def map_search_result_view(request):
-    
+
     error = False
     databrowse.site.root_url = CONFIG['ROOT']
-    
+
     inputs = request.GET
     if ('location' in inputs) and ('condition' in inputs):
         location_addr = inputs.get('location')
         condition = inputs.get('condition')
-        
+
         if not location_addr or not condition:
             error = True
-        
+
         else:
-            trial_m = EasyModel(databrowse.site, Trial)            
+            trial_m = EasyModel(databrowse.site, Trial)
             cond_list = Condition.objects.filter(label__icontains=condition).values_list('slug', flat=True)
             trials = Trial.objects.only('locations__facility__address','conditions__slug').filter(locations__facility__address__in=[location_addr],\
             																					  conditions__slug__in=cond_list).distinct()
-            
+
             facilities = []
             for t in trials:
                 for l in t.locations.only('facility', 'facility__address').filter(facility__address=location_addr).distinct():
                     if l.facility.facility_name not in facilities:
                         facilities.append(l.facility.facility_name)
-                        
-            facility_dict = {}            
+
+            facility_dict = {}
             for f in facilities:
-                trial_dict = {}                        
+                trial_dict = {}
                 for t in trials.only('locations__facility', 'conditions').filter(locations__facility__facility_name=f):
                     trial_dict[EasyInstance(trial_m, t)] = t.conditions.all()
                 facility_dict[f] = trial_dict
-                
-            return shortcuts.render_to_response('map_search_result.html', 
+
+            return shortcuts.render_to_response('map_search_result.html',
                                                 {'trials':facility_dict,
                                                  'address': Address.objects.get(slug = location_addr),
-                                                 'condition': condition, 
+                                                 'condition': condition,
                                                  'root_url': databrowse.site.root_url})
-            
-    return shortcuts.render_to_response('map_search_result.html', 
+
+    return shortcuts.render_to_response('map_search_result.html',
                                         {'error':error, 'root_url': databrowse.site.root_url})
 
 def fuzzy_search_view(request):
@@ -869,7 +845,7 @@ def fuzzy_search_view(request):
     api_key = '9ehvRxXkCWLVzhnQr'
     index = 'CT_index-5'
     url = base_url + 'v1/' + api_key + '/indexes/' + index + '/search?q='
-    
+
     path = request.GET
     callback = path.get('jsoncallback', '')
 
@@ -884,7 +860,7 @@ def fuzzy_search_view(request):
         res = urllib2.urlopen(req)
         data = res.read()
 
-        data_dict = json.loads(data) 
+        data_dict = json.loads(data)
         result_list = data_dict['results']
         ct_dict = {}
 
@@ -893,8 +869,8 @@ def fuzzy_search_view(request):
 
             if result['record']['brief_title']:
                 title = result['record']['brief_title']
-            else: 
-                title = result['record']['official_title'] 
+            else:
+                title = result['record']['official_title']
 
             sponsor = trial.sponsor_group.lead_sponsor.agency
             matching_words = result['matching_prefix']
@@ -905,7 +881,7 @@ def fuzzy_search_view(request):
                 for word in matching_words:
                     if re.search(word, location[1], re.IGNORECASE):
                         locations.append(list(location))
-                        break 
+                        break
 
             if not locations:
                 for location in all_locations:
