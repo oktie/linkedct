@@ -62,7 +62,10 @@ def homepage(request):
     #m_list = [EasyModel(databrowse.site, m) for m in databrowse.site.registry.keys()]
     databrowse.site.root_url = CONFIG['ROOT']
     m_list = [EasyModel(databrowse.site, m) for m in model_list]
-    return shortcuts.render_to_response('databrowse/homepage.html', {'model_list': m_list, 'root_url': databrowse.site.root_url, 'flat_page_model': flat_page_model})
+    return shortcuts.render_to_response('databrowse/homepage.html',
+        {'model_list': m_list,
+         'root_url': databrowse.site.root_url,
+         'flat_page_model': flat_page_model})
 
 #def gen_view(request, **kwargs):
 #    return list_detail.object_detail(request, **kwargs)
@@ -179,7 +182,7 @@ def search_form(request, object_type):
         form = forms.SearchForm()
 
     return shortcuts.render_to_response('search_form.html',
-        {'form': form},
+        {'form': form, 'root_url' : CONFIG['ROOT']},
         context_instance=template.RequestContext(request))
 
 
@@ -232,7 +235,7 @@ def upload_xml(request):
         form = forms.XMLSelectForm()
 
     return shortcuts.render_to_response('form_upload_xml.html',
-        {'form': form},
+        {'form': form, 'root_url' : CONFIG['ROOT']},
         context_instance=template.RequestContext(request))
 
 

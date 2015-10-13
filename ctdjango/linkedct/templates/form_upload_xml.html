@@ -1,13 +1,20 @@
-{% extends "base.html" %}
-
+{% extends "databrowse/base.html" %}
 {% block title %}Upload XML file{% endblock %}
-
+{% block extrahead %}
+<!-- Bootstrap -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="/static/media/linkedct.css">
+{% endblock %}
 {% block content %}
-
-<form method="post">
-{% csrf_token %}
-{{ form.as_p }}
-<input type="submit" value="Submit" />
-</form>
-
+<div class="container-fluid">
+    <div class="row">
+        <div class="upload-container">
+            <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}
